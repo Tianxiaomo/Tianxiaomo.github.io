@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="zh,en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CV,算法,TEXT,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="[TOC] CTPN (Connectionist Text Proposal Network)idea 文本检测和一般目标检测的不同——文本线是一个sequence（字符、字符的一部分、多字符组成的一个sequence），而不是一般目标检测中只有一个独立的目标。这既是优势，也是难点。优势体现在同一文本线上不同字符可以互相利用上下文，可以用sequence的方法比如RNN来表示。难点体现在要检测出">
+<meta name="keywords" content="CV,算法,TEXT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="文本检测识别算法">
+<meta property="og:url" content="http://yoursite.com/2018/09/01/文本检测识别算法/index.html">
+<meta property="og:site_name" content="田小默的博客">
+<meta property="og:description" content="[TOC] CTPN (Connectionist Text Proposal Network)idea 文本检测和一般目标检测的不同——文本线是一个sequence（字符、字符的一部分、多字符组成的一个sequence），而不是一般目标检测中只有一个独立的目标。这既是优势，也是难点。优势体现在同一文本线上不同字符可以互相利用上下文，可以用sequence的方法比如RNN来表示。难点体现在要检测出">
+<meta property="og:locale" content="zh,en">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1futz0f6m9qj319m0du11c.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fuu21ae8bnj30rk06baax.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fuxkbrjxj6j31040gsdqm.jpg">
+<meta property="og:updated_time" content="2018-10-16T01:43:36.560Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="文本检测识别算法">
+<meta name="twitter:description" content="[TOC] CTPN (Connectionist Text Proposal Network)idea 文本检测和一般目标检测的不同——文本线是一个sequence（字符、字符的一部分、多字符组成的一个sequence），而不是一般目标检测中只有一个独立的目标。这既是优势，也是难点。优势体现在同一文本线上不同字符可以互相利用上下文，可以用sequence的方法比如RNN来表示。难点体现在要检测出">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1futz0f6m9qj319m0du11c.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/01/文本检测识别算法/">
+
+
+
+
+
+  <title>文本检测识别算法 | 田小默的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh,en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">田小默的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/01/文本检测识别算法/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="田小默">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="田小默的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">文本检测识别算法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-01T13:43:08+08:00">
+                2018-09-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>[TOC]</p>
+<h1 id="CTPN-Connectionist-Text-Proposal-Network"><a href="#CTPN-Connectionist-Text-Proposal-Network" class="headerlink" title="CTPN (Connectionist Text Proposal Network)"></a>CTPN (Connectionist Text Proposal Network)</h1><h2 id="idea"><a href="#idea" class="headerlink" title="idea"></a>idea</h2><ul>
+<li><p>文本检测和一般目标检测的不同——文本线是一个sequence（字符、字符的一部分、多字符组成的一个sequence），而不是一般目标检测中只有一个独立的目标。这既是优势，也是难点。优势体现在同一文本线上不同字符可以互相利用上下文，可以用sequence的方法比如RNN来表示。难点体现在要检测出一个完整的文本线，同一文本线上不同字符可能差异大，距离远，要作为一个整体检测出来难度比单个目标更大——因此，作者认为预测文本的竖直位置（文本bounding box的上下边界）比水平位置（文本bounding box的左右边界）更容易。</p>
+</li>
+<li><p>Top-down（先检测文本区域，再找出文本线）的文本检测方法比传统的bottom-up的检测方法（先检测字符，再串成文本线）更好。自底向上的方法的缺点在于（这点在作者的另一篇文章中说的更清楚），总结起来就是没有考虑上下文，不够鲁棒，系统需要太多子模块，太复杂且误差逐步积累，性能受限。</p>
+</li>
+<li><p>RNN和CNN的无缝结合可以提高检测精度。CNN用来提取深度特征，RNN用来序列的特征识别（2类），二者无缝结合，用在检测上性能更好。</p>
+</li>
+</ul>
+<h2 id="pipeline"><a href="#pipeline" class="headerlink" title="pipeline"></a>pipeline</h2><p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1futz0f6m9qj319m0du11c.jpg" alt=""></p>
+<ol>
+<li>VGG16的前5个conv stage(conv5_3)作为base net得到 feature map(W<em> H </em>C)</li>
+<li>在Conv5的feature map的每个位置上取3<em> 3 </em>C的窗口的特征，这些特征将用于预测该位置k个anchor（anchor的定义和Faster RCNN类似）对应的类别信息，位置信息。这个特征向量将用来预测和10个anchor之间的偏移距离，也就是说每一个窗口中心都会预测出10个text propsoal。</li>
+<li>将每一行的所有窗口对应的3<em>3</em>C的特征（W<em>3</em>3<em>C）输入到RNN（BLSTM）中，得到W</em>256的输出</li>
+<li>将RNN的W*256输入到512维的fc层</li>
+<li>fc层特征输入到三个分类或者回归层中。第二个2k scores 表示的是k个anchor的类别信息（是字符或不是字符）。第一个2k vertical coordinate和第三个k side-refinement是用来回归k个anchor的位置信息。2k vertical coordinate表示的是bounding box的高度和中心的y轴坐标（可以决定上下边界），k个side-refinement表示的bounding box的水平平移量。这边注意，只用了3个参数表示回归的bounding box，因为这里默认了每个anchor的width是16，且不再变化（VGG16的conv5的stride是16）。回归出来的box如Fig.1中那些红色的细长矩形，它们的宽度是一定的。</li>
+<li>用简单的文本线构造算法，把分类得到的文字的proposal（图Fig.1（b）中的细长的矩形）合并成文本线</li>
+</ol>
+<h2 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h2><ul>
+<li>conv5的featuremap作为输入入，宽度恰好被固定为16个像素。只用来预测纵轴y即可。<br><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fuu21ae8bnj30rk06baax.jpg" alt=""></li>
+</ul>
+<p>c anchor中心，h anchor高度，a 是预测，*是实际，h是提议的高度</p>
+<ul>
+<li>score阈值设置：0.7 （+NMS）</li>
+<li>Recurrent Connectionist Text Proposals<ul>
+<li>RNN类型：BLSTM（双向LSTM），每个LSTM有128个隐含层</li>
+<li>RNN输入：每个滑动窗口的3<em>3</em>C的特征（可以拉成一列），同一行的窗口的特征形成一个序列</li>
+<li>RNN输出：每个窗口对应256维特征</li>
+<li>使用RNN和不适用RNN的效果对比，CTPN是本文的方法（Connectionist Text Proposal Network）</li>
+</ul>
+</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇文章的方法最大亮点在于把RNN引入检测问题（以前一般做识别）。文本检测，先用CNN得到深度特征，然后用固定宽度的anchor来检测text proposal（文本线的一部分），并把同一行anchor对应的特征串成序列，输入到RNN中，最后用全连接层来分类或回归，并将正确的text proposal进行合并成文本线。这种把RNN和CNN无缝结合的方法提高了检测精度。</p>
+<p><a href="https://arxiv.org/pdf/1609.03605.pdf" target="_blank" rel="noopener">原文</a></p>
+<p><a href="http://tongtianta.site/paper/667" target="_blank" rel="noopener">翻译原文</a></p>
+<p><a href="https://github.com/Tianxiaomo/chinese-ocr" target="_blank" rel="noopener">代码</a></p>
+<p><a href="https://blog.csdn.net/zchang81/article/details/78873347" target="_blank" rel="noopener">参考——1</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/37363942" target="_blank" rel="noopener">参考——2</a></p>
+<h1 id="EAST-An-Efficient-and-Accurate-Scene-Text-Detector"><a href="#EAST-An-Efficient-and-Accurate-Scene-Text-Detector" class="headerlink" title="EAST: An Efficient and Accurate Scene Text Detector"></a>EAST: An Efficient and Accurate Scene Text Detector</h1><p><a href="https://arxiv.org/pdf/1704.03155v2.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1704.03155v2.pdf</a></p>
+<h1 id="Seglink-Detecting-Oriented-Text-in-Natural-Images-by-Linking-Segments"><a href="#Seglink-Detecting-Oriented-Text-in-Natural-Images-by-Linking-Segments" class="headerlink" title="Seglink (Detecting Oriented Text in Natural Images by Linking Segments)"></a>Seglink (Detecting Oriented Text in Natural Images by Linking Segments)</h1><p><a href="https://arxiv.org/pdf/1703.06520.pdf" target="_blank" rel="noopener">论文</a></p>
+<p><a href="https://github.com/bgshih/seglink" target="_blank" rel="noopener">代码</a></p>
+<h2 id="idea-1"><a href="#idea-1" class="headerlink" title="idea"></a>idea</h2><ul>
+<li>提出了文本行检测的两个基本组成元素：==segment==和==link==</li>
+<li>提出了基于SSD的改进版网络结构(全卷积网络结果)同时预测不同尺度的segments和link</li>
+<li>提出了两种link类型:　层内连接(within-layer link)和跨层连接(cross-layer link)</li>
+<li>可以处理多方向和任意长度的文本</li>
+<li>Pipeline</li>
+<li>整个实现过程包括两部分：首先检测segments,links，然后使用融合算法得到最终文本行．具体步骤如下：</li>
+</ul>
+<h2 id="Pipeline"><a href="#Pipeline" class="headerlink" title="Pipeline"></a>Pipeline</h2><p>主干网络是沿用了SSD网络结构，并修改修改了最后的Pooling层，将其改为卷积层．</p>
+<ul>
+<li>首先用VGG16作为base net，并将VGG16的最后两个全连接层改成卷积层．</li>
+<li>接着增加一些额外的卷积层，用于提取更深的特征，最后的修改SSD的Pooling层，将其改为卷积层提取不同层的feature map，文中提取了conv4_3, conv7, conv8_2, conv9_2, conv10_2, conv11．这里其实操作还是和SSD网络一样,对不同层的featuremap使用３＊３的卷积层产生最终的输出(包括segment和link)，不同特征层输出的维度是不一样的，因为除了conv4_3层外，其它层存在跨层的link．这里segment是text的带方向bbox信息(它可能是个单词，也可能是几个字符，总之是文本行的部分)，link是不同bbox的连接信息(文章将其也增加到网络中自动学习)．</li>
+<li>然后通过融合规则，将segment的box信息和link信息进行融合，得到最终的文本行．</li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fuxkbrjxj6j31040gsdqm.jpg" alt=""><br></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="田小默 WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="田小默 Alipay">
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CV/" rel="tag"><i class="fa fa-tag"></i> CV</a>
+          
+            <a href="/tags/算法/" rel="tag"><i class="fa fa-tag"></i> 算法</a>
+          
+            <a href="/tags/TEXT/" rel="tag"><i class="fa fa-tag"></i> TEXT</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/28/命名空间/" rel="next" title="命名空间">
+                <i class="fa fa-chevron-left"></i> 命名空间
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/04/cython-setup-py修改/" rel="prev" title="cython-setup.py修改">
+                cython-setup.py修改 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="田小默">
+            
+              <p class="site-author-name" itemprop="name">田小默</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Tianxiaomo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://weibo.com/tianxiaoxiaomo" target="_blank" title="微博">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>微博</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://www.zhihu.com/people/tian-mo-98-60" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CTPN-Connectionist-Text-Proposal-Network"><span class="nav-number">1.</span> <span class="nav-text">CTPN (Connectionist Text Proposal Network)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#idea"><span class="nav-number">1.1.</span> <span class="nav-text">idea</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pipeline"><span class="nav-number">1.2.</span> <span class="nav-text">pipeline</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#细节"><span class="nav-number">1.3.</span> <span class="nav-text">细节</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.4.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#EAST-An-Efficient-and-Accurate-Scene-Text-Detector"><span class="nav-number">2.</span> <span class="nav-text">EAST: An Efficient and Accurate Scene Text Detector</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Seglink-Detecting-Oriented-Text-in-Natural-Images-by-Linking-Segments"><span class="nav-number">3.</span> <span class="nav-text">Seglink (Detecting Oriented Text in Natural Images by Linking Segments)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#idea-1"><span class="nav-number">3.1.</span> <span class="nav-text">idea</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pipeline"><span class="nav-number">3.2.</span> <span class="nav-text">Pipeline</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+      <div id="music163player">
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="110" src="//music.163.com/outchain/player?type=0&id=2058497430&auto=0&height=90"></iframe>
+      </div>
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">田小默</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

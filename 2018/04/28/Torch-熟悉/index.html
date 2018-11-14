@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="zh,en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Torch,机器学习,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1234567891011121314151617import torchx = torch.randn(2,3)print(x)x = ((x*2)/(x-1))print(x)print(x.requires_grad)# 把variable的设置grad给tensor了x.requires_grad_(True)print(x.requires_grad)y = (x*x).sum()y.b">
+<meta name="keywords" content="Torch,机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Torch 熟悉">
+<meta property="og:url" content="http://yoursite.com/2018/04/28/Torch-熟悉/index.html">
+<meta property="og:site_name" content="田小默的博客">
+<meta property="og:description" content="1234567891011121314151617import torchx = torch.randn(2,3)print(x)x = ((x*2)/(x-1))print(x)print(x.requires_grad)# 把variable的设置grad给tensor了x.requires_grad_(True)print(x.requires_grad)y = (x*x).sum()y.b">
+<meta property="og:locale" content="zh,en">
+<meta property="og:updated_time" content="2018-04-29T04:10:39.364Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Torch 熟悉">
+<meta name="twitter:description" content="1234567891011121314151617import torchx = torch.randn(2,3)print(x)x = ((x*2)/(x-1))print(x)print(x.requires_grad)# 把variable的设置grad给tensor了x.requires_grad_(True)print(x.requires_grad)y = (x*x).sum()y.b">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/28/Torch-熟悉/">
+
+
+
+
+
+  <title>Torch 熟悉 | 田小默的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh,en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">田小默的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/28/Torch-熟悉/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="田小默">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="田小默的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Torch 熟悉</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-28T23:43:04+08:00">
+                2018-04-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line">x = torch.randn(<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line">print(x)</span><br><span class="line">x = ((x*<span class="number">2</span>)/(x<span class="number">-1</span>))</span><br><span class="line">print(x)</span><br><span class="line">print(x.requires_grad)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把variable的设置grad给tensor了</span></span><br><span class="line">x.requires_grad_(<span class="keyword">True</span>)</span><br><span class="line">print(x.requires_grad)</span><br><span class="line"></span><br><span class="line">y = (x*x).sum()</span><br><span class="line"></span><br><span class="line">y.backward()</span><br><span class="line"><span class="comment"># y = x^2</span></span><br><span class="line"><span class="comment">#dy/dx = 2 * x</span></span><br><span class="line">print(x.grad)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">a = torch.randn(<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line">print(a)</span><br><span class="line">b = ((a*<span class="number">2</span>)/(a<span class="number">-1</span>))</span><br><span class="line">print(b)</span><br><span class="line">print(<span class="string">"a grad is "</span>,a.requires_grad)</span><br><span class="line">print(<span class="string">"b grad is "</span>,b.requires_grad)</span><br><span class="line">a.requires_grad_(<span class="keyword">True</span>)</span><br><span class="line">b.requires_grad_(<span class="keyword">True</span>)</span><br><span class="line">print(<span class="string">"a grad is "</span>,a.requires_grad)</span><br><span class="line">print(<span class="string">"b grad is "</span>,b.requires_grad)</span><br><span class="line"></span><br><span class="line">c = (b*b).sum()</span><br><span class="line"></span><br><span class="line">c.backward()</span><br><span class="line"><span class="comment"># b = a*2/(a-1)</span></span><br><span class="line"><span class="comment">#db/da = 2ln(a-1)</span></span><br><span class="line"><span class="comment"># c = b^2</span></span><br><span class="line"><span class="comment"># dc/db = 2b</span></span><br><span class="line">print(<span class="string">"a_grad = "</span>,a.grad)</span><br><span class="line">print(<span class="string">"b_grad = "</span>,b.grad)</span><br></pre></td></tr></table></figure>
+<pre><code>tensor([[ 1.3270, -2.5966, -0.1547],
+        [ 0.3614,  1.0595,  0.8459]])
+tensor([[  8.1156,   1.4439,   0.2679],
+        [ -1.1320,  35.5890, -10.9797]])
+a grad is  False
+b grad is  False
+a grad is  True
+b grad is  True
+a_grad =  None
+b_grad =  tensor([[ 16.2312,   2.8879,   0.5359],
+        [ -2.2639,  71.1781, -21.9595]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">a = torch.ones(<span class="number">2</span>,<span class="number">3</span>)+<span class="number">1</span></span><br><span class="line">print(a)</span><br><span class="line">b = ((a*<span class="number">2</span>)/(a<span class="number">-1</span>))</span><br><span class="line">print(b)</span><br><span class="line">print(<span class="string">"a grad is "</span>,a.requires_grad)</span><br><span class="line">a.requires_grad_(<span class="keyword">True</span>)</span><br><span class="line">print(<span class="string">"a grad is "</span>,a.requires_grad)</span><br><span class="line"></span><br><span class="line">b.backward()</span><br><span class="line"></span><br><span class="line">print(<span class="string">"a_grad = "</span>,a.grad)</span><br></pre></td></tr></table></figure>
+<pre><code>tensor([[ 2.,  2.,  2.],
+        [ 2.,  2.,  2.]])
+tensor([[ 4.,  4.,  4.],
+        [ 4.,  4.,  4.]])
+a grad is  False
+a grad is  True
+
+
+
+---------------------------------------------------------------------------
+
+RuntimeError                              Traceback (most recent call last)
+
+&lt;ipython-input-31-b43c2a9b1b1c&gt; in &lt;module&gt;()
+     13 
+     14 # c.backward()
+---&gt; 15 b.backward()
+     16 # b = a*2/(a-1)
+     17 #db/da = 2ln(a-1)
+
+RuntimeError: element 0 of tensors does not require grad and does not have a grad_fn
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">x = torch.randn(<span class="number">3</span>,requires_grad = <span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line">y = x*<span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># y.data.norm() 是求 y 的范数，就是 y 中的元素全部 p 次方，然后开 p 次方，默认 p=2</span></span><br><span class="line"><span class="keyword">while</span> y.data.norm() &lt; <span class="number">1000</span>:</span><br><span class="line">    y = y*<span class="number">2</span></span><br><span class="line"></span><br><span class="line">print(y)</span><br><span class="line">gradients = torch.tensor([<span class="number">0.1</span>,<span class="number">1.0</span>,<span class="number">0.0001</span>],dtype = torch.float)</span><br><span class="line"></span><br><span class="line"><span class="comment"># backward 自动和参数相乘</span></span><br><span class="line">y.backward(gradients)</span><br><span class="line">print(x.grad)</span><br><span class="line"></span><br><span class="line">print(x.requires_grad)</span><br><span class="line">print((x ** <span class="number">2</span>).requires_grad)</span><br><span class="line"><span class="keyword">with</span> torch.no_grad():</span><br><span class="line">    print((x ** <span class="number">2</span>).requires_grad)</span><br><span class="line">    </span><br><span class="line">print((x ** <span class="number">2</span>).requires_grad)</span><br></pre></td></tr></table></figure>
+<pre><code>tensor([-571.8924,  188.2365, -904.6218])
+tensor([  204.8000,  2048.0000,     0.2048])
+True
+True
+False
+True
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Net</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="comment"># 定义一个网络</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super(Net, self).__init__()</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 1 个图像输入通道，6 个输出通道， 5x5 的卷积核</span></span><br><span class="line">        self.conv1 = nn.Conv2d(<span class="number">1</span>, <span class="number">6</span>, <span class="number">5</span>)</span><br><span class="line">        <span class="comment">#6 个输入通道，16 个输出通道</span></span><br><span class="line">        self.conv2 = nn.Conv2d(<span class="number">6</span>, <span class="number">16</span>, <span class="number">5</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">#1 个线性函数 y = Wx +b</span></span><br><span class="line">        self.fc1 = nn.Linear(<span class="number">16</span> * <span class="number">5</span> *<span class="number">5</span> ,<span class="number">120</span>)</span><br><span class="line">        self.fc2 = nn.Linear(<span class="number">120</span> , <span class="number">84</span>)</span><br><span class="line">        self.fc3 = nn.Linear(<span class="number">84</span>,<span class="number">10</span>)</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        <span class="comment"># 2x2 的池化窗口</span></span><br><span class="line">        x = F.max_pool2d(F.relu(self.conv1(x)),(<span class="number">2</span>,<span class="number">2</span>))</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 如果池话窗口为方形，你也可以设一个参数</span></span><br><span class="line">        x = F.max_pool2d(F.relu(self.conv2(x)),<span class="number">2</span>)</span><br><span class="line">        </span><br><span class="line">        x = x.view(<span class="number">-1</span>,self.num_flat_features(x))  <span class="comment"># 相当于把 16 个 5*5 的矩阵拍平成 16 个 25 的 </span></span><br><span class="line">        x = F.relu(self.fc1(x))</span><br><span class="line">        x = F.relu(self.fc2(x))</span><br><span class="line">        x = self.fc3(x)</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">num_flat_features</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        size = x.size()[<span class="number">1</span>:]  <span class="comment"># 得到除第一维的其他维之和，如：3*4*5*6 则最后返回 4*5*6 = 120</span></span><br><span class="line">        num_features = <span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> s <span class="keyword">in</span> size:</span><br><span class="line">            num_features *= s</span><br><span class="line">        <span class="keyword">return</span> num_features</span><br><span class="line">    </span><br><span class="line">net = Net()</span><br><span class="line">print(net)</span><br></pre></td></tr></table></figure>
+<pre><code>Net(
+  (conv1): Conv2d(1, 6, kernel_size=(5, 5), stride=(1, 1))
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看一下参数</span></span><br><span class="line">params = list(net.parameters())</span><br><span class="line">print(len(params))</span><br><span class="line">print(params[<span class="number">2</span>].size())</span><br></pre></td></tr></table></figure>
+<pre><code>10
+torch.Size([16, 6, 5, 5])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 载入数据</span></span><br><span class="line">input = torch.randn(<span class="number">1</span>,<span class="number">1</span>,<span class="number">32</span>,<span class="number">32</span>)</span><br><span class="line">out = net(input)</span><br><span class="line">print(out)</span><br></pre></td></tr></table></figure>
+<pre><code>tensor([[-0.0400,  0.0145, -0.0109, -0.0255,  0.0603,  0.0657, -0.0557,
+         -0.0260,  0.0959,  0.1870]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">net.zero_grad()</span><br><span class="line">out.backward(torch.randn(<span class="number">1</span>,<span class="number">10</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">output = net(input)</span><br><span class="line">target = torch.arange(<span class="number">1</span>,<span class="number">11</span>)</span><br><span class="line">target = target.view(<span class="number">1</span>,<span class="number">-1</span>)</span><br><span class="line">criterion = nn.MSELoss()</span><br><span class="line"></span><br><span class="line">loss = criterion(output,target)</span><br><span class="line">print(loss)</span><br></pre></td></tr></table></figure>
+<pre><code>tensor(37.9689)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">print(loss.grad_fn) <span class="comment"># MSELoss</span></span><br><span class="line">print(loss.grad_fn.next_functions[<span class="number">0</span>][<span class="number">0</span>]) <span class="comment"># Linear</span></span><br><span class="line">print(loss.grad_fn.next_functions[<span class="number">0</span>][<span class="number">0</span>].next_functions[<span class="number">0</span>][<span class="number">0</span>]) <span class="comment"># ReLU</span></span><br></pre></td></tr></table></figure>
+<pre><code>&lt;MseLossBackward object at 0x00000275FF44FDA0&gt;
+&lt;AddmmBackward object at 0x00000275FF44FBA8&gt;
+&lt;ExpandBackward object at 0x00000275FF44FDA0&gt;
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">net.zero_grad()</span><br><span class="line">print(net.conv1.bias.grad)</span><br><span class="line">loss.backward()</span><br><span class="line">print(net.conv1.bias.grad)</span><br></pre></td></tr></table></figure>
+<pre><code>tensor([ 0.,  0.,  0.,  0.,  0.,  0.])
+tensor([-0.1013,  0.0209, -0.0838, -0.0878, -0.0151,  0.0398])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">learning_rate = <span class="number">0.01</span></span><br><span class="line"><span class="keyword">for</span> f <span class="keyword">in</span> net.parameters():</span><br><span class="line">    f.data.sub_(f.grad.data * learning_rate)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用内置 更新权重</span></span><br><span class="line"><span class="keyword">import</span> torch.optim <span class="keyword">as</span> optim</span><br><span class="line"></span><br><span class="line"><span class="comment"># 做一个自己的 optimizer</span></span><br><span class="line">optimizer = optim.SGD(net.parameters(),lr = <span class="number">0.01</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练</span></span><br><span class="line">optimizer.zero_grad()</span><br><span class="line">output = net(input)</span><br><span class="line">loss = criterion(output, target)</span><br><span class="line">loss.backward()</span><br><span class="line">optimizer.step()</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="田小默 WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="田小默 Alipay">
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Torch/" rel="tag"><i class="fa fa-tag"></i> Torch</a>
+          
+            <a href="/tags/机器学习/" rel="tag"><i class="fa fa-tag"></i> 机器学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/27/Github-搭建Blog/" rel="next" title="Github 搭建Blog">
+                <i class="fa fa-chevron-left"></i> Github 搭建Blog
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/29/PyTorch-训练一个分类神经网络/" rel="prev" title="PyTorch 训练一个分类神经网络">
+                PyTorch 训练一个分类神经网络 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="田小默">
+            
+              <p class="site-author-name" itemprop="name">田小默</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Tianxiaomo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://weibo.com/tianxiaoxiaomo" target="_blank" title="微博">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>微博</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://www.zhihu.com/people/tian-mo-98-60" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+      <div id="music163player">
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="110" src="//music.163.com/outchain/player?type=0&id=2058497430&auto=0&height=90"></iframe>
+      </div>
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">田小默</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

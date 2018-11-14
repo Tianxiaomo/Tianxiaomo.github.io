@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="zh,en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="源码为linux系统的，在windows运行出现问题,找不到相关文件 bbox，查看  发现是由cython编写的，生成的文件为.so格式，在windows下自然用不了。 修改setup文件，生成windows文件.pyd。 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748">
+<meta name="keywords" content="python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cython-setup.py修改">
+<meta property="og:url" content="http://yoursite.com/2018/09/04/cython-setup-py修改/index.html">
+<meta property="og:site_name" content="田小默的博客">
+<meta property="og:description" content="源码为linux系统的，在windows运行出现问题,找不到相关文件 bbox，查看  发现是由cython编写的，生成的文件为.so格式，在windows下自然用不了。 修改setup文件，生成windows文件.pyd。 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748">
+<meta property="og:locale" content="zh,en">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fuo9lv03dcj30750cat8w.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fuo9ktuvsxj308c0dnjrp.jpg">
+<meta property="og:updated_time" content="2018-10-16T02:38:41.096Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="cython-setup.py修改">
+<meta name="twitter:description" content="源码为linux系统的，在windows运行出现问题,找不到相关文件 bbox，查看  发现是由cython编写的，生成的文件为.so格式，在windows下自然用不了。 修改setup文件，生成windows文件.pyd。 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fuo9lv03dcj30750cat8w.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/04/cython-setup-py修改/">
+
+
+
+
+
+  <title>cython-setup.py修改 | 田小默的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh,en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">田小默的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/04/cython-setup-py修改/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="田小默">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="田小默的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">cython-setup.py修改</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-04T10:22:01+08:00">
+                2018-09-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>源码为linux系统的，在windows运行出现问题,找不到相关文件 bbox，查看</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fuo9lv03dcj30750cat8w.jpg" alt=""></p>
+<p>发现是由cython编写的，生成的文件为.so格式，在windows下自然用不了。</p>
+<p>修改setup文件，生成windows文件.pyd。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line">#原文件</span><br><span class="line">from Cython.Build import cythonize</span><br><span class="line">import os</span><br><span class="line">from os.path import join as pjoin</span><br><span class="line">import numpy as np</span><br><span class="line">from distutils.core import setup</span><br><span class="line">from distutils.extension import Extension</span><br><span class="line">from Cython.Distutils import build_ext</span><br><span class="line"></span><br><span class="line">def find_in_path(name, path):</span><br><span class="line">    for dir in path.split(os.pathsep):</span><br><span class="line">        binpath = pjoin(dir, name)</span><br><span class="line">        if os.path.exists(binpath):</span><br><span class="line">            return os.path.abspath(binpath)</span><br><span class="line">    return None</span><br><span class="line"></span><br><span class="line">def locate_cuda():</span><br><span class="line">    # first check if the CUDAHOME env variable is in use</span><br><span class="line">    if &apos;CUDAHOME&apos; in os.environ:</span><br><span class="line">        home = os.environ[&apos;CUDAHOME&apos;]</span><br><span class="line">        nvcc = pjoin(home, &apos;bin&apos;, &apos;nvcc&apos;)</span><br><span class="line">    else:</span><br><span class="line">        # otherwise, search the PATH for NVCC</span><br><span class="line">        default_path = pjoin(os.sep, &apos;usr&apos;, &apos;local&apos;, &apos;cuda&apos;, &apos;bin&apos;)</span><br><span class="line">        nvcc = find_in_path(&apos;nvcc&apos;, os.environ[&apos;PATH&apos;] + os.pathsep + default_path)</span><br><span class="line">        if nvcc is None:</span><br><span class="line">            raise EnvironmentError(&apos;The nvcc binary could not be &apos;</span><br><span class="line">                &apos;located in your $PATH. Either add it to your path, or set $CUDAHOME&apos;)</span><br><span class="line">        home = os.path.dirname(os.path.dirname(nvcc))</span><br><span class="line"></span><br><span class="line">    cudaconfig = &#123;&apos;home&apos;:home, &apos;nvcc&apos;:nvcc,</span><br><span class="line">                  &apos;include&apos;: pjoin(home, &apos;include&apos;),</span><br><span class="line">                  &apos;lib64&apos;: pjoin(home, &apos;lib64&apos;)&#125;</span><br><span class="line">    for k, v in cudaconfig.items():</span><br><span class="line">    #for k, v in cudaconfig.iteritems():</span><br><span class="line">        if not os.path.exists(v):</span><br><span class="line">            raise EnvironmentError(&apos;The CUDA %s path could not be located in %s&apos; % (k, v))</span><br><span class="line">    return cudaconfig</span><br><span class="line"></span><br><span class="line">CUDA = locate_cuda()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">try:</span><br><span class="line">    numpy_include = np.get_include()</span><br><span class="line">except AttributeError:</span><br><span class="line">    numpy_include = np.get_numpy_include()</span><br><span class="line"></span><br><span class="line">def customize_compiler_for_nvcc(self):</span><br><span class="line">    self.src_extensions.append(&apos;.cu&apos;)</span><br><span class="line">    default_compiler_so = self.compiler_so</span><br><span class="line">    super = self._compile</span><br><span class="line">    def _compile(obj, src, ext, cc_args, extra_postargs, pp_opts):</span><br><span class="line">        print(extra_postargs)</span><br><span class="line">        if os.path.splitext(src)[1] == &apos;.cu&apos;:</span><br><span class="line">            # use the cuda for .cu files</span><br><span class="line">            self.set_executable(&apos;compiler_so&apos;, CUDA[&apos;nvcc&apos;])</span><br><span class="line">            # use only a subset of the extra_postargs, which are 1-1 translated</span><br><span class="line">            # from the extra_compile_args in the Extension class</span><br><span class="line">            postargs = extra_postargs[&apos;nvcc&apos;]</span><br><span class="line">        else:</span><br><span class="line">            postargs = extra_postargs[&apos;gcc&apos;]</span><br><span class="line"></span><br><span class="line">        super(obj, src, ext, cc_args, postargs, pp_opts)</span><br><span class="line">        # reset the default compiler_so, which we might have changed for cuda</span><br><span class="line">        self.compiler_so = default_compiler_so</span><br><span class="line">    # inject our redefined _compile method into the class</span><br><span class="line">    self._compile = _compile</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># run the customize_compiler</span><br><span class="line">class custom_build_ext(build_ext):</span><br><span class="line">    def build_extensions(self):</span><br><span class="line">        customize_compiler_for_nvcc(self.compiler)</span><br><span class="line">        build_ext.build_extensions(self)</span><br><span class="line"></span><br><span class="line">ext_modules = [</span><br><span class="line">    Extension(</span><br><span class="line">        &quot;utils.bbox&quot;,</span><br><span class="line">        [&quot;bbox.pyx&quot;],</span><br><span class="line">        extra_compile_args=&#123;&apos;gcc&apos;: [&quot;-Wno-cpp&quot;, &quot;-Wno-unused-function&quot;]&#125;,</span><br><span class="line">        include_dirs = [numpy_include]</span><br><span class="line">    ),</span><br><span class="line">    Extension(</span><br><span class="line">        &quot;utils.cython_nms&quot;,</span><br><span class="line">        [&quot;cython_nms.pyx&quot;],</span><br><span class="line">        extra_compile_args=&#123;&apos;gcc&apos;: [&quot;-Wno-cpp&quot;, &quot;-Wno-unused-function&quot;]&#125;,</span><br><span class="line">        include_dirs = [numpy_include]</span><br><span class="line">    ),</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">setup(</span><br><span class="line">    ext_modules=ext_modules,</span><br><span class="line">    cmdclass=&#123;&apos;build_ext&apos;: custom_build_ext&#125;,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>直接运行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python .\setup_cpu.py build_ext --inplace</span><br></pre></td></tr></table></figure></p>
+<p>出现错误<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">File &quot;setup_cpu.py&quot;, line 50, in customize_compiler_for_nvcc</span><br><span class="line">default_compiler_so = self.compiler_so</span><br><span class="line">AttributeError: &apos;MSVCCompiler&apos; object has no attribute &apos;compiler_so&apos;</span><br></pre></td></tr></table></figure></p>
+<p>这里自定义的编译器为linux的gcc，需要修改<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">from Cython.Build import cythonize</span><br><span class="line">import os</span><br><span class="line">from os.path import join as pjoin</span><br><span class="line">import numpy as np</span><br><span class="line">from distutils.core import setup</span><br><span class="line">from distutils.extension import Extension</span><br><span class="line">from Cython.Distutils import build_ext</span><br><span class="line"></span><br><span class="line">def find_in_path(name, path):</span><br><span class="line">    for dir in path.split(os.pathsep):</span><br><span class="line">        binpath = pjoin(dir, name)</span><br><span class="line">        if os.path.exists(binpath):</span><br><span class="line">            return os.path.abspath(binpath)</span><br><span class="line">    return None</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">try:</span><br><span class="line">    numpy_include = np.get_include()</span><br><span class="line">except AttributeError:</span><br><span class="line">    numpy_include = np.get_numpy_include()</span><br><span class="line"></span><br><span class="line"># run the customize_compiler</span><br><span class="line">class custom_build_ext(build_ext):</span><br><span class="line">    def build_extensions(self):</span><br><span class="line">        self.compiler.src_extensions.append(&apos;.cu&apos;)</span><br><span class="line">        self.compiler.set_executable(&apos;compiler_so&apos;, &apos;nvcc&apos;)</span><br><span class="line">        self.compiler.set_executable(&apos;linker_so&apos;, &apos;nvcc --shared&apos;)</span><br><span class="line">        if hasattr(self.compiler, &apos;_c_extensions&apos;):</span><br><span class="line">            self.compiler._c_extensions.append(&apos;.cu&apos;)  # needed for Windows</span><br><span class="line">        self.compiler.spawn = self.spawn</span><br><span class="line">        build_ext.build_extensions(self)</span><br><span class="line"></span><br><span class="line">ext_modules = [</span><br><span class="line">               Extension(</span><br><span class="line">                         &quot;utils.bbox&quot;,</span><br><span class="line">                         [&quot;bbox.pyx&quot;],</span><br><span class="line">                        extra_compile_args=[&apos;-Wno-cpp&apos;, &apos;-Wno-unused-function&apos;, &apos;-std=c99&apos;],</span><br><span class="line">                         include_dirs = [numpy_include]</span><br><span class="line">                         ),</span><br><span class="line">               Extension(</span><br><span class="line">                         &quot;utils.cython_nms&quot;,</span><br><span class="line">                         [&quot;cython_nms.pyx&quot;],</span><br><span class="line">                        extra_compile_args=[&apos;-Wno-cpp&apos;, &apos;-Wno-unused-function&apos;, &apos;-std=c99&apos;],</span><br><span class="line">                         include_dirs = [numpy_include]</span><br><span class="line">                         ),]</span><br><span class="line"></span><br><span class="line">setup(</span><br><span class="line">    ext_modules=ext_modules,</span><br><span class="line">    cmdclass=&#123;&apos;build_ext&apos;: custom_build_ext&#125;,</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<p>运行生成build和utile文件夹，将utile中的.pyd文件拷贝出来，删除两个文件夹</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fuo9ktuvsxj308c0dnjrp.jpg" alt=""></p>
+<p><a href="https://blog.csdn.net/chenzhi1992/article/details/53374265" target="_blank" rel="noopener"><strong>参考博客</strong></a></p>
+<p><a href="http://docs.cython.org/en/latest/src/userguide/source_files_and_compilation.html" target="_blank" rel="noopener"><strong>cython源文件和编译</strong></a></p>
+<p><a href="https://moonlet.gitbooks.io/cython-document-zh_cn/content/ch1-basic_tutorial.html" target="_blank" rel="noopener"><strong>cython官方文档</strong></a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="田小默 WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="田小默 Alipay">
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"><i class="fa fa-tag"></i> python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/01/文本检测识别算法/" rel="next" title="文本检测识别算法">
+                <i class="fa fa-chevron-left"></i> 文本检测识别算法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/04/Cmake/" rel="prev" title="CMake">
+                CMake <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="田小默">
+            
+              <p class="site-author-name" itemprop="name">田小默</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Tianxiaomo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://weibo.com/tianxiaoxiaomo" target="_blank" title="微博">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>微博</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://www.zhihu.com/people/tian-mo-98-60" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+      <div id="music163player">
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="110" src="//music.163.com/outchain/player?type=0&id=2058497430&auto=0&height=90"></iframe>
+      </div>
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">田小默</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
