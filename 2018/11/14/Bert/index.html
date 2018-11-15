@@ -85,10 +85,13 @@
 <meta property="og:site_name" content="田小默的博客">
 <meta property="og:description" content="BERT is designed to pre-train deep bidirectional representations by jointly conditioning on both left and right context in all layers. As a result, the pre-trained BERT representations can be ﬁne-tune">
 <meta property="og:locale" content="zh,en">
-<meta property="og:updated_time" content="2018-11-14T02:50:07.932Z">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fx8kiusx84j31y00g7qfc.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fx8kqyirisj31pq0i6aji.jpg">
+<meta property="og:updated_time" content="2018-11-15T03:23:51.041Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Bert">
 <meta name="twitter:description" content="BERT is designed to pre-train deep bidirectional representations by jointly conditioning on both left and right context in all layers. As a result, the pre-trained BERT representations can be ﬁne-tune">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fx8kiusx84j31y00g7qfc.jpg">
 
 
 
@@ -314,10 +317,31 @@
 
       
         <p><strong>BERT is designed to pre-train deep bidirectional representations by jointly conditioning on both left and right context in all layers. As a result, the pre-trained BERT representations can be ﬁne-tuned with just one additional output layer to create state-of-theart models for a wide range of tasks。</strong></p>
+<p><a href="https://arxiv.org/abs/1810.04805" target="_blank" rel="noopener">论文</a><br><a href="https://github.com/google-research/bert" target="_blank" rel="noopener">代码</a></p>
 <p>它在11项自然语言处理任务中获得了最新的最新成果，包括将GLUE基准推至80.4％（绝对改进率7.6％），MultiNLI精度达到86.7％（绝对改进5.6％）和SQuAD v1.1问题回答测试F1到93.2（1.5绝对改进），超过人类表现2.0。</p>
 <p>GLUE(<a href="https://gluebenchmark.com/" target="_blank" rel="noopener">通用语言理解评价标准</a>):80.4%</p>
 <p>MultiNLI :86.7%</p>
 <p>SQuAD:93.3%</p>
+<h2 id="原来将语言表示应用于下游任务有两种策略"><a href="#原来将语言表示应用于下游任务有两种策略" class="headerlink" title="原来将语言表示应用于下游任务有两种策略"></a>原来将语言表示应用于下游任务有两种策略</h2><ol>
+<li><p>feature-base</p>
+<p> 如 ELMO,用于下游任务时，使用特定的结构，加上与训练好的representation作为补充的特征</p>
+</li>
+<li><p>fine-tuning</p>
+<p> 如 GPT,用于下游任务通过fine_tuning模型</p>
+</li>
+</ol>
+<p>但是他们都是单向的…</p>
+<p>作者认为这种单向的结构限制了模型的表示能力，虽然OpenAI GPT使用了left-to-right的结构，但只能在self-attention层之前的token.这种方法对于sentencelevel 的任务还好，对于token-level任务可能就不那么好了。</p>
+<p>BERT,1.使用双向编码器，2.使用了 masked languge model(MLM),3.还有句子预测任务(next sentence prediction)</p>
+<h2 id="BERT-ELMO-GPT"><a href="#BERT-ELMO-GPT" class="headerlink" title="BERT\ELMO\GPT"></a>BERT\ELMO\GPT</h2><p>一张图看出区别，可以看出只有BERT依赖于左右上下文<br><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fx8kiusx84j31y00g7qfc.jpg" alt=""></p>
+<p>模型架构使用了tensor2tensor,有大小两种模型。</p>
+<p>这里输入比较有想法，token embedding + segment embedding + position embedding,这样可以用在不同任务<br><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fx8kqyirisj31pq0i6aji.jpg" alt=""></p>
+<p>与训练任务</p>
+<ol>
+<li>完形填空(Masked)</li>
+<li>下一句话预测</li>
+</ol>
+<p>实验结果看[论文]</p>
 
       
     </div>
@@ -441,8 +465,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -517,6 +550,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#原来将语言表示应用于下游任务有两种策略"><span class="nav-number">1.</span> <span class="nav-text">原来将语言表示应用于下游任务有两种策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BERT-ELMO-GPT"><span class="nav-number">2.</span> <span class="nav-text">BERT\ELMO\GPT</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
