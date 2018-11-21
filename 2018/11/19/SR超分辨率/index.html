@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="zh,en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CV,DL,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="超分辨率技术(Super Resolution,SR)是从观测到的低分辨率图像重建出相应的高分辨率图像。应用可以从两个方面看待，一是提升设备的测量精度，力求恢复真实可靠的细节部分，如医学图像上超分辨率重建，卫星图像重建和监控设备人脸重建等；二是追求整体的视觉效果，细节要求不高，如低分辨率视频恢复，模糊相片恢复等. DL之前的SR从信号处理角度看，低分辨率(Low Resolution)图像是无法恢">
+<meta name="keywords" content="CV,DL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="&#39;SR超分辨率&#39;">
+<meta property="og:url" content="http://yoursite.com/2018/11/19/SR超分辨率/index.html">
+<meta property="og:site_name" content="田小默的博客">
+<meta property="og:description" content="超分辨率技术(Super Resolution,SR)是从观测到的低分辨率图像重建出相应的高分辨率图像。应用可以从两个方面看待，一是提升设备的测量精度，力求恢复真实可靠的细节部分，如医学图像上超分辨率重建，卫星图像重建和监控设备人脸重建等；二是追求整体的视觉效果，细节要求不高，如低分辨率视频恢复，模糊相片恢复等. DL之前的SR从信号处理角度看，低分辨率(Low Resolution)图像是无法恢">
+<meta property="og:locale" content="zh,en">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdb8eowovj30m407ldmq.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdb4v9ygjg306y04cjso.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdcef42unj30w00cqq4z.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdbjr3uknj30u50jhaok.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdcu5mzwvj31400fttj8.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdh9z295wj30tm093442.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdhf6sj2yj30sr0n2q7o.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdhgvl1ecj30vk05ndhm.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdhut5i63j30vy0hodpw.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdhq6jlahj30oj0gcact.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdhxjziz9j30ls0l379l.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdntn3chqj31160dmmzt.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdohzb91hj311o0q5wkp.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdp28ykyzj312i0e0tei.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdphfkig7j31an0o37bk.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfo2pofzrj30vt085tb2.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxemkkdqgdj31080e4q9n.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfo4udc54j30rm0hpn0r.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfo903bhuj30qa0gpjup.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfojrj148j30uc0no45l.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfontf3tnj312y0820va.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfoowrh19j319o0arjvw.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfp3is84nj30z30jxk66.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfp2hn9xqj311a0hj1kx.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfpi4e1sfj30h60e5wfy.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfploxg11j30i50eiabj.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfpn355hrj30ij0dejsq.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfppsa3syj314l0iun5b.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfw9kdrkyj31a90kln8f.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfwd6argij30ce05wt98.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfwdguk61j30of0eq0w7.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfwehabgij315i0ek7b5.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfwh4ihauj30s30fbgol.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfwi3mtgrj30qh0dx75t.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfwjcugvmj30rg0hhtp6.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfwkem4y0j310c0lytif.jpg">
+<meta property="og:updated_time" content="2018-11-21T11:23:37.723Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="&#39;SR超分辨率&#39;">
+<meta name="twitter:description" content="超分辨率技术(Super Resolution,SR)是从观测到的低分辨率图像重建出相应的高分辨率图像。应用可以从两个方面看待，一是提升设备的测量精度，力求恢复真实可靠的细节部分，如医学图像上超分辨率重建，卫星图像重建和监控设备人脸重建等；二是追求整体的视觉效果，细节要求不高，如低分辨率视频恢复，模糊相片恢复等. DL之前的SR从信号处理角度看，低分辨率(Low Resolution)图像是无法恢">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdb8eowovj30m407ldmq.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/19/SR超分辨率/">
+
+
+
+
+
+  <title>'SR超分辨率' | 田小默的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh,en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">田小默的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/19/SR超分辨率/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="田小默">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="田小默的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">'SR超分辨率'</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-19T12:49:54+08:00">
+                2018-11-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>超分辨率技术(Super Resolution,SR)是从观测到的低分辨率图像重建出相应的高分辨率图像。应用可以从两个方面看待，一是提升设备的测量精度，力求恢复真实可靠的细节部分，如医学图像上超分辨率重建，卫星图像重建和监控设备人脸重建等；二是追求整体的视觉效果，细节要求不高，如低分辨率视频恢复，模糊相片恢复等.</p>
+<h1 id="DL之前的SR"><a href="#DL之前的SR" class="headerlink" title="DL之前的SR"></a>DL之前的SR</h1><p>从信号处理角度看，低分辨率(Low Resolution)图像是无法恢复成高分辨率(High Resolution)图像，由香农采样定理可知，主要因为丢失了图像的高频信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">香农采样定理，又称奈奎斯特采样定理，是信息论，特别是通讯与信号处理学科中的一个重要基本结论。1924年奈奎斯特(Nyquist)就推导出在理想低通信道的最高大码元传输速率的公式：理想低通信道的最高大码元传输速率=2W*log2N 。（其中W是理想低通信道的带宽，N是电平强度）</span><br></pre></td></tr></table></figure>
+<p>最简单的方法是梯度锐化和拉普拉斯锐化，但效果聊胜于无。</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdb8eowovj30m407ldmq.jpg" alt="image"></p>
+<p>这里说两种典型的SR算法，左图，找到图片中相似的大尺寸区域，然后利用进行SR,下面这个动图就是这样，这种方法缺点很明显。</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdb4v9ygjg306y04cjso.jpg" alt="image"></p>
+<p>右图，对各种边缘信息建立数据库，然后匹配，这个方法也很明显，鲁棒性不够。</p>
+<h1 id="DL时代的SR"><a href="#DL时代的SR" class="headerlink" title="DL时代的SR"></a>DL时代的SR</h1><p>随着硬件计算性能的提升，人工智能进入了DL时代，SR也相应出现了新的使用DL的方法。</p>
+<h2 id="标准介绍"><a href="#标准介绍" class="headerlink" title="标准介绍"></a>标准介绍</h2><ul>
+<li>PSNR（Peak Signal to Noise Ratio，峰值信噪比）</li>
+</ul>
+<p>$MSE=\frac{1}{H * W}\sum_{i=1}^h\sum_{j=1}^w(X(i,j)-Y(i,j))^2$</p>
+<p>$PSNR=10log_{10}(\frac{(2^n-1)^2}{MSE})$</p>
+<p>MSE表示当前图像X和参考图像Y的均方误差（Mean Square Error），H、W分别为图像的高度和宽度；n为每像素的比特数，一般取8，即像素灰阶数为256. PSNR的单位是dB，数值越大表示失真越小。虽然PSNR和人眼的视觉特性并不完全一致，但是一般认为PSNR在38以上的时候，人眼就无法区分两幅图片了。</p>
+<p>SSIM（structural similarity， 结构相似性），也是一种全参考的图像质量评价指标，它分别从亮度、对比度、结构三方面度量图像相似性。</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdcef42unj30w00cqq4z.jpg" alt="image"></p>
+<h2 id="SRCNN"><a href="#SRCNN" class="headerlink" title="SRCNN"></a>SRCNN</h2><ul>
+<li>论文，<a href="http://101.96.10.63/personal.ie.cuhk.edu.hk/~ccloy/files/eccv_2014_deepresolution.pdf" target="_blank" rel="noopener">Learning a Deep Convolutional Network for Image Super-Resolution</a>, ECCV2014</li>
+<li><a href="https://github.com/Edwardlzy/SRCNN" target="_blank" rel="noopener">代码</a></li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdbjr3uknj30u50jhaok.jpg" alt="image"></p>
+<p>先使用双三次(bicubic)插值放大到目标大小，然后三层卷积做非线性映射，输出结果。三层卷积核大小分别为9*9，1*1，5*5，输出channel分别是64，32，3.</p>
+<pre><code>SC is outperforms the sparse-coding-based method,是[Image Super-Resolution via Sparse Representation](http://101.96.10.64/www.columbia.edu/~jw2966/papers/YWHM10-TIP.pdf)这篇论文是黄煦涛和马毅小组的Jianchao Yang的作品。这篇论文提出的算法，在形式上和后文这些DL算法已经非常类似了，也是基于HR和LR配对的有监督训练。区别只在于这篇论文使用矩阵的稀疏表示来拟合SR函数，而DL算法使用神经网络拟合SR函数。前者是线性变换，而后者是非线性变换。
+</code></pre><h2 id="FSRCNN"><a href="#FSRCNN" class="headerlink" title="FSRCNN"></a>FSRCNN</h2><ul>
+<li>论文 <a href="https://arxiv.org/pdf/1608.00367.pdf" target="_blank" rel="noopener">Accelerating the Super-Resolution Convolutional Neural Network</a>,ECCV2016</li>
+<li><a href="http://mmlab.ie.cuhk.edu.hk/projects/FSRCNN.html" target="_blank" rel="noopener">代码</a></li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdcu5mzwvj31400fttj8.jpg" alt="image"></p>
+<p><strong>SRCNN加速版本，主要改进有三点</strong>：</p>
+<ol>
+<li>最后一层使用反卷积放大图片，不用bicubic</li>
+<li>改变特征维数，使用更小的卷积核更多的卷积层</li>
+<li>共享卷积层，放大不同的倍数只需改变反卷积层fine-tuning最后的反卷积层</li>
+</ol>
+<h2 id="FSPCN"><a href="#FSPCN" class="headerlink" title="FSPCN"></a>FSPCN</h2><ul>
+<li>论文<a href="https://arxiv.org/abs/1609.05158" target="_blank" rel="noopener">Real-Time Single Image and Video Super-Resolution Using an Efficient Sub-Pixel Convolutional Neural Network</a></li>
+<li>代码</li>
+</ul>
+<ol>
+<li><a href="https://github.com/drakelevy/ESPCN-TensorFlow" target="_blank" rel="noopener">tensorflow版本</a></li>
+<li><a href="https://github.com/leftthomas/ESPCN" target="_blank" rel="noopener">pytorch版本</a></li>
+<li><a href="https://github.com/wangxuewen99/Super-Resolution/tree/master/ESPCN" target="_blank" rel="noopener">caffe版本</a></li>
+</ol>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdh9z295wj30tm093442.jpg" alt="image"></p>
+<p>也是基于SRCNN,和FSRCNN不同的是在最后层不是反卷积来放大，而是使用多个通道融合，R^2个channel，每个feature map和原图大小一样，然后在R^2个channel相同位置合并成一个R*R的子区域，这样放大为 H*R X H*R</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdhf6sj2yj30sr0n2q7o.jpg" alt="image"><br><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdhgvl1ecj30vk05ndhm.jpg" alt="image"></p>
+<h2 id="VDSR"><a href="#VDSR" class="headerlink" title="VDSR"></a>VDSR</h2><ul>
+<li>论文<a href="https://arxiv.org/abs/1511.04587" target="_blank" rel="noopener">Accurate Image Super-Resolution Using Very Deep Convolutional Networks</a></li>
+<li>代码</li>
+</ul>
+<ol>
+<li><a href="https://cv.snu.ac.kr/research/VDSR/" target="_blank" rel="noopener">code</a></li>
+<li><a href="https://github.com/huangzehao/caffe-vdsr" target="_blank" rel="noopener">caffe</a></li>
+<li><a href="https://github.com/Jongchan/tensorflow-vdsr" target="_blank" rel="noopener">tensorflow</a></li>
+<li><a href="https://github.com/twtygqyy/pytorch-vdsr" target="_blank" rel="noopener">pytorch</a></li>
+</ol>
+<p>作者认为输入的低分辨率图像和输出的高分辨率图像在很大程度上是相似的，也就是指低分辨率图像携带的低频信息与高分辨率图像的低频信息相近，训练时带上这部分会多花费大量的时间，实际上我们只需要学习高分辨率图像和低分辨率图像之间的高频部分残差即可。残差网络结构的思想特别适合用来解决超分辨率问题，可以说影响了之后的深度学习超分辨率方法。</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdhut5i63j30vy0hodpw.jpg" alt="image"></p>
+<p><strong>改进个人认为有两点点</strong>：</p>
+<ol>
+<li>使用了ResNet的残差结构，使得网络可以比较深(20层)</li>
+<li>将不同倍数的图像放到一起训练，使得鲁棒性能比较好</li>
+</ol>
+<p>文中使用了自适应梯度裁剪，使得训练收敛加快</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdhq6jlahj30oj0gcact.jpg" alt="image"></p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdhxjziz9j30ls0l379l.jpg" alt="image"></p>
+<p>看起来提升还是比较明显的,收敛速度提升也很明显</p>
+<h2 id="DRCN"><a href="#DRCN" class="headerlink" title="DRCN"></a>DRCN</h2><ul>
+<li>论文<a href="https://arxiv.org/abs/1511.04491" target="_blank" rel="noopener">Deeply-Recursive Convolutional Network for Image Super-Resolution</a>, CVPR2016</li>
+<li>代码<ol>
+<li><a href="https://cv.snu.ac.kr/research/DRCN/" target="_blank" rel="noopener">code</a></li>
+<li><a href="https://github.com/jiny2001/deeply-recursive-cnn-tf" target="_blank" rel="noopener">tensorflow</a></li>
+</ol>
+</li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdntn3chqj31160dmmzt.jpg" alt="image"></p>
+<p>主要想法是RNN和Skip connection，原始图像插值输出后进入Embedding network，相当于提取特征，然后进入RNN，每一层都输出，最后合并输出。</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdohzb91hj311o0q5wkp.jpg" alt="image"><br>可以看出Skip connection类似残差</p>
+<h2 id="RED"><a href="#RED" class="headerlink" title="RED"></a>RED</h2><ul>
+<li>论文<a href="https://arxiv.org/abs/1606.08921" target="_blank" rel="noopener">Image Restoration Using Convolutional Auto-encoders with Symmetric Skip Connections</a>, NIPS2016</li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdp28ykyzj312i0e0tei.jpg" alt="image"></p>
+<p>分为encoder和decoder，感觉像Unet</p>
+<h2 id="DRRN"><a href="#DRRN" class="headerlink" title="DRRN"></a>DRRN</h2><ul>
+<li>论文<a href="http://openaccess.thecvf.com/content_cvpr_2017/papers/Tai_Image_Super-Resolution_via_CVPR_2017_paper.pdf" target="_blank" rel="noopener">Image Super-Resolution via Deep Recursive Residual Network</a>, CVPR2017</li>
+<li>代码<ol>
+<li><a href="tyshiwo/DRRN_CVPR17">caffe</a></li>
+<li><a href="https://github.com/jt827859032/DRRN-pytorch" target="_blank" rel="noopener">pytorch</a></li>
+</ol>
+</li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdphfkig7j31an0o37bk.jpg" alt="image"><br>这个是结合了之前的结构，感觉好像 Unet…</p>
+<h2 id="LapSRN"><a href="#LapSRN" class="headerlink" title="LapSRN"></a>LapSRN</h2><ul>
+<li>论文<a href="https://arxiv.org/abs/1704.03915" target="_blank" rel="noopener">Deep Laplacian Pyramid Networks for Fast and Accurate Super-Resolution</a>, CVPR2017</li>
+<li>代码<ol>
+<li><a href="https://github.com/phoenix104104/LapSRN" target="_blank" rel="noopener">matconvnet</a></li>
+<li><a href="https://github.com/twtygqyy/pytorch-LapSRN" target="_blank" rel="noopener">pytorch</a></li>
+<li><a href="https://github.com/zjuela/LapSRN-tensorflow" target="_blank" rel="noopener">tensorflow</a></li>
+</ol>
+</li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfo2pofzrj30vt085tb2.jpg" alt="iamge"></p>
+<p>本文的主要思想是一点一点的放大，不要一口吃成个胖子，可能撑死，细嚼慢咽。细数前面的集中方法，无论先放大，还是最后放大，都存在一个问题，就是一步到位。具体作者提出存在的三个问题：</p>
+<ol>
+<li>先上采样的存在计算开销浪费，反卷积和亚像素存在性能较差的问题</li>
+<li>使用 l2 loss，导致预测模糊</li>
+<li>一步到位的放大，对不同的放大倍数不能很好的适应</li>
+</ol>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxemkkdqgdj31080e4q9n.jpg" alt="image"></p>
+<p>LapSRN通过逐步上采样，一级一级预测残差的方式，在做高倍上采样时，也能得到中间低倍上采样结果的输出。由于尺寸是逐步放大，不是所有的操作都在大尺寸特征上进行，因此速度比较快。LapSRN设计了损失函数来训练网络，对每一级的结果都进行监督，因此取得了不错的结果。</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfo4udc54j30rm0hpn0r.jpg" alt="iamge"><br><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfo903bhuj30qa0gpjup.jpg" alt="image"></p>
+<h2 id="SRDenseNet"><a href="#SRDenseNet" class="headerlink" title="SRDenseNet"></a>SRDenseNet</h2><ul>
+<li>论文<a href="http://openaccess.thecvf.com/content_ICCV_2017/papers/Tong_Image_Super-Resolution_Using_ICCV_2017_paper.pdf" target="_blank" rel="noopener">Image Super-Resolution Using Dense Skip Connections</a>, ICCV2017</li>
+<li>代码<ol>
+<li><a href="https://github.com/twtygqyy/pytorch-SRDenseNet" target="_blank" rel="noopener">pytorch_1</a></li>
+<li><a href="https://github.com/wxywhu/SRDenseNet-pytorch" target="_blank" rel="noopener">pytorch_2</a></li>
+<li><a href="https://github.com/ppooiiuuyh/SR_SRDenseNet_tensorflow" target="_blank" rel="noopener">tensorflow</a></li>
+</ol>
+</li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfojrj148j30uc0no45l.jpg" alt="image"></p>
+<p>这个听名字看上图的模型可以看出来，这就是DenseNet版本的SR啊。作者在三种情况下做了对比，结果猜都可以猜出来</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfontf3tnj312y0820va.jpg" alt="image"></p>
+<p>不同模型对比，不知道放大多少倍…</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfoowrh19j319o0arjvw.jpg" alt="image"></p>
+<h2 id="SRGAN"><a href="#SRGAN" class="headerlink" title="SRGAN"></a>SRGAN</h2><ul>
+<li>论文[Photo-Realistic Single Image Super-Resolution Using a Generative Adversarial Network], CVPR2017</li>
+<li>代码<ol>
+<li><a href="https://github.com/zsdonghao/SRGAN" target="_blank" rel="noopener">tensorflow_1</a></li>
+<li><a href="https://github.com/buriburisuri/SRGAN" target="_blank" rel="noopener">tensorflow_2</a></li>
+<li><a href="https://github.com/brade31919/SRGAN-tensorflow" target="_blank" rel="noopener">tensorflow_3</a></li>
+<li><a href="https://github.com/junhocho/SRGAN" target="_blank" rel="noopener">torch</a></li>
+<li><a href="https://github.com/ShenghaiRong/caffe_srgan" target="_blank" rel="noopener">caffe</a></li>
+<li><a href="https://github.com/titu1994/Super-Resolution-using-Generative-Adversarial-Networks" target="_blank" rel="noopener">keras</a></li>
+<li><a href="ai-tor/PyTorch-SRGAN">pytorch</a></li>
+</ol>
+</li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfp3is84nj30z30jxk66.jpg" alt="image"></p>
+<p>利用GAN做SR,一个生成网络，一个测试网络。只是这里的Loss有点不一样，作者说使用普通的均方差loss虽然峰值信噪比不错，但是感官上并不好，作者了其它的loss，感官效果提升，但是细节有些会丢失。</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfp2hn9xqj311a0hj1kx.jpg" alt="image"></p>
+<h2 id="EDSR"><a href="#EDSR" class="headerlink" title="EDSR"></a>EDSR</h2><ul>
+<li>论文<a href="https://arxiv.org/abs/1707.02921" target="_blank" rel="noopener">Enhanced Deep Residual Networks for Single Image Super-Resolution</a>, CVPRW2017</li>
+<li>代码<ol>
+<li><a href="https://github.com/LimBee/NTIRE2017" target="_blank" rel="noopener">torch</a></li>
+<li><a href="https://github.com/jmiller656/EDSR-Tensorflow" target="_blank" rel="noopener">tensorflow</a></li>
+<li><a href="https://github.com/thstkdgus35/EDSR-PyTorch" target="_blank" rel="noopener">pytorch</a></li>
+</ol>
+</li>
+</ul>
+<p>EDSR是NTIRE2017超分辨率挑战赛上获得冠军的方案。</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfpi4e1sfj30h60e5wfy.jpg" alt="image"></p>
+<p>作者认为在SR任务中使用Resnet结构的话，不需要使用BN层。作者文章中说，原始的ResNet最一开始是被提出来解决高层的计算机视觉问题，比如分类和检测，直接把ResNet的结构应用到像超分辨率这样的低层计算机视觉问题，显然不是最优的。去掉BN后，节省了内存资源。</p>
+<ul>
+<li>EDSR</li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfploxg11j30i50eiabj.jpg" alt="image"></p>
+<ul>
+<li>MDSR</li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfpn355hrj30ij0dejsq.jpg" alt="image"></p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfppsa3syj314l0iun5b.jpg" alt="image"></p>
+<h2 id="DBSR"><a href="#DBSR" class="headerlink" title="DBSR"></a>DBSR</h2><ul>
+<li>论文<a href="https://arxiv.org/pdf/1803.02735.pdf" target="_blank" rel="noopener">Deep Back-Projection Networks For Super-Resolution</a>,CVPR2018</li>
+<li>代码<ol>
+<li><a href="https://github.com/alterzero/DBPN-Pytorch" target="_blank" rel="noopener">pytorch</a></li>
+<li><a href="https://github.com/alterzero/DBPN-caffe" target="_blank" rel="noopener">caffe</a></li>
+</ol>
+</li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfw9kdrkyj31a90kln8f.jpg" alt="image"></p>
+<p>Winner (1st) of NTIRE2018 Competition (Track: x8 Bicubic Downsampling).从上图可以看出来是怎么搞得，不断的上采样，再卷积下采样，然后这样重复来回搞。想想参数应该不少。</p>
+<p>作者把深度学习在超分辨率中分四种类型：</p>
+<pre><code>1）Predefined upsampling：这种方法通常是先在网络之外将原始的LR（Low Resolution）的图像通过插值法扩大到MR级别的图像，再将MR图像输入网络。这种方法是深度学习方法在超分辨率领域的开山之作SRCNN所采用的，SRCNN先将图像插值扩大，在通过三个简单的卷积层将其映射到HR图像上。之后使用同样方法的网络通常是通过残差结构（VDSR、DRCN）或者递归结构（DRCN）来获得更好的非线性映射的。然而，这种方法有一个问题，就是有可能在插值过程中向图像中加入新的噪声。
+
+2）Single upsampling：FSRCNN和ESPCN都属于这个类型，输入他们的都是原始的LR图像，通过非线性映射之后，在网络的最后再重组成为HR图像（FSRCNN是反卷积，ESPCN是亚像素卷积层）。这种方法在实践中非常的快，但是因为网络容量有限，这两个网络都不能学习到太过复杂的映射。NTIRE2017的冠军EDSR也是这样的方法，但是因为其参数过多，需要过长的训练时间，所以为后续实现更少参数的网络留下了空间。
+
+3）Progressive upsampling：代表就是LapSRN，这种方法在一个前向传播的网络中逐步的放大图像的分辨率，我们可以将其简化成为是几个stack在一起的升采样网络，因为这种方法仅仅依赖于有限的低分辨率信息，所以很轻易的就被深度较浅的DBPN打败了。
+
+4）Iterative up and downsampling：也就是这篇文章所提出的方法，作者关注在不同的深度提高SR的采样率，并且将重建的损失分布到各个阶段去，这种方法通过学习多个升降采样算子来使得网络能在生成更深的特征的时候保留更多的HR信息。
+</code></pre><p>作者称以前的方法没有充分的学习到图片中的信息，这样来回上采样下采样可以充分学习。</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfwd6argij30ce05wt98.jpg" alt="image"></p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfwdguk61j30of0eq0w7.jpg" alt="image"></p>
+<p>当让网络也用到了DenseNet的结构</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfwehabgij315i0ek7b5.jpg" alt="image"></p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfwh4ihauj30s30fbgol.jpg" alt="image"></p>
+<p>看来参数量还好</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfwi3mtgrj30qh0dx75t.jpg" alt="image"></p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfwjcugvmj30rg0hhtp6.jpg" alt="image"></p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfwkem4y0j310c0lytif.jpg" alt="image"></p>
+<p>看起来很厉害的样子</p>
+<p><strong>参考</strong>:</p>
+<ol>
+<li><a href="https://antkillerfarm.github.io/dl/2017/10/18/Deep_Learning_21.html" target="_blank" rel="noopener">深度学习（二十一）——图像超分辨率, SRCNN, DRCN</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/31664818" target="_blank" rel="noopener">从SRCNN到EDSR，总结深度学习端到端超分辨率方法发展历程</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/39930043?utm_source=qq&amp;" target="_blank" rel="noopener">NTIRE 2018 超分辨率 CVPR Workshop</a>utm_medium=social&amp;utm_oi=814782158542630912</li>
+<li><a href="https://www.zhihu.com/question/268488873" target="_blank" rel="noopener">如何评价CVPR2018论文Deep Back-Projection Networks For SR？</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/34400207" target="_blank" rel="noopener">深度反向投影网络（DBPN）–通过Back-Projection来超分辨率的新方法</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/39930043?utm_source=qq&amp;utm_medium=social&amp;utm_oi=814782158542630912" target="_blank" rel="noopener">NTIRE 2018 超分辨率 CVPR Workshop</a></li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="田小默 WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="田小默 Alipay">
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CV/" rel="tag"><i class="fa fa-tag"></i> CV</a>
+          
+            <a href="/tags/DL/" rel="tag"><i class="fa fa-tag"></i> DL</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/14/General-Language-Understanding-Evaluation-benchmark/" rel="next" title="General_Language_Understanding_Evaluation_benchmark">
+                <i class="fa fa-chevron-left"></i> General_Language_Understanding_Evaluation_benchmark
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="田小默">
+            
+              <p class="site-author-name" itemprop="name">田小默</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Tianxiaomo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://weibo.com/tianxiaoxiaomo" target="_blank" title="微博">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>微博</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://www.zhihu.com/people/tian-mo-98-60" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#DL之前的SR"><span class="nav-number">1.</span> <span class="nav-text">DL之前的SR</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DL时代的SR"><span class="nav-number">2.</span> <span class="nav-text">DL时代的SR</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#标准介绍"><span class="nav-number">2.1.</span> <span class="nav-text">标准介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SRCNN"><span class="nav-number">2.2.</span> <span class="nav-text">SRCNN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FSRCNN"><span class="nav-number">2.3.</span> <span class="nav-text">FSRCNN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FSPCN"><span class="nav-number">2.4.</span> <span class="nav-text">FSPCN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VDSR"><span class="nav-number">2.5.</span> <span class="nav-text">VDSR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DRCN"><span class="nav-number">2.6.</span> <span class="nav-text">DRCN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RED"><span class="nav-number">2.7.</span> <span class="nav-text">RED</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DRRN"><span class="nav-number">2.8.</span> <span class="nav-text">DRRN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LapSRN"><span class="nav-number">2.9.</span> <span class="nav-text">LapSRN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SRDenseNet"><span class="nav-number">2.10.</span> <span class="nav-text">SRDenseNet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SRGAN"><span class="nav-number">2.11.</span> <span class="nav-text">SRGAN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EDSR"><span class="nav-number">2.12.</span> <span class="nav-text">EDSR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DBSR"><span class="nav-number">2.13.</span> <span class="nav-text">DBSR</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+      <div id="music163player">
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="110" src="//music.163.com/outchain/player?type=0&id=2058497430&auto=0&height=90"></iframe>
+      </div>
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">田小默</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
