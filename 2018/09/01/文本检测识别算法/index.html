@@ -77,21 +77,32 @@
 
 
 
-<meta name="description" content="[TOC] CTPN (Connectionist Text Proposal Network)idea 文本检测和一般目标检测的不同——文本线是一个sequence（字符、字符的一部分、多字符组成的一个sequence），而不是一般目标检测中只有一个独立的目标。这既是优势，也是难点。优势体现在同一文本线上不同字符可以互相利用上下文，可以用sequence的方法比如RNN来表示。难点体现在要检测出">
+<meta name="description" content="[TOC] CTPN(Connectionist Text Proposal Network) 论文 代码  idea 文本检测和一般目标检测的不同——文本线是一个sequence（字符、字符的一部分、多字符组成的一个sequence），而不是一般目标检测中只有一个独立的目标。这既是优势，也是难点。优势体现在同一文本线上不同字符可以互相利用上下文，可以用sequence的方法比如RNN来表示。难点">
 <meta name="keywords" content="CV,算法,TEXT">
 <meta property="og:type" content="article">
 <meta property="og:title" content="文本检测识别算法">
 <meta property="og:url" content="http://yoursite.com/2018/09/01/文本检测识别算法/index.html">
 <meta property="og:site_name" content="田小默的博客">
-<meta property="og:description" content="[TOC] CTPN (Connectionist Text Proposal Network)idea 文本检测和一般目标检测的不同——文本线是一个sequence（字符、字符的一部分、多字符组成的一个sequence），而不是一般目标检测中只有一个独立的目标。这既是优势，也是难点。优势体现在同一文本线上不同字符可以互相利用上下文，可以用sequence的方法比如RNN来表示。难点体现在要检测出">
+<meta property="og:description" content="[TOC] CTPN(Connectionist Text Proposal Network) 论文 代码  idea 文本检测和一般目标检测的不同——文本线是一个sequence（字符、字符的一部分、多字符组成的一个sequence），而不是一般目标检测中只有一个独立的目标。这既是优势，也是难点。优势体现在同一文本线上不同字符可以互相利用上下文，可以用sequence的方法比如RNN来表示。难点">
 <meta property="og:locale" content="zh,en">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1futz0f6m9qj319m0du11c.jpg">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fuu21ae8bnj30rk06baax.jpg">
-<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fuxkbrjxj6j31040gsdqm.jpg">
-<meta property="og:updated_time" content="2018-10-16T01:43:36.560Z">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqly1fyb9y9y09cj319a0fsjxz.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fybb3s69qxj30r40j8wng.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fybbbnd6iij30tc0n77ef.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fybbd5jihsj30qo0nd7gr.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fybazkncntj30jf0jpwih.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqly1fyc8q16sjej30s10iyjxa.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqly1fydgo4j90dj314i0m4h36.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqly1fydgih0khqj30j70m6n0m.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqly1fyfv857pltj311v0fkadp.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1fygody4oo0j30ox0mqdgo.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqly1fyedmxoh9uj30qp0jpncx.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005PF9Rqly1fyedr3fr4jj31cp0a1guz.jpg">
+<meta property="og:updated_time" content="2018-12-23T10:38:48.803Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="文本检测识别算法">
-<meta name="twitter:description" content="[TOC] CTPN (Connectionist Text Proposal Network)idea 文本检测和一般目标检测的不同——文本线是一个sequence（字符、字符的一部分、多字符组成的一个sequence），而不是一般目标检测中只有一个独立的目标。这既是优势，也是难点。优势体现在同一文本线上不同字符可以互相利用上下文，可以用sequence的方法比如RNN来表示。难点体现在要检测出">
+<meta name="twitter:description" content="[TOC] CTPN(Connectionist Text Proposal Network) 论文 代码  idea 文本检测和一般目标检测的不同——文本线是一个sequence（字符、字符的一部分、多字符组成的一个sequence），而不是一般目标检测中只有一个独立的目标。这既是优势，也是难点。优势体现在同一文本线上不同字符可以互相利用上下文，可以用sequence的方法比如RNN来表示。难点">
 <meta name="twitter:image" content="https://ws1.sinaimg.cn/large/005PF9Rqgy1futz0f6m9qj319m0du11c.jpg">
 
 
@@ -318,7 +329,11 @@
 
       
         <p>[TOC]</p>
-<h1 id="CTPN-Connectionist-Text-Proposal-Network"><a href="#CTPN-Connectionist-Text-Proposal-Network" class="headerlink" title="CTPN (Connectionist Text Proposal Network)"></a>CTPN (Connectionist Text Proposal Network)</h1><h2 id="idea"><a href="#idea" class="headerlink" title="idea"></a>idea</h2><ul>
+<h1 id="CTPN-Connectionist-Text-Proposal-Network"><a href="#CTPN-Connectionist-Text-Proposal-Network" class="headerlink" title="CTPN(Connectionist Text Proposal Network)"></a>CTPN(Connectionist Text Proposal Network)</h1><ul>
+<li><a href="https://arxiv.org/pdf/1609.03605.pdf" target="_blank" rel="noopener">论文</a></li>
+<li><a href="https://github.com/Tianxiaomo/chinese-ocr" target="_blank" rel="noopener">代码</a></li>
+</ul>
+<h2 id="idea"><a href="#idea" class="headerlink" title="idea"></a>idea</h2><ul>
 <li><p>文本检测和一般目标检测的不同——文本线是一个sequence（字符、字符的一部分、多字符组成的一个sequence），而不是一般目标检测中只有一个独立的目标。这既是优势，也是难点。优势体现在同一文本线上不同字符可以互相利用上下文，可以用sequence的方法比如RNN来表示。难点体现在要检测出一个完整的文本线，同一文本线上不同字符可能差异大，距离远，要作为一个整体检测出来难度比单个目标更大——因此，作者认为预测文本的竖直位置（文本bounding box的上下边界）比水平位置（文本bounding box的左右边界）更容易。</p>
 </li>
 <li><p>Top-down（先检测文本区域，再找出文本线）的文本检测方法比传统的bottom-up的检测方法（先检测字符，再串成文本线）更好。自底向上的方法的缺点在于（这点在作者的另一篇文章中说的更清楚），总结起来就是没有考虑上下文，不够鲁棒，系统需要太多子模块，太复杂且误差逐步积累，性能受限。</p>
@@ -326,7 +341,7 @@
 <li><p>RNN和CNN的无缝结合可以提高检测精度。CNN用来提取深度特征，RNN用来序列的特征识别（2类），二者无缝结合，用在检测上性能更好。</p>
 </li>
 </ul>
-<h2 id="pipeline"><a href="#pipeline" class="headerlink" title="pipeline"></a>pipeline</h2><p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1futz0f6m9qj319m0du11c.jpg" alt=""></p>
+<h2 id="pipeline"><a href="#pipeline" class="headerlink" title="pipeline"></a>pipeline</h2><p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1futz0f6m9qj319m0du11c.jpg" alt="image"></p>
 <ol>
 <li>VGG16的前5个conv stage(conv5_3)作为base net得到 feature map(W<em> H </em>C)</li>
 <li>在Conv5的feature map的每个位置上取3<em> 3 </em>C的窗口的特征，这些特征将用于预测该位置k个anchor（anchor的定义和Faster RCNN类似）对应的类别信息，位置信息。这个特征向量将用来预测和10个anchor之间的偏移距离，也就是说每一个窗口中心都会预测出10个text propsoal。</li>
@@ -336,8 +351,9 @@
 <li>用简单的文本线构造算法，把分类得到的文字的proposal（图Fig.1（b）中的细长的矩形）合并成文本线</li>
 </ol>
 <h2 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h2><ul>
-<li>conv5的featuremap作为输入入，宽度恰好被固定为16个像素。只用来预测纵轴y即可。<br><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fuu21ae8bnj30rk06baax.jpg" alt=""></li>
+<li>conv5的featuremap作为输入入，宽度恰好被固定为16个像素。只用来预测纵轴y即可。</li>
 </ul>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fuu21ae8bnj30rk06baax.jpg" alt="image"></p>
 <p>c anchor中心，h anchor高度，a 是预测，*是实际，h是提议的高度</p>
 <ul>
 <li>score阈值设置：0.7 （+NMS）</li>
@@ -350,15 +366,78 @@
 </li>
 </ul>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇文章的方法最大亮点在于把RNN引入检测问题（以前一般做识别）。文本检测，先用CNN得到深度特征，然后用固定宽度的anchor来检测text proposal（文本线的一部分），并把同一行anchor对应的特征串成序列，输入到RNN中，最后用全连接层来分类或回归，并将正确的text proposal进行合并成文本线。这种把RNN和CNN无缝结合的方法提高了检测精度。</p>
-<p><a href="https://arxiv.org/pdf/1609.03605.pdf" target="_blank" rel="noopener">原文</a></p>
 <p><a href="http://tongtianta.site/paper/667" target="_blank" rel="noopener">翻译原文</a></p>
-<p><a href="https://github.com/Tianxiaomo/chinese-ocr" target="_blank" rel="noopener">代码</a></p>
 <p><a href="https://blog.csdn.net/zchang81/article/details/78873347" target="_blank" rel="noopener">参考——1</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/37363942" target="_blank" rel="noopener">参考——2</a></p>
-<h1 id="EAST-An-Efficient-and-Accurate-Scene-Text-Detector"><a href="#EAST-An-Efficient-and-Accurate-Scene-Text-Detector" class="headerlink" title="EAST: An Efficient and Accurate Scene Text Detector"></a>EAST: An Efficient and Accurate Scene Text Detector</h1><p><a href="https://arxiv.org/pdf/1704.03155v2.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1704.03155v2.pdf</a></p>
+<h1 id="EAST-An-Efficient-and-Accurate-Scene-Text-Detector"><a href="#EAST-An-Efficient-and-Accurate-Scene-Text-Detector" class="headerlink" title="EAST: An Efficient and Accurate Scene Text Detector"></a>EAST: An Efficient and Accurate Scene Text Detector</h1><p>旷世科技 CVPR2017</p>
+<ul>
+<li><a href="https://arxiv.org/pdf/1704.03155v2.pdf" target="_blank" rel="noopener">论文</a></li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqly1fyb9y9y09cj319a0fsjxz.jpg" alt="image"></p>
+<h2 id="1-分析目前存在的文本检测方法总结"><a href="#1-分析目前存在的文本检测方法总结" class="headerlink" title="1.分析目前存在的文本检测方法总结"></a>1.分析目前存在的文本检测方法总结</h2><ol>
+<li><p>a– Reading Text in the Wild with Convolutional Neural Networks (15年vgg实验室提出,只能检测、识别水平文字)</p>
+<p> 整个方法分为两部分，1.检测，使用Region Proposal mechanism检测数文字区域，然后使用Proposal Filtering(使用的是random forest方法)过滤文字候选框，最后进行一些合并调整得到Word boxes，这部分由于Bounding Box Regression不能完全覆盖文字，导致识别错误，所以又搞了个CNN网络来调整regression framework。2.识别，使用CNN一次识别出整个单词，与以往的单词分割识别再组合不同，这部分数据是人工生成的[方法1]</p>
+<p> <a href="https://blog.csdn.net/u010167269/article/details/52337213" target="_blank" rel="noopener">参考文章</a><br> <a href="https://arxiv.org/pdf/1412.1842.pdf" target="_blank" rel="noopener">论文</a></p>
+</li>
+<li><p>b– Multi-Oriented Text Detection with Fully Convolutional Networks (2016CVPR 白翔大佬，检测多方向文字)</p>
+ <div align="center"><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fybb3s69qxj30r40j8wng.jpg" width="30%"></div>
+
+<p> 具体方法是，将输入图片经过几层卷积得到salient map,然后使用MSER提取候选文字区域，接着候选字符提取出来，确定整个候选字符的方向，最后生成候选框</p>
+<p> <a href="https://www.cnblogs.com/lillylin/p/6102708.html" target="_blank" rel="noopener">参考文章</a><br> <a href="https://arxiv.org/pdf/1604.04018.pdf" target="_blank" rel="noopener">论文</a></p>
+</li>
+<li><p>c – Scene Text Detection via Holistic, Multi-Channel Prediction (arXiv2016 白翔大佬在Face++的)</p>
+ <div align="center"><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fybbbnd6iij30tc0n77ef.jpg" width="30%"></div>
+
+<p> 这个主要方法是从原图中获取三个mask，分别是文本行mask，字符mask和方向mask，然后使用这三个mask获取文本框。文本行mask数据集有，那字符和方向的mask是怎么得到的呢，通过swt得到字符mask，然后获取方向的mask.</p>
+ <div align="center"><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fybbd5jihsj30qo0nd7gr.jpg" width="30%"></div>
+
+<p> 有三个mask怎么得到文本框的呢，可以是文本行mask得到一个文本框，使用字符框得到多个框再使用<a href="https://zh.wikipedia.org/zh-hans/%E5%BE%B7%E5%8B%9E%E5%85%A7%E4%B8%89%E8%A7%92%E5%8C%96" target="_blank" rel="noopener">德劳内三角化</a>,最后得到文本框。</p>
+<p> <a href="https://zhuanlan.zhihu.com/p/44170391" target="_blank" rel="noopener">参考文章-1</a><br> <a href="https://www.cnblogs.com/lillylin/p/6138436.html" target="_blank" rel="noopener">参考文章-2</a><br> <a href="https://arxiv.org/pdf/1606.09002.pdf" target="_blank" rel="noopener">论文</a></p>
+</li>
+<li><p>d – Detecting Text in Natural Image with Connectionist Text Proposal Network (Weilin Huang——ECCV2016)</p>
+<p> 这个就是大名鼎鼎的CTPN啦</p>
+</li>
+</ol>
+<h2 id="2-Pipeline-网络结构"><a href="#2-Pipeline-网络结构" class="headerlink" title="2.Pipeline 网络结构"></a>2.Pipeline 网络结构</h2><p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fybazkncntj30jf0jpwih.jpg" alt="image"></p>
+<p>分为三部分：feature extractor\feature-merging\output layer</p>
+<ol>
+<li><p>Feature extractor 特征提取</p>
+<p> 使用PVNet提取图片特征，分别抽出1/4、1/8、1/16、1/32大小的feature map</p>
+</li>
+<li><p>Feature merging 特征合并</p>
+<p> 将上面提取的特征上采样合并，最后得到32channel的featuare</p>
+</li>
+<li><p>Output layer 输出层</p>
+<p> 分为两部分：score map和 RBOX or QUAD</p>
+<p> score map 是使用1*1的卷积核获取的。RBOX是带角度的Box，这个分为4个geomatry map和1个rotation angle。QUAD是四个坐标点，xy两轴，所以是8个。</p>
+</li>
+</ol>
+<h2 id="3-Label-generation"><a href="#3-Label-generation" class="headerlink" title="3.Label generation"></a>3.Label generation</h2><p><img src="https://ws1.sinaimg.cn/large/005PF9Rqly1fyc8q16sjej30s10iyjxa.jpg" alt="image"></p>
+<p>当输出4个Geomatry map和一个rototion map时，label怎么生成的呢。看上图，(a)中黄色虚线框是人工标注，绿色实现框是缩小0.3后的Label，文章说这样可以避免人工标注错误带来的误差;(b)就是score map label，白色表示文本区域，黑色表示背景;(c) 生成RBOX几何映射;(d)每个像素到矩形边界的距离有4个通道;(e)旋转角度.</p>
+<h2 id="4-Loss-Function"><a href="#4-Loss-Function" class="headerlink" title="4. Loss Function"></a>4. Loss Function</h2><p>$L = L _ { \mathrm { s } } + \lambda _ { \mathrm { g } } L _ { \mathrm { g } }$</p>
+<p>Ls和Lg分别代表scoreh额geomatry的loss，λg代表权重，文章设为1</p>
+<p>$L _ { \mathrm {s}}= - \beta \mathbf { Y } ^{<em>}\log \hat { \mathbf { Y } } - ( 1 - \beta ) \left( 1 - \mathbf { Y } ^ { </em> } \right) \log ( 1 - \hat { \mathbf { Y } } )$</p>
+<p>Ls使用的是交叉熵</p>
+<p>在Geomatry生成使用RBox和Quad时用不同的Loss function</p>
+<p>RBox 的loss分为AABB和R两部分，Box AABB的loss是iou</p>
+<p>$L _ { \mathrm { AABB } } = - \log \operatorname { IoU } \left( \hat { \mathbf { R } } , \mathbf { R } ^ { <em> } \right) = - \log \frac { \left| \hat { \mathbf { R } } \cap \mathbf { R } ^ { </em> } \right| } { \left| \hat { \mathbf { R } } \cup \mathbf { R } ^ { * } \right| }$</p>
+<p>但是这里的iou是加了权重的，是加到各个边的距离的权重,角度loss使用cos 计算</p>
+<p>$L _ { \theta } \left( \hat { \theta } , \theta ^ { <em> } \right) = 1 - \cos \left( \hat { \theta } - \theta ^ { </em> } \right)$</p>
+<p>下面是RBox loss的代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loss</span><span class="params">(y_true_cls, y_pred_cls,</span></span></span><br><span class="line"><span class="function"><span class="params">         y_true_geo, y_pred_geo,</span></span></span><br><span class="line"><span class="function"><span class="params">         training_mask)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    define the loss used for training, contraning two part,</span></span><br><span class="line"><span class="string">    the first part we use dice loss instead of weighted logloss,</span></span><br><span class="line"><span class="string">    the second part is the iou loss defined in the paper</span></span><br><span class="line"><span class="string">    :param y_true_cls: ground truth of text</span></span><br><span class="line"><span class="string">    :param y_pred_cls: prediction os text</span></span><br><span class="line"><span class="string">    :param y_true_geo: ground truth of geometry</span></span><br><span class="line"><span class="string">    :param y_pred_geo: prediction of geometry</span></span><br><span class="line"><span class="string">    :param training_mask: mask used in training, to ignore some text annotated by ###</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    classification_loss = dice_coefficient(y_true_cls, y_pred_cls, training_mask)</span><br><span class="line">    <span class="comment"># scale classification loss to match the iou loss part</span></span><br><span class="line">    classification_loss *= <span class="number">0.01</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment"># d1 -&gt; top, d2-&gt;right, d3-&gt;bottom, d4-&gt;left</span></span><br><span class="line">    d1_gt, d2_gt, d3_gt, d4_gt, theta_gt = tf.split(value=y_true_geo, num_or_size_splits=<span class="number">5</span>, axis=<span class="number">3</span>)</span><br><span class="line">    d1_pred, d2_pred, d3_pred, d4_pred, theta_pred = tf.split(value=y_pred_geo, num_or_size_splits=<span class="number">5</span>, axis=<span class="number">3</span>)</span><br><span class="line">    area_gt = (d1_gt + d3_gt) * (d2_gt + d4_gt)</span><br><span class="line">    area_pred = (d1_pred + d3_pred) * (d2_pred + d4_pred)</span><br><span class="line">    w_union = tf.minimum(d2_gt, d2_pred) + tf.minimum(d4_gt, d4_pred)</span><br><span class="line">    h_union = tf.minimum(d1_gt, d1_pred) + tf.minimum(d3_gt, d3_pred)</span><br><span class="line">    area_intersect = w_union * h_union</span><br><span class="line">    area_union = area_gt + area_pred - area_intersect</span><br><span class="line">    L_AABB = -tf.log((area_intersect + <span class="number">1.0</span>)/(area_union + <span class="number">1.0</span>))</span><br><span class="line">    L_theta = <span class="number">1</span> - tf.cos(theta_pred - theta_gt)</span><br><span class="line">    tf.summary.scalar(<span class="string">'geometry_AABB'</span>, tf.reduce_mean(L_AABB * y_true_cls * training_mask))</span><br><span class="line">    tf.summary.scalar(<span class="string">'geometry_theta'</span>, tf.reduce_mean(L_theta * y_true_cls * training_mask))</span><br><span class="line">    L_g = L_AABB + <span class="number">20</span> * L_theta</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span> tf.reduce_mean(L_g * y_true_cls * training_mask) + classification_loss</span><br></pre></td></tr></table></figure>
+<p>Quad loss, ⚆_⚆ 没看懂怎么做的，也没有代码，这里仅贴个公式吧。</p>
+<p>$L _ { \mathrm { g } } = L _ { \mathrm { QUAD } } \left( \hat { \mathbf { Q } } , \mathbf { Q } ^ { <em> } \right) = \min _ { \mathbf { Q } \in P _ { Q ^ { </em> } } } \sum _ { c _ { i } \in \mathbb { C } _ { \mathbf { Q } } } \frac { \operatorname { smoothed } _ { L 1 } \left( c _ { i } - \tilde { c } _ { i } \right) } { 8 \times N _ { \mathbf { Q } ^ { * } } }$</p>
+<h2 id="5-Locality-Aware-NMS"><a href="#5-Locality-Aware-NMS" class="headerlink" title="5. Locality-Aware NMS"></a>5. Locality-Aware NMS</h2><p>locality_aware_nms在标准nms的基础上加了weighted_merge，所谓weighted_merge就是将2个IOU高于某个threshold的输出框，进行基于得分的合并。合并后的输出框的坐标数值介于2个合并的输入框之间，感觉这样操作可以将所有回归出的框的坐标信息都利用起来，有助于减少位置误差，而不是像传统的nms一样，直接取分数最高的那个。</p>
+<p><a href="https://blog.csdn.net/qq_14845119/article/details/78986449" target="_blank" rel="noopener">参考文章_1</a></p>
+<p><a href="https://blog.csdn.net/sparkexpert/article/details/77987654" target="_blank" rel="noopener">参考文章_2</a></p>
+<p><a href="http://www.voidcn.com/article/p-kmdkakvk-bqs.html" target="_blank" rel="noopener">参考文章_3</a></p>
+<p><a href="https://my.oschina.net/clgo/blog/1577724" target="_blank" rel="noopener">参考文章_4</a></p>
+<h1 id="AdvancedEAST"><a href="#AdvancedEAST" class="headerlink" title="AdvancedEAST"></a>AdvancedEAST</h1><ul>
+<li>[代码]（<a href="https://github.com/huoyijie/AdvancedEAST）" target="_blank" rel="noopener">https://github.com/huoyijie/AdvancedEAST）</a></li>
+</ul>
 <h1 id="Seglink-Detecting-Oriented-Text-in-Natural-Images-by-Linking-Segments"><a href="#Seglink-Detecting-Oriented-Text-in-Natural-Images-by-Linking-Segments" class="headerlink" title="Seglink (Detecting Oriented Text in Natural Images by Linking Segments)"></a>Seglink (Detecting Oriented Text in Natural Images by Linking Segments)</h1><p><a href="https://arxiv.org/pdf/1703.06520.pdf" target="_blank" rel="noopener">论文</a></p>
 <p><a href="https://github.com/bgshih/seglink" target="_blank" rel="noopener">代码</a></p>
-<h2 id="idea-1"><a href="#idea-1" class="headerlink" title="idea"></a>idea</h2><ul>
+<h2 id="1-idea"><a href="#1-idea" class="headerlink" title="1. idea"></a>1. idea</h2><ul>
 <li>提出了文本行检测的两个基本组成元素：==segment==和==link==</li>
 <li>提出了基于SSD的改进版网络结构(全卷积网络结果)同时预测不同尺度的segments和link</li>
 <li>提出了两种link类型:　层内连接(within-layer link)和跨层连接(cross-layer link)</li>
@@ -366,13 +445,86 @@
 <li>Pipeline</li>
 <li>整个实现过程包括两部分：首先检测segments,links，然后使用融合算法得到最终文本行．具体步骤如下：</li>
 </ul>
-<h2 id="Pipeline"><a href="#Pipeline" class="headerlink" title="Pipeline"></a>Pipeline</h2><p>主干网络是沿用了SSD网络结构，并修改修改了最后的Pooling层，将其改为卷积层．</p>
+<h2 id="2-Pipeline"><a href="#2-Pipeline" class="headerlink" title="2. Pipeline"></a>2. Pipeline</h2><p>主干网络是沿用了SSD网络结构，并修改修改了最后的Pooling层，将其改为卷积层．</p>
 <ul>
 <li>首先用VGG16作为base net，并将VGG16的最后两个全连接层改成卷积层．</li>
 <li>接着增加一些额外的卷积层，用于提取更深的特征，最后的修改SSD的Pooling层，将其改为卷积层提取不同层的feature map，文中提取了conv4_3, conv7, conv8_2, conv9_2, conv10_2, conv11．这里其实操作还是和SSD网络一样,对不同层的featuremap使用３＊３的卷积层产生最终的输出(包括segment和link)，不同特征层输出的维度是不一样的，因为除了conv4_3层外，其它层存在跨层的link．这里segment是text的带方向bbox信息(它可能是个单词，也可能是几个字符，总之是文本行的部分)，link是不同bbox的连接信息(文章将其也增加到网络中自动学习)．</li>
 <li>然后通过融合规则，将segment的box信息和link信息进行融合，得到最终的文本行．</li>
 </ul>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fuxkbrjxj6j31040gsdqm.jpg" alt=""><br></p>
+<h1 id="PixelLink"><a href="#PixelLink" class="headerlink" title="PixelLink"></a>PixelLink</h1><ul>
+<li><a href="https://arxiv.org/abs/1801.01315" target="_blank" rel="noopener">论文</a></li>
+<li><a href="https://github.com/ZJULearning/pixel_link" target="_blank" rel="noopener">代码</a></li>
+</ul>
+<h2 id="1-Abstract"><a href="#1-Abstract" class="headerlink" title="1. Abstract"></a>1. Abstract</h2><p>基于语义分割的文本检测会有文本彼此接近导致它们很难分离.这篇文章使用将同一实例像素连接在一起进行分割。</p>
+<p>以前的方法都至少包含两中分类：</p>
+<ol>
+<li>文本\非文本分类(SegLink\EAST\TextBoxes)</li>
+<li>位置回归 (SegLink\CTPN\EAST)</li>
+</ol>
+<p>PixelLink受Seglink启发，分别预测文本、非文本和相邻8个像素的连接.</p>
+<h2 id="2-Network-Architecture"><a href="#2-Network-Architecture" class="headerlink" title="2. Network Architecture"></a>2. Network Architecture</h2><p><img src="https://ws1.sinaimg.cn/large/005PF9Rqly1fydgo4j90dj314i0m4h36.jpg" alt="image"></p>
+<p>PixelLink的架构。训练CNN模型以执行两种基于像素的预测：文本/非文本预测和链接预测。经过阈值处理后，通过正向链接将正像素连接在一起，实现实例分割。然后应用minAreaRect直接从分割结果中提取边界框。使用后置滤波可以有效地消除噪音预测。为了更好地说明输入样本。虚线框中的八个热图代表八个方向上的链接预测。虽然有些词在文本/非文本预测中难以分离，但它们可以通过链接预测分离。</p>
+<h3 id="2-1-PixelLink-VGG16-2s"><a href="#2-1-PixelLink-VGG16-2s" class="headerlink" title="2.1 PixelLink + VGG16 2s"></a>2.1 PixelLink + VGG16 2s</h3><p><img src="https://ws1.sinaimg.cn/large/005PF9Rqly1fydgih0khqj30j70m6n0m.jpg" alt="image"></p>
+<p>PixelLink + VGG16 2s(2s表示预测图是原始图的一半)的结构。 fc6和fc7被提换成卷积层。上采样操作直接通过双线性插值完成。来自不同阶段的特征地图通过上采样和增加操作的级联进行融合。除pool5外的所有池层都采用2步幅，而pool5则采用1。因此，fc7的大小与conv5_3相同，因此合并时不需要上采样。conv 1x1,2(16) 代表具有2或16个内核的卷积层，分别用于文本/非文本预测或链接预测。</p>
+<h3 id="2-2-Linking-Pixels-Together"><a href="#2-2-Linking-Pixels-Together" class="headerlink" title="2.2 Linking Pixels Together"></a>2.2 Linking Pixels Together</h3><p>像素连接过程使用两个像素查看是否同时连接，这样才将它们看成一个连接组建。</p>
+<h3 id="2-3-Extraction-of-Bounding-Box"><a href="#2-3-Extraction-of-Bounding-Box" class="headerlink" title="2.3 Extraction of Bounding Box"></a>2.3 Extraction of Bounding Box</h3><p>使用miniAreaRect提取连接组建的最小外接矩形。这一步可以看出PixelLink和基于回归的方法之间的本质区别，即边界框直接从实例分割中获得，而不是位置回归。</p>
+<h3 id="2-4-Filter"><a href="#2-4-Filter" class="headerlink" title="2.4 Filter"></a>2.4 Filter</h3><p>使用边界框的几何特征进行过滤</p>
+<h2 id="3-Loss"><a href="#3-Loss" class="headerlink" title="3. Loss"></a>3. Loss</h2><p>$L = \lambda L _ { p i x e l } + L _ { l i n k }$</p>
+<p>Lpixel 是像素分类Loss，Llink 是连接Loss。由于分任务更重要，λ设为2.</p>
+<ul>
+<li><p>Pixel loss</p>
+<p>  图片中文字的大小可能差异很大，这样对于那些小文字就不太友好。因此使用了一种新的损失函数，Balance Cross-Entropy(平衡交叉熵)，就是为了让每个实例的权重相同。</p>
+<p>  设第i个实例的面积为$S_i$ , 其上每个像素的权重为$w _ { i } = \frac { B _ { i } } { S _ { i } }$ ，$B_i$ 是实例平均像素数<br>  $B _ { i } = \frac { S } { N } , S = \sum _ { i } S _ { i } , \forall i \in { 1 , \ldots , N }$</p>
+<p>  对于正负样本不平衡问题采用OHEM解决。最后的pixel loss,S实例总面积，r取3.<br>  $L _ { p i x e l } = \frac { 1 } { ( 1 + r ) S } W L _ { p i x e l _ { - } C E }$</p>
+</li>
+<li><p>Link loss</p>
+<p>  正连接和负连接分别计算。<br>  $L_{link_{-} CE}$是链路预测的交叉熵损失矩阵。$W_{pos-link}$ 和 $W_{nge-link}$分别是正面和负面链接的权重。具体计算方法，对于像素 (i,j) 的第k个邻居：</p>
+<p>  $\begin{aligned} L _ { l i n k _ { - } p o s } &amp; = W _ { p o s - l i n k } L _ { l i n k _ { - } C E } \ L _ { l i n k _ { - } n e g } &amp; = W _ { n e g _ { - } l i n k } L _ { l i n k _ { - } C E } \end{aligned}$</p>
+<p>  $\begin{aligned} W _ { p o s - l i n k } ( i , j , k ) &amp; = W ( i , j ) <em> \left( Y _ { l i n k } ( i , j , k ) = = 1 \right) \ W _ { n e g _ { - } l i n k } ( i , j , k ) &amp; = W ( i , j ) </em> \left( Y _ { l i n k } ( i , j , k ) = = 0 \right) \end{aligned}$</p>
+</li>
+</ul>
+<h2 id="4-Summary"><a href="#4-Summary" class="headerlink" title="4. Summary"></a>4. Summary</h2><ul>
+<li>与CTPN，EAST，SegLink相比，PixelLink放弃了边框回归方法来检测文本行的bbox，而是采用实例分割方法，直接从分割的文本行区域得到文本行的bbox．PixelLink可以以更少额数据和更快地速度进行训练．</li>
+<li>假设提取特征的主干网络结构采用VGG16(当然你也可以采用其它主干网络结构)，PixelLink不需要在imagenet预训练的模型上进行fine-tuned（即直接从头开始训练），而CTPN，EAST，SegLink都需要在imagenet预训练的模型上进行fine-tuned</li>
+<li>与CTPN，EAST，SegLink相比，PixelLink对感受野的要求更少，因为每个神经元值只负责预测自己及其邻域内的状态．<br>与SegLink一样，不能检测很大的文本，这是因为link主要是用于连接相邻的segments，而不能用于检测相距较远的文本行</li>
+</ul>
+<p><a href="https://zhuanlan.zhihu.com/p/38171172" target="_blank" rel="noopener">参考文章_1</a></p>
+<p><a href="https://blog.csdn.net/qq_14845119/article/details/80953555" target="_blank" rel="noopener">参考文章_2</a></p>
+<p><a href="https://blog.csdn.net/Missayaaa/article/details/81137312" target="_blank" rel="noopener">参考文章_3</a></p>
+<h1 id="Pixel-Anchor-A-Fast-Oriented-Scene-Text-Detector-with-Combined-Networks"><a href="#Pixel-Anchor-A-Fast-Oriented-Scene-Text-Detector-with-Combined-Networks" class="headerlink" title="Pixel-Anchor: A Fast Oriented Scene Text Detector with Combined Networks"></a>Pixel-Anchor: A Fast Oriented Scene Text Detector with Combined Networks</h1><p><a href="https://arxiv.org/abs/1811.07432" target="_blank" rel="noopener">论文</a></p>
+<h1 id="TextBoxes"><a href="#TextBoxes" class="headerlink" title="TextBoxes"></a>TextBoxes</h1><ul>
+<li><a href="https://arxiv.org/abs/1611.06779" target="_blank" rel="noopener">论文</a></li>
+<li><a href="https://github.com/MhLiao/TextBoxes" target="_blank" rel="noopener">代码</a></li>
+</ul>
+<h2 id="1-Abstract-1"><a href="#1-Abstract-1" class="headerlink" title="1. Abstract"></a>1. Abstract</h2><p>TextBoxes的灵感来源于SSD,SSD旨在检测图像中的一般物体，但无法识别具有极高宽高比的字。在TextBoxes中提出了文本框图层来解决这个问题.</p>
+<h2 id="2-Architecture"><a href="#2-Architecture" class="headerlink" title="2. Architecture"></a>2. Architecture</h2><p><img src="https://ws1.sinaimg.cn/large/005PF9Rqly1fyfv857pltj311v0fkadp.jpg" alt="image"></p>
+<p>TextBoxes架构TextBoxes是一个28层完全卷积网络。其中13个是从VGG-16继承的。在VGG-16层之后增加了9个额外的卷积层。文本框图层连接到6个卷积图层。在每个Map上，文本框图层预测72个向量，它们是12个默认框的分数（2-d）和偏移量（4-d）。对所有文本框图层的聚合输出应用非最大抑制。</p>
+<ul>
+<li><p>文本框层</p>
+<p>假设图像和特征图大小分别是Xim\Yim）和Xmap\Ymap）。在feature map位置(i,j)一个默认框$\mathbf { b } _ { 0 } = \left( x _ { 0 } , y _ { 0 } , w _ { 0 } , h _ { 0 } \right)$,文本框输出层预测输出$( \Delta x , \Delta y , \Delta w , \Delta h , c )$，对应在原图上$\mathbf { b } = ( x , y , w , h )$</p>
+<p>$\begin{aligned} x &amp; = x _ { 0 } + w _ { 0 } \Delta x \ y &amp; = y _ { 0 } + h _ { 0 } \Delta y \ w &amp; = w _ { 0 } \exp ( \Delta w ) \ h &amp; = h _ { 0 } \exp ( \Delta h ) \end{aligned}$</p>
+</li>
+</ul>
+<p>与一般物体不同，单词文本倾向于具有较大的宽高比。因此，使用包含具有较大宽高比的“长”默认框。具体而言，我们为默认box定义6种纵横比，包括1,2,3,5,7和10。但是，这会使默认框在水平方向密集而垂直稀疏，这会导致较差的匹配框。为了解决这个问题，每个默认框都设置了垂直偏移。</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fygody4oo0j30ox0mqdgo.jpg" alt="image"></p>
+<p>而且，在文本框图层中，采用不规则的1 <em> 5卷积滤波器而不是标准的3 </em> 3卷积滤波器。这种初始式滤波器可以产生矩形的接收区域，它可以更好地融合具有较大纵横比的字，还可以避免方形接收区带来的噪声信号。</p>
+<h2 id="3-Loss-1"><a href="#3-Loss-1" class="headerlink" title="3.Loss"></a>3.Loss</h2><p>$L ( x , c , l , g ) = \frac { 1 } { N } \left( L _ { \mathrm { conf } } ( x , c ) + \alpha L _ { \mathrm { loc } } ( x , l , g ) \right)$</p>
+<p>分为位置loss和置信度loss的加权和</p>
+<p><a href="https://www.cnblogs.com/lillylin/p/6204099.html" target="_blank" rel="noopener">参考文章_1</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/33544892" target="_blank" rel="noopener">参考文章_2</a></p>
+<p><a href="https://www.jianshu.com/p/b3c1a2f27dec" target="_blank" rel="noopener">参考文章_3</a></p>
+<h1 id="TextBoxes-1"><a href="#TextBoxes-1" class="headerlink" title="TextBoxes++"></a>TextBoxes++</h1><ul>
+<li><a href="https://arxiv.org/pdf/1801.02765v3.pdf" target="_blank" rel="noopener">论文</a></li>
+<li><a href="https://github.com/MhLiao/TextBoxes_plusplus" target="_blank" rel="noopener">代码</a></li>
+</ul>
+<h1 id="TextSpotter"><a href="#TextSpotter" class="headerlink" title="TextSpotter"></a>TextSpotter</h1><h1 id="SPCNet"><a href="#SPCNet" class="headerlink" title="SPCNet"></a>SPCNet</h1><h1 id="FOST"><a href="#FOST" class="headerlink" title="FOST"></a>FOST</h1><ul>
+<li><a href="https://arxiv.org/abs/1801.01671" target="_blank" rel="noopener">论文</a></li>
+<li>代码没放出来，github上别人实现的都没有识别分支（* ￣ー￣），这给EAST有什么区别，你们实现了什么啊</li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqly1fyedmxoh9uj30qp0jpncx.jpg" alt="image"></p>
+<p>看到没就是快</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqly1fyedr3fr4jj31cp0a1guz.jpg" alt="image"></p>
+<p><a href="https://zhuanlan.zhihu.com/p/38655369" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/38655369</a><br><a href="https://www.cnblogs.com/skyfsm/p/9776611.html" target="_blank" rel="noopener">https://www.cnblogs.com/skyfsm/p/9776611.html</a><br><a href="https://zhuanlan.zhihu.com/p/39796620" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/39796620</a></p>
 
       
     </div>
@@ -527,7 +679,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -540,7 +692,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -595,7 +747,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CTPN-Connectionist-Text-Proposal-Network"><span class="nav-number">1.</span> <span class="nav-text">CTPN (Connectionist Text Proposal Network)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#idea"><span class="nav-number">1.1.</span> <span class="nav-text">idea</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pipeline"><span class="nav-number">1.2.</span> <span class="nav-text">pipeline</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#细节"><span class="nav-number">1.3.</span> <span class="nav-text">细节</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.4.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#EAST-An-Efficient-and-Accurate-Scene-Text-Detector"><span class="nav-number">2.</span> <span class="nav-text">EAST: An Efficient and Accurate Scene Text Detector</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Seglink-Detecting-Oriented-Text-in-Natural-Images-by-Linking-Segments"><span class="nav-number">3.</span> <span class="nav-text">Seglink (Detecting Oriented Text in Natural Images by Linking Segments)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#idea-1"><span class="nav-number">3.1.</span> <span class="nav-text">idea</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pipeline"><span class="nav-number">3.2.</span> <span class="nav-text">Pipeline</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CTPN-Connectionist-Text-Proposal-Network"><span class="nav-number">1.</span> <span class="nav-text">CTPN(Connectionist Text Proposal Network)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#idea"><span class="nav-number">1.1.</span> <span class="nav-text">idea</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pipeline"><span class="nav-number">1.2.</span> <span class="nav-text">pipeline</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#细节"><span class="nav-number">1.3.</span> <span class="nav-text">细节</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.4.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#EAST-An-Efficient-and-Accurate-Scene-Text-Detector"><span class="nav-number">2.</span> <span class="nav-text">EAST: An Efficient and Accurate Scene Text Detector</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-分析目前存在的文本检测方法总结"><span class="nav-number">2.1.</span> <span class="nav-text">1.分析目前存在的文本检测方法总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Pipeline-网络结构"><span class="nav-number">2.2.</span> <span class="nav-text">2.Pipeline 网络结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Label-generation"><span class="nav-number">2.3.</span> <span class="nav-text">3.Label generation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Loss-Function"><span class="nav-number">2.4.</span> <span class="nav-text">4. Loss Function</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Locality-Aware-NMS"><span class="nav-number">2.5.</span> <span class="nav-text">5. Locality-Aware NMS</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AdvancedEAST"><span class="nav-number">3.</span> <span class="nav-text">AdvancedEAST</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Seglink-Detecting-Oriented-Text-in-Natural-Images-by-Linking-Segments"><span class="nav-number">4.</span> <span class="nav-text">Seglink (Detecting Oriented Text in Natural Images by Linking Segments)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-idea"><span class="nav-number">4.1.</span> <span class="nav-text">1. idea</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Pipeline"><span class="nav-number">4.2.</span> <span class="nav-text">2. Pipeline</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PixelLink"><span class="nav-number">5.</span> <span class="nav-text">PixelLink</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Abstract"><span class="nav-number">5.1.</span> <span class="nav-text">1. Abstract</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Network-Architecture"><span class="nav-number">5.2.</span> <span class="nav-text">2. Network Architecture</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-PixelLink-VGG16-2s"><span class="nav-number">5.2.1.</span> <span class="nav-text">2.1 PixelLink + VGG16 2s</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Linking-Pixels-Together"><span class="nav-number">5.2.2.</span> <span class="nav-text">2.2 Linking Pixels Together</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-Extraction-of-Bounding-Box"><span class="nav-number">5.2.3.</span> <span class="nav-text">2.3 Extraction of Bounding Box</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-Filter"><span class="nav-number">5.2.4.</span> <span class="nav-text">2.4 Filter</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Loss"><span class="nav-number">5.3.</span> <span class="nav-text">3. Loss</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Summary"><span class="nav-number">5.4.</span> <span class="nav-text">4. Summary</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pixel-Anchor-A-Fast-Oriented-Scene-Text-Detector-with-Combined-Networks"><span class="nav-number">6.</span> <span class="nav-text">Pixel-Anchor: A Fast Oriented Scene Text Detector with Combined Networks</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TextBoxes"><span class="nav-number">7.</span> <span class="nav-text">TextBoxes</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Abstract-1"><span class="nav-number">7.1.</span> <span class="nav-text">1. Abstract</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Architecture"><span class="nav-number">7.2.</span> <span class="nav-text">2. Architecture</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Loss-1"><span class="nav-number">7.3.</span> <span class="nav-text">3.Loss</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TextBoxes-1"><span class="nav-number">8.</span> <span class="nav-text">TextBoxes++</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TextSpotter"><span class="nav-number">9.</span> <span class="nav-text">TextSpotter</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SPCNet"><span class="nav-number">10.</span> <span class="nav-text">SPCNet</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FOST"><span class="nav-number">11.</span> <span class="nav-text">FOST</span></a></li></ol></div>
             
 
           </div>

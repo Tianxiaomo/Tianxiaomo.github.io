@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next pisces" lang="zh,en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="DL,CV,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="论文 代码Abstract 摘要在CV领域，不管是检测还是分割大多都是使用很大或很深的网络来提取特征，这导致需要很大的计算成本，目前存在多种的降低计算成本的模型压缩方法，如剪枝、蒸馏、权重量化、设计更小的网络等方法。这篇文章就是在模型设计之初就考虑到计算速度问题，从而设计出更加紧凑的模型。Network DesignC.ReLuReLU这个激活函数现在已经成了标配了，但是这里使用的ReLU还是有">
+<meta name="keywords" content="DL,CV">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PVANET">
+<meta property="og:url" content="http://yoursite.com/2018/12/25/PVANET/index.html">
+<meta property="og:site_name" content="田小默的博客">
+<meta property="og:description" content="论文 代码Abstract 摘要在CV领域，不管是检测还是分割大多都是使用很大或很深的网络来提取特征，这导致需要很大的计算成本，目前存在多种的降低计算成本的模型压缩方法，如剪枝、蒸馏、权重量化、设计更小的网络等方法。这篇文章就是在模型设计之初就考虑到计算速度问题，从而设计出更加紧凑的模型。Network DesignC.ReLuReLU这个激活函数现在已经成了标配了，但是这里使用的ReLU还是有">
+<meta property="og:locale" content="zh,en">
+<meta property="og:image" content="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/18-12-25/42843626.jpg">
+<meta property="og:image" content="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/18-12-25/44072514.jpg">
+<meta property="og:image" content="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/18-12-25/80631315.jpg">
+<meta property="og:image" content="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/18-12-25/98006116.jpg">
+<meta property="og:image" content="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/18-12-25/96721004.jpg">
+<meta property="og:image" content="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/18-12-25/98897627.jpg">
+<meta property="og:updated_time" content="2018-12-25T08:54:46.751Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PVANET">
+<meta name="twitter:description" content="论文 代码Abstract 摘要在CV领域，不管是检测还是分割大多都是使用很大或很深的网络来提取特征，这导致需要很大的计算成本，目前存在多种的降低计算成本的模型压缩方法，如剪枝、蒸馏、权重量化、设计更小的网络等方法。这篇文章就是在模型设计之初就考虑到计算速度问题，从而设计出更加紧凑的模型。Network DesignC.ReLuReLU这个激活函数现在已经成了标配了，但是这里使用的ReLU还是有">
+<meta name="twitter:image" content="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/18-12-25/42843626.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/25/PVANET/">
+
+
+
+
+
+  <title>PVANET | 田小默的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh,en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">田小默的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/25/PVANET/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="田小默">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="田小默的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">PVANET</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-25T14:58:56+08:00">
+                2018-12-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li><a href="http://arxiv.org/pdf/1608.08021v3.pdf" target="_blank" rel="noopener">论文</a></li>
+<li><a href="https://github.com/sanghoon/pva-faster-rcnn" target="_blank" rel="noopener">代码</a><h1 id="Abstract-摘要"><a href="#Abstract-摘要" class="headerlink" title="Abstract 摘要"></a>Abstract 摘要</h1>在CV领域，不管是检测还是分割大多都是使用很大或很深的网络来提取特征，这导致需要很大的计算成本，目前存在多种的降低计算成本的模型压缩方法，如剪枝、蒸馏、权重量化、设计更小的网络等方法。这篇文章就是在模型设计之初就考虑到计算速度问题，从而设计出更加紧凑的模型。<h1 id="Network-Design"><a href="#Network-Design" class="headerlink" title="Network Design"></a>Network Design</h1><h2 id="C-ReLu"><a href="#C-ReLu" class="headerlink" title="C.ReLu"></a>C.ReLu</h2>ReLU这个激活函数现在已经成了标配了，但是这里使用的ReLU还是有一些不同的。</li>
+</ul>
+<p><img src="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/18-12-25/42843626.jpg" alt="iamge"></p>
+<p>feature 经过卷积层后，直接乘 -1 ，和从Conv输出的Concatenntion 合并，然后进行Scale\Shift 缩放和偏移，最后经过ReLU。这里的Shift相当于使ReLU的activation threshold改变了，但是那个乘 -1 着实没看懂什么意思。</p>
+<h2 id="Inception"><a href="#Inception" class="headerlink" title="Inception"></a>Inception</h2><p>Inception 是GoogleNet 中提出的，使用不同的卷积核，这样感受野的大小也不一样，可以捕捉到不同的大小的物体。</p>
+<p><img src="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/18-12-25/44072514.jpg" alt="image"></p>
+<p>从上图可以看出不同大小的卷积核感受野的不同，1x1的卷积核channel是1/2，3x3和5x5和卷积核channel个数是1/4。</p>
+<p><img src="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/18-12-25/80631315.jpg" alt="image"></p>
+<p>具体实现部分，左图的输入输出特征相同size时，5x5的convolution kernel是由两个3x3的conv kernel实现，这样计算量会小些。</p>
+<p>右图是feature map需要减小尺寸是采用的方法，这里1x1的conv kernel使用stride=2 的 poo1和stride=2 的conv。</p>
+<h2 id="HyperNet"><a href="#HyperNet" class="headerlink" title="HyperNet"></a>HyperNet</h2><p>在特征提取层中将细粒度细节与高度抽象的信息相结合，有助于以下区域提议网络和分类网络检测不同尺度的对象。然而，由于所有抽象层的直接级联可能产生具有更高计算需求的冗余信息，因此需要仔细设计不同抽象层的数量和抽象层数。不过自己使用是都是抽取相同size下最后一层的feature map，这样总是没错的。</p>
+<p><img src="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/18-12-25/98006116.jpg" alt="image"></p>
+<h2 id="Other"><a href="#Other" class="headerlink" title="Other"></a>Other</h2><p>将Faster-RCNN的RPN部分的feature map的channel数有512改成了128.<br>在Inception模块加入残差连接。</p>
+<p>模型的具体参数量和计算量</p>
+<p><img src="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/18-12-25/96721004.jpg" alt="image"></p>
+<p>在VOC2012的结果对比</p>
+<p><img src="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/18-12-25/98897627.jpg" alt="image"></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>本文提出了一个轻量级的网络，取得了不错的结果。此外，本网络结果的设计完全独立于network compression and quantization. 因此，还可以进一步利用最近的模型压缩技术来提升性能。例如，基于现有网络应用truncated SVD就可以实现显著的运行时间提升！</p>
+<p><a href="https://blog.csdn.net/u014380165/article/details/79502113" target="_blank" rel="noopener">参考文章-1</a></p>
+<p><a href="https://www.jianshu.com/p/362f2535adb0" target="_blank" rel="noopener">参考文章-2</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/30173314" target="_blank" rel="noopener">参考文章-3</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="田小默 WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="田小默 Alipay">
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/DL/" rel="tag"><i class="fa fa-tag"></i> DL</a>
+          
+            <a href="/tags/CV/" rel="tag"><i class="fa fa-tag"></i> CV</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/24/CTC-connectionist-temporal-classification/" rel="next" title="CTC(connectionist temporal classification)">
+                <i class="fa fa-chevron-left"></i> CTC(connectionist temporal classification)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="田小默">
+            
+              <p class="site-author-name" itemprop="name">田小默</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Tianxiaomo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://weibo.com/tianxiaoxiaomo" target="_blank" title="微博">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>微博</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://www.zhihu.com/people/tian-mo-98-60" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Abstract-摘要"><span class="nav-number">1.</span> <span class="nav-text">Abstract 摘要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Network-Design"><span class="nav-number">2.</span> <span class="nav-text">Network Design</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#C-ReLu"><span class="nav-number">2.1.</span> <span class="nav-text">C.ReLu</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Inception"><span class="nav-number">2.2.</span> <span class="nav-text">Inception</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HyperNet"><span class="nav-number">2.3.</span> <span class="nav-text">HyperNet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Other"><span class="nav-number">2.4.</span> <span class="nav-text">Other</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+      <div id="music163player">
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="110" src="//music.163.com/outchain/player?type=0&id=2058497430&auto=0&height=90"></iframe>
+      </div>
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">田小默</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
