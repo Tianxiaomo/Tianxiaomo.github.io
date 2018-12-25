@@ -3,11 +3,22 @@
 
 
 
-<html class="theme-next pisces" lang="zh,en">
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh,en">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 
 
@@ -18,8 +29,6 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
 
@@ -36,9 +45,6 @@
 
 
 
-  
-  
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
 
 
 
@@ -48,25 +54,19 @@
 
 <link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
 
-<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
 
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
 
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
 
 
-  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
-
-
-
-
-
-  <meta name="keywords" content="Hexo, NexT">
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
 
 
 
@@ -76,31 +76,18 @@
 
 
 
-
-<meta property="og:type" content="website">
-<meta property="og:title" content="田小默的博客">
-<meta property="og:url" content="http://yoursite.com/index.html">
-<meta property="og:site_name" content="田小默的博客">
-<meta property="og:locale" content="zh,en">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="田小默的博客">
-
-
-
-<script type="text/javascript" id="hexo.configurations">
+<script id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
     scheme: 'Pisces',
-    version: '5.1.4',
+    version: '6.6.0',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: true,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
     tabs: true,
-    motion: {"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    duoshuo: {
-      userId: '0',
-      author: 'Author'
-    },
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     algolia: {
       applicationID: '',
       apiKey: '',
@@ -112,12 +99,33 @@
 </script>
 
 
+  
+
+
+
+
+  <meta property="og:type" content="website">
+<meta property="og:title" content="田小默的博客">
+<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:site_name" content="田小默的博客">
+<meta property="og:locale" content="zh,en">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="田小默的博客">
+
+
+
+
+
 
   <link rel="canonical" href="http://yoursite.com/">
 
 
 
-
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
 
   <title>田小默的博客</title>
   
@@ -128,6 +136,35 @@
 
 
 
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
 </head>
 
@@ -144,7 +181,7 @@
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
+  <div class="site-meta">
     
 
     <div class="custom-logo-site-title">
@@ -154,13 +191,12 @@
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
-      
-        <p class="site-subtitle"></p>
-      
+    
+    
   </div>
 
   <div class="site-nav-toggle">
-    <button>
+    <button aria-label="Toggle navigation bar">
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
@@ -168,45 +204,86 @@
   </div>
 </div>
 
-<nav class="site-nav">
-  
 
+
+<nav class="site-nav">
   
     <ul id="menu" class="menu">
       
         
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
-            
-            Home
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
-            
-            Tags
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
-            
-            Archives
-          </a>
-        </li>
+          
+          <li class="menu-item menu-item-home menu-item-active">
+
+    
+    
+    
       
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
 
       
+      
     </ul>
+  
+
   
 
   
@@ -214,12 +291,23 @@
 
 
 
- </div>
+  
+
+
+
+</div>
     </header>
+
+    
+
 
     <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
+          
+            
+
+          
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
@@ -232,6 +320,8 @@
   
   
 
+  
+
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
   
   
@@ -242,7 +332,7 @@
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="田小默">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -256,11 +346,20 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/25/PVANET/" itemprop="url">PVANET</a></h1>
+                
+                <a href="/2018/12/25/PVANET/" class="post-title-link" itemprop="url">PVANET</a>
+              
+            
+          </h1>
         
 
         <div class="post-meta">
           <span class="post-time">
+
+            
+            
+            
+
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -268,13 +367,18 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-25T14:58:56+08:00">
-                2018-12-25
-              </time>
+
+              
+                
+              
+
+              <time title="Created: 2018-12-25 14:58:56 / Modified: 16:54:46" itemprop="dateCreated datePublished" datetime="2018-12-25T14:58:56+08:00">2018-12-25</time>
             
 
             
+              
 
+              
             
           </span>
 
@@ -308,26 +412,46 @@
       
         
           
+            <ul>
+<li><a href="http://arxiv.org/pdf/1608.08021v3.pdf" target="_blank" rel="noopener">论文</a></li>
+<li><a href="https://github.com/sanghoon/pva-faster-rcnn" target="_blank" rel="noopener">代码</a><h1 id="Abstract-摘要"><a href="#Abstract-摘要" class="headerlink" title="Abstract 摘要"></a>Abstract 摘要</h1>在CV领域，不管是检测还是分割大多都是使用很大或很深的网络来提取特征，这导致需要很大的计算成本，目前存在多种的降低计算成本的模型压缩方法，如剪枝、蒸馏、权重量化、设计更小的网络等方法。这篇文章就是在模型设计之初就考虑到计算速度问题，从而设计出更加紧凑的模型。<h1 id="Network-Design"><a href="#Network-Design" class="headerlink" title="Network Design"></a>Network Design</h1><h2 id="C-ReLu"><a href="#C-ReLu" class="headerlink" title="C.ReLu"></a>C.ReLu</h2>ReLU这个激活函数现在已经成了标配了，但是这里使用的ReLU还是有一些不同的。</li>
+</ul>
+<p><img src="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/18-12-25/42843626.jpg" alt="iamge"></p>
+<p>feature 经过卷积层后，直接乘 -1 ，和从Conv输出的Concatenntion 合并，然后进行Scale\Shift 缩放和偏移，最后经过ReLU。这里的Shift相当于使ReLU的activation threshold改变了，但是那个乘 -1 着实没看懂什么意思。</p>
+<h2 id="Inception"><a href="#Inception" class="headerlink" title="Inception"></a>Inception</h2><p>Inception 是GoogleNet 中提出的，使用不同的卷积核，这样感受野的大小也不一样，可以捕捉到不同的大小的物体。</p>
+<p><img src="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/18-12-25/44072514.jpg" alt="image"></p>
+<p>从上图可以看出不同大小的卷积核感受野的不同，1x1的卷积核channel是1/2，3x3和5x5和卷积核channel个数是1/4。</p>
+<p><img src="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/18-12-25/80631315.jpg" alt="image"></p>
+<p>具体实现部分，左图的输入输出特征相同size时，5x5的convolution kernel是由两个3x3的conv kernel实现，这样计算量会小些。</p>
+<p>右图是feature map需要减小尺寸是采用的方法，这里1x1的conv kernel使用stride=2 的 poo1和stride=2 的conv。</p>
+<h2 id="HyperNet"><a href="#HyperNet" class="headerlink" title="HyperNet"></a>HyperNet</h2><p>在特征提取层中将细粒度细节与高度抽象的信息相结合，有助于以下区域提议网络和分类网络检测不同尺度的对象。然而，由于所有抽象层的直接级联可能产生具有更高计算需求的冗余信息，因此需要仔细设计不同抽象层的数量和抽象层数。不过自己使用是都是抽取相同size下最后一层的feature map，这样总是没错的。</p>
+<p><img src="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/18-12-25/98006116.jpg" alt="image"></p>
+<h2 id="Other"><a href="#Other" class="headerlink" title="Other"></a>Other</h2><p>将Faster-RCNN的RPN部分的feature map的channel数有512改成了128.<br>在Inception模块加入残差连接。</p>
+<p>模型的具体参数量和计算量</p>
+<p><img src="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/18-12-25/96721004.jpg" alt="image"></p>
+<p>在VOC2012的结果对比</p>
+<p><img src="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/18-12-25/98897627.jpg" alt="image"></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>本文提出了一个轻量级的网络，取得了不错的结果。此外，本网络结果的设计完全独立于network compression and quantization. 因此，还可以进一步利用最近的模型压缩技术来提升性能。例如，基于现有网络应用truncated SVD就可以实现显著的运行时间提升！</p>
+<p><a href="https://blog.csdn.net/u014380165/article/details/79502113" target="_blank" rel="noopener">参考文章-1</a></p>
+<p><a href="https://www.jianshu.com/p/362f2535adb0" target="_blank" rel="noopener">参考文章-2</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/30173314" target="_blank" rel="noopener">参考文章-3</a></p>
+
           
-论文
-代码Abstract 摘要在CV领域，不管是检测还是分割大多都是使用很大或很深的网络来提取特征，这导致需要很大的计算成本，目前存在多种的降低计算成本的模型压缩方法，如剪枝、蒸馏、权重量化、设计更小的网络等方法。这篇文章就是在模型设计之初就考虑到计算速度问题，从而设计出更加紧凑的模型。Netw
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/12/25/PVANET/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
         
       
     </div>
+
+    
+
     
     
     
 
     
 
+    
+      
+    
     
 
     
@@ -358,6 +482,8 @@
 
   
   
+  
+
   
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
@@ -370,7 +496,7 @@
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="田小默">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -384,11 +510,20 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/24/CTC-connectionist-temporal-classification/" itemprop="url">CTC(connectionist temporal classification)</a></h1>
+                
+                <a href="/2018/12/24/CTC-connectionist-temporal-classification/" class="post-title-link" itemprop="url">CTC(connectionist temporal classification)</a>
+              
+            
+          </h1>
         
 
         <div class="post-meta">
           <span class="post-time">
+
+            
+            
+            
+
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -396,13 +531,18 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-24T13:09:12+08:00">
-                2018-12-24
-              </time>
+
+              
+                
+              
+
+              <time title="Created: 2018-12-24 13:09:12 / Modified: 14:38:17" itemprop="dateCreated datePublished" datetime="2018-12-24T13:09:12+08:00">2018-12-24</time>
             
 
             
+              
 
+              
             
           </span>
 
@@ -436,24 +576,25 @@
       
         
           
-          https://senliuy.gitbooks.io/advanced-deep-learning/content/di-er-zhang-ff1a-xu-lie-mo-xing/connectionist-temporal-classification-labelling-unsegmented
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/12/24/CTC-connectionist-temporal-classification/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <p><a href="https://senliuy.gitbooks.io/advanced-deep-learning/content/di-er-zhang-ff1a-xu-lie-mo-xing/connectionist-temporal-classification-labelling-unsegmented-sequence-data-with-recurrent-neural-networks.html" target="_blank" rel="noopener">https://senliuy.gitbooks.io/advanced-deep-learning/content/di-er-zhang-ff1a-xu-lie-mo-xing/connectionist-temporal-classification-labelling-unsegmented-sequence-data-with-recurrent-neural-networks.html</a></p>
+<p><a href="https://distill.pub/2017/ctc/" target="_blank" rel="noopener">https://distill.pub/2017/ctc/</a></p>
+
+          
         
       
     </div>
+
+    
+
     
     
     
 
     
 
+    
+      
+    
     
 
     
@@ -484,6 +625,8 @@
 
   
   
+  
+
   
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
@@ -496,7 +639,7 @@
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="田小默">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -510,11 +653,20 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/22/使用Django建一个项目/" itemprop="url">使用Django建一个项目</a></h1>
+                
+                <a href="/2018/12/22/使用Django建一个项目/" class="post-title-link" itemprop="url">使用Django建一个项目</a>
+              
+            
+          </h1>
         
 
         <div class="post-meta">
           <span class="post-time">
+
+            
+            
+            
+
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -522,13 +674,18 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-22T14:09:08+08:00">
-                2018-12-22
-              </time>
+
+              
+                
+              
+
+              <time title="Created: 2018-12-22 14:09:08 / Modified: 14:09:38" itemprop="dateCreated datePublished" datetime="2018-12-22T14:09:08+08:00">2018-12-22</time>
             
 
             
+              
 
+              
             
           </span>
 
@@ -562,24 +719,23 @@
       
         
           
+            
           
-          
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/12/22/使用Django建一个项目/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
         
       
     </div>
+
+    
+
     
     
     
 
     
 
+    
+      
+    
     
 
     
@@ -610,6 +766,8 @@
 
   
   
+  
+
   
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
@@ -622,7 +780,7 @@
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="田小默">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -636,11 +794,20 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/21/ssh外网透传/" itemprop="url">ssh外网透传</a></h1>
+                
+                <a href="/2018/12/21/ssh外网透传/" class="post-title-link" itemprop="url">ssh外网透传</a>
+              
+            
+          </h1>
         
 
         <div class="post-meta">
           <span class="post-time">
+
+            
+            
+            
+
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -648,13 +815,18 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-21T15:22:50+08:00">
-                2018-12-21
-              </time>
+
+              
+                
+              
+
+              <time title="Created: 2018-12-21 15:22:50 / Modified: 15:38:34" itemprop="dateCreated datePublished" datetime="2018-12-21T15:22:50+08:00">2018-12-21</time>
             
 
             
+              
 
+              
             
           </span>
 
@@ -688,26 +860,66 @@
       
         
           
-          查看计算节点ip[xxxx@compute-0-4 ~]$ ifconfig
+            <h2 id="查看计算节点ip"><a href="#查看计算节点ip" class="headerlink" title="查看计算节点ip"></a>查看计算节点ip</h2><pre><code>[xxxx@compute-0-4 ~]$ ifconfig
 enp13s0f0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
-        inet 10.1.1.250  netmask 255.255.
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/12/21/ssh外网透传/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+        inet 10.1.1.250  netmask 255.255.255.0  broadcast 10.1.1.255
+        ether fc:aa:14:f3:2c:7e  txqueuelen 1000  (Ethernet)
+        RX packets 1199456446  bytes 1678434692412 (1.5 TiB)
+        RX errors 0  dropped 272772  overruns 940  frame 0
+        TX packets 396837618  bytes 371680298623 (346.1 GiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+        device memory 0xc7120000-c713ffff
+
+lo: flags=73&lt;UP,LOOPBACK,RUNNING&gt;  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        loop  txqueuelen 1  (Local Loopback)
+        RX packets 15441009  bytes 3801577447 (3.5 GiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 15441009  bytes 3801577447 (3.5 GiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+</code></pre><h2 id="启动你要运行的web服务"><a href="#启动你要运行的web服务" class="headerlink" title="启动你要运行的web服务"></a>启动你要运行的web服务</h2><p>例如，使用jupyter,把ip设置为上面ifconfig得到的ip，port自己随便设但不要和别的服务重了</p>
+<pre><code>[xxx@compute-0-4 ~]$ jupyter-lab --ip 10.1.1.250 --port 8887
+[I 02:25:39.274 LabApp] Writing notebook server cookie secret to /run/user/1015/jupyter/notebook_cookie_secret
+[I 02:25:41.139 LabApp] JupyterLab beta preview extension loaded from /share/apps/anaconda3/lib/python3.6/site-packages/jupyterlab
+[I 02:25:41.140 LabApp] JupyterLab application directory is /share/apps/anaconda3/share/jupyter/lab
+[I 02:25:41.146 LabApp] Serving notebooks from local directory: /home/huguanghao2
+[I 02:25:41.147 LabApp] 0 active kernels
+[I 02:25:41.147 LabApp] The Jupyter Notebook is running at:
+[I 02:25:41.147 LabApp] http://10.1.1.250:2512/
+[I 02:25:41.147 LabApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[W 02:25:41.147 LabApp] No web browser found: could not locate runnable browser.
+</code></pre><h2 id="管理节点使用ssh-L-把计算节点的web服务端口也就是8887透传出去"><a href="#管理节点使用ssh-L-把计算节点的web服务端口也就是8887透传出去" class="headerlink" title="管理节点使用ssh -L 把计算节点的web服务端口也就是8887透传出去"></a>管理节点使用ssh -L 把计算节点的web服务端口也就是8887透传出去</h2><p>ssh -L 管理节点ip(外网可以ping通的):(服务端口号):(计算节点ip):(端口号) 用户名@(计算节点ip)</p>
+<pre><code>[xxx@wuxi ~]$ ssh -L 172.18.65.18:8887:10.1.1.250:8887 xxx@10.1.1.250
+Last login: Fri Dec 21 02:24:22 2018 from wuxi.local
+Rocks Compute Node
+Rocks 7.0 (Manzanita)
+Profile built 16:05 15-Nov-2018
+
+Kickstarted 03:15 15-Nov-2018
+</code></pre><p>然后就ok了</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqly1fyeekcaenwj31hk0te76f.jpg" alt="image"></p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fyeelm3n8fj31hk0teafa.jpg" alt="image"></p>
+<p>ssh太强大了，-L就是端口转发的</p>
+<p><a href="https://blog.fundebug.com/2017/04/24/ssh-port-forwarding/" target="_blank" rel="noopener">参考文章_1</a></p>
+<p><a href="https://www.ibm.com/developerworks/cn/linux/l-cn-sshforward/index.html" target="_blank" rel="noopener">参考文章_2</a></p>
+<p><a href="https://www.jianshu.com/p/32ce0d654325" target="_blank" rel="noopener">参考文章_3</a></p>
+
+          
         
       
     </div>
+
+    
+
     
     
     
 
     
 
+    
+      
+    
     
 
     
@@ -738,6 +950,8 @@ enp13s0f0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
 
   
   
+  
+
   
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
@@ -750,7 +964,7 @@ enp13s0f0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="田小默">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -764,11 +978,20 @@ enp13s0f0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/16/DEEP-COMPLEX-NETWORKS-复数网络/" itemprop="url">DEEP COMPLEX NETWORKS(复数网络)</a></h1>
+                
+                <a href="/2018/12/16/DEEP-COMPLEX-NETWORKS-复数网络/" class="post-title-link" itemprop="url">DEEP COMPLEX NETWORKS(复数网络)</a>
+              
+            
+          </h1>
         
 
         <div class="post-meta">
           <span class="post-time">
+
+            
+            
+            
+
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -776,13 +999,30 @@ enp13s0f0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-16T20:18:15+08:00">
-                2018-12-16
-              </time>
+
+              
+                
+              
+
+              <time title="Created: 2018-12-16 20:18:15" itemprop="dateCreated datePublished" datetime="2018-12-16T20:18:15+08:00">2018-12-16</time>
             
 
             
+              
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-12-25 20:23:13" itemprop="dateModified" datetime="2018-12-25T20:23:13+08:00">2018-12-25</time>
+              
             
           </span>
 
@@ -816,34 +1056,61 @@ enp13s0f0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
       
         
           
+            <ul>
+<li><a href="https://arxiv.org/abs/1705.09792" target="_blank" rel="noopener">论文地址</a></li>
+<li><a href="https://github.com/ChihebTrabelsi/deep_complex_networks" target="_blank" rel="noopener">代码地址</a></li>
+</ul>
+<h1 id="各个基础组件"><a href="#各个基础组件" class="headerlink" title="各个基础组件"></a>各个基础组件</h1><h2 id="Complex-Convolution-复数卷积"><a href="#Complex-Convolution-复数卷积" class="headerlink" title="Complex Convolution (复数卷积)"></a>Complex Convolution (复数卷积)</h2><h2 id="Activation-激活"><a href="#Activation-激活" class="headerlink" title="Activation (激活)"></a>Activation (激活)</h2><h2 id="BatchNormalization-批量标准化"><a href="#BatchNormalization-批量标准化" class="headerlink" title="BatchNormalization (批量标准化)"></a>BatchNormalization (批量标准化)</h2><ol>
+<li>实数的批量标准化</li>
+</ol>
+<p>$<br>x = \frac{x - E(x)}{x.std()}<br>$</p>
+<ol start="2">
+<li>复数Batch Normalization</li>
+</ol>
+<p>如果分别对实部和虚部进行标准化会导致分布为一个圆形，可能是一个椭圆，但是将此看作一个白化2d矢量，每一部分将按方差平方根进行缩放。通过x-E(x),然后乘一个2 X 2的协方差矩阵完成。</p>
+<p>$<br>x = \frac{x - E(x)}{\sqrt{V} }<br>$</p>
+<ul>
+<li>E(x):x的均值</li>
+<li>V = 协方差矩阵</li>
+</ul>
+<p>$\boldsymbol { V } = \left( \begin{array} { c c } { V _ { r r } } &amp; { V _ { r i } } \\ { V _ { i r } } &amp; { V _ { i i } } \end{array} \right) = \left( \begin{array} { c c } { \operatorname { Cov } ( \Re { x } , \Re { x } ) } &amp; { \operatorname { Cov } ( \Re { x } , \Im { x } ) } \\ { \operatorname { Cov } ( \Im { x } , \Re { x } ) } &amp; { \operatorname { Cov } ( \Im { x } , \Im { x } ) } \end{array} \right)<br>$</p>
+<ul>
+<li>Cov:协方差</li>
+</ul>
+<p><strong><em>根号V分之一的计算方法：</em></strong></p>
+<p>对于2*2矩阵A</p>
+<p>$A = \left[ \begin{array} { l l } { a } &amp; { b } \\ { c } &amp; { d } \end{array} \right]$</p>
+<p>1/A公式：</p>
+<p>$\begin{aligned} \frac{1}{A}  &amp; = \frac { 1 } { | A | } \left[ \begin{array} { c c } { d } &amp; { - b } \\ { - c } &amp; { a } \end{array} \right] \\ &amp; = \frac { 1 } { a d - b c } \left[ \begin{array} { c c } { d } &amp; { - b } \\ { - c } &amp; { a } \end{array} \right] \end{aligned}$</p>
+<p>sqrt(A)公式：</p>
+<p>$\sqrt{A} = \pm \frac { 1 } { \sqrt { \tau + 2 \delta } } \left( A + \delta I _ { 2 } \right) = \pm \frac { 1 } { \sqrt { \tau + 2 \delta } } \left[ \begin{array} { c c } { a + \delta } &amp; { b } \\ { c } &amp; { d + \delta } \end{array} \right]$</p>
+<p>$\tau = \operatorname { trace } A = a + d$</p>
+<p>$\delta = \pm \sqrt { \operatorname { det } A } = \pm \sqrt { a d - b c }$</p>
+<p>所以，</p>
+<p>$$\frac{1}{\sqrt(A)} = \frac{1}{\delta * \sqrt{\tau} - 2\delta}<br>\left[<br>\begin{array} { c c }<br>    { d + \delta } &amp; { -b } \\<br>    { -c } &amp; { a + \delta }<br>\end{array}<br>\right]$$</p>
+<p>$$x=\frac{x-E(x)}<br>{\sqrt{V}} = \frac{1}<br>{ \delta * \sqrt { \tau } - 2 \delta }<br>\left[ \begin {array} { c c }<br>    { V _ { i i } + \delta } &amp; { -V _ { ri } } \\<br>    { -V_{ ir } }&amp;{ V_ { rr } + \delta }<br>\end{array}<br>\right]<br>(x-E(x))<br>$$</p>
+<p>$$=\frac{1}<br>{\delta * \sqrt{\tau}-2\delta}<br>\left[\begin{array}{cc}<br>    {V_{ii}+\delta}&amp;{-V_{ri}}\\<br>    {-V_{ir}}&amp;{V_{rr}+\delta}<br>\end{array}\right] \left[\begin{array}{l}{x_{real}}\\{x_{image}}\end{array}\right]$$</p>
+<p>参考：</p>
+<p><a href="https://en.wikipedia.org/wiki/Square_root_of_a_2_by_2_matrix" target="_blank" rel="noopener">Square root of a 2 by 2 matrix</a></p>
+<p><a href="http://mathworld.wolfram.com/MatrixInverse.html" target="_blank" rel="noopener">Matrix Inverse</a></p>
+<p><a href="https://ccjou.wordpress.com/2016/04/20/%E4%BA%8C%E9%9A%8E%E6%96%B9%E9%99%A3%E7%9A%84%E5%B9%B3%E6%96%B9%E6%A0%B9/" target="_blank" rel="noopener">线代启示录</a></p>
+<h3 id="Initialization-初始化"><a href="#Initialization-初始化" class="headerlink" title="Initialization (初始化)"></a>Initialization (初始化)</h3>
           
-论文地址
-代码地址
-
-各个基础组件Complex Convolution (复数卷积)Activation (激活)BatchNormalization (批量标准化)
-实数的批量标准化
-
-$x = \frac{x - E(x)}{x.std()}$
-
-复数Batch Normalization
-
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/12/16/DEEP-COMPLEX-NETWORKS-复数网络/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
         
       
     </div>
+
+    
+
     
     
     
 
     
 
+    
+      
+    
     
 
     
@@ -874,6 +1141,8 @@ $x = \frac{x - E(x)}{x.std()}$
 
   
   
+  
+
   
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
@@ -886,7 +1155,7 @@ $x = \frac{x - E(x)}{x.std()}$
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="田小默">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -900,11 +1169,20 @@ $x = \frac{x - E(x)}{x.std()}$
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/19/SR超分辨率/" itemprop="url">'SR超分辨率'</a></h1>
+                
+                <a href="/2018/11/19/SR超分辨率/" class="post-title-link" itemprop="url">'SR超分辨率'</a>
+              
+            
+          </h1>
         
 
         <div class="post-meta">
           <span class="post-time">
+
+            
+            
+            
+
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -912,13 +1190,30 @@ $x = \frac{x - E(x)}{x.std()}$
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-19T12:49:54+08:00">
-                2018-11-19
-              </time>
+
+              
+                
+              
+
+              <time title="Created: 2018-11-19 12:49:54" itemprop="dateCreated datePublished" datetime="2018-11-19T12:49:54+08:00">2018-11-19</time>
             
 
             
+              
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-12-24 13:09:54" itemprop="dateModified" datetime="2018-12-24T13:09:54+08:00">2018-12-24</time>
+              
             
           </span>
 
@@ -952,24 +1247,223 @@ $x = \frac{x - E(x)}{x.std()}$
       
         
           
-          超分辨率技术(Super Resolution,SR)是从观测到的低分辨率图像重建出相应的高分辨率图像。应用可以从两个方面看待，一是提升设备的测量精度，力求恢复真实可靠的细节部分，如医学图像上超分辨率重建，卫星图像重建和监控设备人脸重建等；二是追求整体的视觉效果，细节要求不高，如低分辨率视频恢复，模
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/11/19/SR超分辨率/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <p>超分辨率技术(Super Resolution,SR)是从观测到的低分辨率图像重建出相应的高分辨率图像。应用可以从两个方面看待，一是提升设备的测量精度，力求恢复真实可靠的细节部分，如医学图像上超分辨率重建，卫星图像重建和监控设备人脸重建等；二是追求整体的视觉效果，细节要求不高，如低分辨率视频恢复，模糊相片恢复等.</p>
+<h1 id="DL之前的SR"><a href="#DL之前的SR" class="headerlink" title="DL之前的SR"></a>DL之前的SR</h1><p>从信号处理角度看，低分辨率(Low Resolution)图像是无法恢复成高分辨率(High Resolution)图像，由香农采样定理可知，主要因为丢失了图像的高频信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">香农采样定理，又称奈奎斯特采样定理，是信息论，特别是通讯与信号处理学科中的一个重要基本结论。1924年奈奎斯特(Nyquist)就推导出在理想低通信道的最高大码元传输速率的公式：理想低通信道的最高大码元传输速率=2W*log2N 。（其中W是理想低通信道的带宽，N是电平强度）</span><br></pre></td></tr></table></figure>
+<p>最简单的方法是梯度锐化和拉普拉斯锐化，但效果聊胜于无。</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdb8eowovj30m407ldmq.jpg" alt="image"></p>
+<p>这里说两种典型的SR算法，左图，找到图片中相似的大尺寸区域，然后利用进行SR,下面这个动图就是这样，这种方法缺点很明显。</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdb4v9ygjg306y04cjso.jpg" alt="image"></p>
+<p>右图，对各种边缘信息建立数据库，然后匹配，这个方法也很明显，鲁棒性不够。</p>
+<h1 id="DL时代的SR"><a href="#DL时代的SR" class="headerlink" title="DL时代的SR"></a>DL时代的SR</h1><p>随着硬件计算性能的提升，人工智能进入了DL时代，SR也相应出现了新的使用DL的方法。</p>
+<h2 id="标准介绍"><a href="#标准介绍" class="headerlink" title="标准介绍"></a>标准介绍</h2><ul>
+<li>PSNR（Peak Signal to Noise Ratio，峰值信噪比）</li>
+</ul>
+<p>$MSE=\frac{1}{H * W}\sum_{i=1}^h\sum_{j=1}^w(X(i,j)-Y(i,j))^2$</p>
+<p>$PSNR=10log_{10}(\frac{(2^n-1)^2}{MSE})$</p>
+<p>MSE表示当前图像X和参考图像Y的均方误差（Mean Square Error），H、W分别为图像的高度和宽度；n为每像素的比特数，一般取8，即像素灰阶数为256. PSNR的单位是dB，数值越大表示失真越小。虽然PSNR和人眼的视觉特性并不完全一致，但是一般认为PSNR在38以上的时候，人眼就无法区分两幅图片了。</p>
+<p>SSIM（structural similarity， 结构相似性），也是一种全参考的图像质量评价指标，它分别从亮度、对比度、结构三方面度量图像相似性。</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdcef42unj30w00cqq4z.jpg" alt="image"></p>
+<h2 id="SRCNN"><a href="#SRCNN" class="headerlink" title="SRCNN"></a>SRCNN</h2><ul>
+<li>论文，<a href="http://101.96.10.63/personal.ie.cuhk.edu.hk/~ccloy/files/eccv_2014_deepresolution.pdf" target="_blank" rel="noopener">Learning a Deep Convolutional Network for Image Super-Resolution</a>, ECCV2014</li>
+<li><a href="https://github.com/Edwardlzy/SRCNN" target="_blank" rel="noopener">代码</a></li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdbjr3uknj30u50jhaok.jpg" alt="image"></p>
+<p>先使用双三次(bicubic)插值放大到目标大小，然后三层卷积做非线性映射，输出结果。三层卷积核大小分别为9*9，1*1，5*5，输出channel分别是64，32，3.</p>
+<pre><code>SC is outperforms the sparse-coding-based method,是[Image Super-Resolution via Sparse Representation](http://101.96.10.64/www.columbia.edu/~jw2966/papers/YWHM10-TIP.pdf)这篇论文是黄煦涛和马毅小组的Jianchao Yang的作品。这篇论文提出的算法，在形式上和后文这些DL算法已经非常类似了，也是基于HR和LR配对的有监督训练。区别只在于这篇论文使用矩阵的稀疏表示来拟合SR函数，而DL算法使用神经网络拟合SR函数。前者是线性变换，而后者是非线性变换。
+</code></pre><h2 id="FSRCNN"><a href="#FSRCNN" class="headerlink" title="FSRCNN"></a>FSRCNN</h2><ul>
+<li>论文 <a href="https://arxiv.org/pdf/1608.00367.pdf" target="_blank" rel="noopener">Accelerating the Super-Resolution Convolutional Neural Network</a>,ECCV2016</li>
+<li><a href="http://mmlab.ie.cuhk.edu.hk/projects/FSRCNN.html" target="_blank" rel="noopener">代码</a></li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdcu5mzwvj31400fttj8.jpg" alt="image"></p>
+<p><strong>SRCNN加速版本，主要改进有三点</strong>：</p>
+<ol>
+<li>最后一层使用反卷积放大图片，不用bicubic</li>
+<li>改变特征维数，使用更小的卷积核更多的卷积层</li>
+<li>共享卷积层，放大不同的倍数只需改变反卷积层fine-tuning最后的反卷积层</li>
+</ol>
+<h2 id="FSPCN"><a href="#FSPCN" class="headerlink" title="FSPCN"></a>FSPCN</h2><ul>
+<li>论文<a href="https://arxiv.org/abs/1609.05158" target="_blank" rel="noopener">Real-Time Single Image and Video Super-Resolution Using an Efficient Sub-Pixel Convolutional Neural Network</a></li>
+<li>代码</li>
+</ul>
+<ol>
+<li><a href="https://github.com/drakelevy/ESPCN-TensorFlow" target="_blank" rel="noopener">tensorflow版本</a></li>
+<li><a href="https://github.com/leftthomas/ESPCN" target="_blank" rel="noopener">pytorch版本</a></li>
+<li><a href="https://github.com/wangxuewen99/Super-Resolution/tree/master/ESPCN" target="_blank" rel="noopener">caffe版本</a></li>
+</ol>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdh9z295wj30tm093442.jpg" alt="image"></p>
+<p>也是基于SRCNN,和FSRCNN不同的是在最后层不是反卷积来放大，而是使用多个通道融合，R^2个channel，每个feature map和原图大小一样，然后在R^2个channel相同位置合并成一个R*R的子区域，这样放大为 H*R X H*R</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdhf6sj2yj30sr0n2q7o.jpg" alt="image"><br><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdhgvl1ecj30vk05ndhm.jpg" alt="image"></p>
+<h2 id="VDSR"><a href="#VDSR" class="headerlink" title="VDSR"></a>VDSR</h2><ul>
+<li>论文<a href="https://arxiv.org/abs/1511.04587" target="_blank" rel="noopener">Accurate Image Super-Resolution Using Very Deep Convolutional Networks</a></li>
+<li>代码</li>
+</ul>
+<ol>
+<li><a href="https://cv.snu.ac.kr/research/VDSR/" target="_blank" rel="noopener">code</a></li>
+<li><a href="https://github.com/huangzehao/caffe-vdsr" target="_blank" rel="noopener">caffe</a></li>
+<li><a href="https://github.com/Jongchan/tensorflow-vdsr" target="_blank" rel="noopener">tensorflow</a></li>
+<li><a href="https://github.com/twtygqyy/pytorch-vdsr" target="_blank" rel="noopener">pytorch</a></li>
+</ol>
+<p>作者认为输入的低分辨率图像和输出的高分辨率图像在很大程度上是相似的，也就是指低分辨率图像携带的低频信息与高分辨率图像的低频信息相近，训练时带上这部分会多花费大量的时间，实际上我们只需要学习高分辨率图像和低分辨率图像之间的高频部分残差即可。残差网络结构的思想特别适合用来解决超分辨率问题，可以说影响了之后的深度学习超分辨率方法。</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdhut5i63j30vy0hodpw.jpg" alt="image"></p>
+<p><strong>改进个人认为有两点点</strong>：</p>
+<ol>
+<li>使用了ResNet的残差结构，使得网络可以比较深(20层)</li>
+<li>将不同倍数的图像放到一起训练，使得鲁棒性能比较好</li>
+</ol>
+<p>文中使用了自适应梯度裁剪，使得训练收敛加快</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdhq6jlahj30oj0gcact.jpg" alt="image"></p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdhxjziz9j30ls0l379l.jpg" alt="image"></p>
+<p>看起来提升还是比较明显的,收敛速度提升也很明显</p>
+<h2 id="DRCN"><a href="#DRCN" class="headerlink" title="DRCN"></a>DRCN</h2><ul>
+<li>论文<a href="https://arxiv.org/abs/1511.04491" target="_blank" rel="noopener">Deeply-Recursive Convolutional Network for Image Super-Resolution</a>, CVPR2016</li>
+<li>代码<ol>
+<li><a href="https://cv.snu.ac.kr/research/DRCN/" target="_blank" rel="noopener">code</a></li>
+<li><a href="https://github.com/jiny2001/deeply-recursive-cnn-tf" target="_blank" rel="noopener">tensorflow</a></li>
+</ol>
+</li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdntn3chqj31160dmmzt.jpg" alt="image"></p>
+<p>主要想法是RNN和Skip connection，原始图像插值输出后进入Embedding network，相当于提取特征，然后进入RNN，每一层都输出，最后合并输出。</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdohzb91hj311o0q5wkp.jpg" alt="image"><br>可以看出Skip connection类似残差</p>
+<h2 id="RED"><a href="#RED" class="headerlink" title="RED"></a>RED</h2><ul>
+<li>论文<a href="https://arxiv.org/abs/1606.08921" target="_blank" rel="noopener">Image Restoration Using Convolutional Auto-encoders with Symmetric Skip Connections</a>, NIPS2016</li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdp28ykyzj312i0e0tei.jpg" alt="image"></p>
+<p>分为encoder和decoder，感觉像Unet</p>
+<h2 id="DRRN"><a href="#DRRN" class="headerlink" title="DRRN"></a>DRRN</h2><ul>
+<li>论文<a href="http://openaccess.thecvf.com/content_cvpr_2017/papers/Tai_Image_Super-Resolution_via_CVPR_2017_paper.pdf" target="_blank" rel="noopener">Image Super-Resolution via Deep Recursive Residual Network</a>, CVPR2017</li>
+<li>代码<ol>
+<li><a href="tyshiwo/DRRN_CVPR17">caffe</a></li>
+<li><a href="https://github.com/jt827859032/DRRN-pytorch" target="_blank" rel="noopener">pytorch</a></li>
+</ol>
+</li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdphfkig7j31an0o37bk.jpg" alt="image"><br>这个是结合了之前的结构，感觉好像 Unet…</p>
+<h2 id="LapSRN"><a href="#LapSRN" class="headerlink" title="LapSRN"></a>LapSRN</h2><ul>
+<li>论文<a href="https://arxiv.org/abs/1704.03915" target="_blank" rel="noopener">Deep Laplacian Pyramid Networks for Fast and Accurate Super-Resolution</a>, CVPR2017</li>
+<li>代码<ol>
+<li><a href="https://github.com/phoenix104104/LapSRN" target="_blank" rel="noopener">matconvnet</a></li>
+<li><a href="https://github.com/twtygqyy/pytorch-LapSRN" target="_blank" rel="noopener">pytorch</a></li>
+<li><a href="https://github.com/zjuela/LapSRN-tensorflow" target="_blank" rel="noopener">tensorflow</a></li>
+</ol>
+</li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfo2pofzrj30vt085tb2.jpg" alt="iamge"></p>
+<p>本文的主要思想是一点一点的放大，不要一口吃成个胖子，可能撑死，细嚼慢咽。细数前面的集中方法，无论先放大，还是最后放大，都存在一个问题，就是一步到位。具体作者提出存在的三个问题：</p>
+<ol>
+<li>先上采样的存在计算开销浪费，反卷积和亚像素存在性能较差的问题</li>
+<li>使用 l2 loss，导致预测模糊</li>
+<li>一步到位的放大，对不同的放大倍数不能很好的适应</li>
+</ol>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxemkkdqgdj31080e4q9n.jpg" alt="image"></p>
+<p>LapSRN通过逐步上采样，一级一级预测残差的方式，在做高倍上采样时，也能得到中间低倍上采样结果的输出。由于尺寸是逐步放大，不是所有的操作都在大尺寸特征上进行，因此速度比较快。LapSRN设计了损失函数来训练网络，对每一级的结果都进行监督，因此取得了不错的结果。</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfo4udc54j30rm0hpn0r.jpg" alt="iamge"><br><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfo903bhuj30qa0gpjup.jpg" alt="image"></p>
+<h2 id="SRDenseNet"><a href="#SRDenseNet" class="headerlink" title="SRDenseNet"></a>SRDenseNet</h2><ul>
+<li>论文<a href="http://openaccess.thecvf.com/content_ICCV_2017/papers/Tong_Image_Super-Resolution_Using_ICCV_2017_paper.pdf" target="_blank" rel="noopener">Image Super-Resolution Using Dense Skip Connections</a>, ICCV2017</li>
+<li>代码<ol>
+<li><a href="https://github.com/twtygqyy/pytorch-SRDenseNet" target="_blank" rel="noopener">pytorch_1</a></li>
+<li><a href="https://github.com/wxywhu/SRDenseNet-pytorch" target="_blank" rel="noopener">pytorch_2</a></li>
+<li><a href="https://github.com/ppooiiuuyh/SR_SRDenseNet_tensorflow" target="_blank" rel="noopener">tensorflow</a></li>
+</ol>
+</li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfojrj148j30uc0no45l.jpg" alt="image"></p>
+<p>这个听名字看上图的模型可以看出来，这就是DenseNet版本的SR啊。作者在三种情况下做了对比，结果猜都可以猜出来</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfontf3tnj312y0820va.jpg" alt="image"></p>
+<p>不同模型对比，不知道放大多少倍…</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfoowrh19j319o0arjvw.jpg" alt="image"></p>
+<h2 id="SRGAN"><a href="#SRGAN" class="headerlink" title="SRGAN"></a>SRGAN</h2><ul>
+<li>论文[Photo-Realistic Single Image Super-Resolution Using a Generative Adversarial Network], CVPR2017</li>
+<li>代码<ol>
+<li><a href="https://github.com/zsdonghao/SRGAN" target="_blank" rel="noopener">tensorflow_1</a></li>
+<li><a href="https://github.com/buriburisuri/SRGAN" target="_blank" rel="noopener">tensorflow_2</a></li>
+<li><a href="https://github.com/brade31919/SRGAN-tensorflow" target="_blank" rel="noopener">tensorflow_3</a></li>
+<li><a href="https://github.com/junhocho/SRGAN" target="_blank" rel="noopener">torch</a></li>
+<li><a href="https://github.com/ShenghaiRong/caffe_srgan" target="_blank" rel="noopener">caffe</a></li>
+<li><a href="https://github.com/titu1994/Super-Resolution-using-Generative-Adversarial-Networks" target="_blank" rel="noopener">keras</a></li>
+<li><a href="ai-tor/PyTorch-SRGAN">pytorch</a></li>
+</ol>
+</li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfp3is84nj30z30jxk66.jpg" alt="image"></p>
+<p>利用GAN做SR,一个生成网络，一个测试网络。只是这里的Loss有点不一样，作者说使用普通的均方差loss虽然峰值信噪比不错，但是感官上并不好，作者了其它的loss，感官效果提升，但是细节有些会丢失。</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfp2hn9xqj311a0hj1kx.jpg" alt="image"></p>
+<h2 id="EDSR"><a href="#EDSR" class="headerlink" title="EDSR"></a>EDSR</h2><ul>
+<li>论文<a href="https://arxiv.org/abs/1707.02921" target="_blank" rel="noopener">Enhanced Deep Residual Networks for Single Image Super-Resolution</a>, CVPRW2017</li>
+<li>代码<ol>
+<li><a href="https://github.com/LimBee/NTIRE2017" target="_blank" rel="noopener">torch</a></li>
+<li><a href="https://github.com/jmiller656/EDSR-Tensorflow" target="_blank" rel="noopener">tensorflow</a></li>
+<li><a href="https://github.com/thstkdgus35/EDSR-PyTorch" target="_blank" rel="noopener">pytorch</a></li>
+</ol>
+</li>
+</ul>
+<p>EDSR是NTIRE2017超分辨率挑战赛上获得冠军的方案。</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfpi4e1sfj30h60e5wfy.jpg" alt="image"></p>
+<p>作者认为在SR任务中使用Resnet结构的话，不需要使用BN层。作者文章中说，原始的ResNet最一开始是被提出来解决高层的计算机视觉问题，比如分类和检测，直接把ResNet的结构应用到像超分辨率这样的低层计算机视觉问题，显然不是最优的。去掉BN后，节省了内存资源。</p>
+<ul>
+<li>EDSR</li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfploxg11j30i50eiabj.jpg" alt="image"></p>
+<ul>
+<li>MDSR</li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfpn355hrj30ij0dejsq.jpg" alt="image"></p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfppsa3syj314l0iun5b.jpg" alt="image"></p>
+<h2 id="DBSR"><a href="#DBSR" class="headerlink" title="DBSR"></a>DBSR</h2><ul>
+<li>论文<a href="https://arxiv.org/pdf/1803.02735.pdf" target="_blank" rel="noopener">Deep Back-Projection Networks For Super-Resolution</a>,CVPR2018</li>
+<li>代码<ol>
+<li><a href="https://github.com/alterzero/DBPN-Pytorch" target="_blank" rel="noopener">pytorch</a></li>
+<li><a href="https://github.com/alterzero/DBPN-caffe" target="_blank" rel="noopener">caffe</a></li>
+</ol>
+</li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfw9kdrkyj31a90kln8f.jpg" alt="image"></p>
+<p>Winner (1st) of NTIRE2018 Competition (Track: x8 Bicubic Downsampling).从上图可以看出来是怎么搞得，不断的上采样，再卷积下采样，然后这样重复来回搞。想想参数应该不少。</p>
+<p>作者把深度学习在超分辨率中分四种类型：</p>
+<pre><code>1）Predefined upsampling：这种方法通常是先在网络之外将原始的LR（Low Resolution）的图像通过插值法扩大到MR级别的图像，再将MR图像输入网络。这种方法是深度学习方法在超分辨率领域的开山之作SRCNN所采用的，SRCNN先将图像插值扩大，在通过三个简单的卷积层将其映射到HR图像上。之后使用同样方法的网络通常是通过残差结构（VDSR、DRCN）或者递归结构（DRCN）来获得更好的非线性映射的。然而，这种方法有一个问题，就是有可能在插值过程中向图像中加入新的噪声。
+
+2）Single upsampling：FSRCNN和ESPCN都属于这个类型，输入他们的都是原始的LR图像，通过非线性映射之后，在网络的最后再重组成为HR图像（FSRCNN是反卷积，ESPCN是亚像素卷积层）。这种方法在实践中非常的快，但是因为网络容量有限，这两个网络都不能学习到太过复杂的映射。NTIRE2017的冠军EDSR也是这样的方法，但是因为其参数过多，需要过长的训练时间，所以为后续实现更少参数的网络留下了空间。
+
+3）Progressive upsampling：代表就是LapSRN，这种方法在一个前向传播的网络中逐步的放大图像的分辨率，我们可以将其简化成为是几个stack在一起的升采样网络，因为这种方法仅仅依赖于有限的低分辨率信息，所以很轻易的就被深度较浅的DBPN打败了。
+
+4）Iterative up and downsampling：也就是这篇文章所提出的方法，作者关注在不同的深度提高SR的采样率，并且将重建的损失分布到各个阶段去，这种方法通过学习多个升降采样算子来使得网络能在生成更深的特征的时候保留更多的HR信息。
+</code></pre><p>作者称以前的方法没有充分的学习到图片中的信息，这样来回上采样下采样可以充分学习。</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfwd6argij30ce05wt98.jpg" alt="image"></p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfwdguk61j30of0eq0w7.jpg" alt="image"></p>
+<p>当让网络也用到了DenseNet的结构</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfwehabgij315i0ek7b5.jpg" alt="image"></p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfwh4ihauj30s30fbgol.jpg" alt="image"></p>
+<p>看来参数量还好</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfwi3mtgrj30qh0dx75t.jpg" alt="image"></p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfwjcugvmj30rg0hhtp6.jpg" alt="image"></p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfwkem4y0j310c0lytif.jpg" alt="image"></p>
+<p>看起来很厉害的样子</p>
+<p><strong>参考</strong>:</p>
+<ol>
+<li><a href="https://antkillerfarm.github.io/dl/2017/10/18/Deep_Learning_21.html" target="_blank" rel="noopener">深度学习（二十一）——图像超分辨率, SRCNN, DRCN</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/31664818" target="_blank" rel="noopener">从SRCNN到EDSR，总结深度学习端到端超分辨率方法发展历程</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/39930043?utm_source=qq&amp;utm_medium=social&amp;utm_oi=814782158542630912" target="_blank" rel="noopener">NTIRE 2018 超分辨率 CVPR Workshop</a></li>
+<li><a href="https://www.zhihu.com/question/268488873" target="_blank" rel="noopener">如何评价CVPR2018论文Deep Back-Projection Networks For SR？</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/34400207" target="_blank" rel="noopener">深度反向投影网络（DBPN）–通过Back-Projection来超分辨率的新方法</a></li>
+</ol>
+
+          
         
       
     </div>
+
+    
+
     
     
     
 
     
 
+    
+      
+    
     
 
     
@@ -1000,6 +1494,8 @@ $x = \frac{x - E(x)}{x.std()}$
 
   
   
+  
+
   
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
@@ -1012,7 +1508,7 @@ $x = \frac{x - E(x)}{x.std()}$
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="田小默">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -1026,11 +1522,20 @@ $x = \frac{x - E(x)}{x.std()}$
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/14/General-Language-Understanding-Evaluation-benchmark/" itemprop="url">General_Language_Understanding_Evaluation_benchmark</a></h1>
+                
+                <a href="/2018/11/14/General-Language-Understanding-Evaluation-benchmark/" class="post-title-link" itemprop="url">General_Language_Understanding_Evaluation_benchmark</a>
+              
+            
+          </h1>
         
 
         <div class="post-meta">
           <span class="post-time">
+
+            
+            
+            
+
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -1038,13 +1543,18 @@ $x = \frac{x - E(x)}{x.std()}$
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-14T10:50:42+08:00">
-                2018-11-14
-              </time>
+
+              
+                
+              
+
+              <time title="Created: 2018-11-14 10:50:42 / Modified: 11:12:18" itemprop="dateCreated datePublished" datetime="2018-11-14T10:50:42+08:00">2018-11-14</time>
             
 
             
+              
 
+              
             
           </span>
 
@@ -1078,32 +1588,39 @@ $x = \frac{x - E(x)}{x.std()}$
       
         
           
-          parpe:glue
-一个用于通用语言理解评估的基准，用来训练，预测和分析自然语言理解系统的资源整合
-包括：
+            <p>parpe:<a href="https://www.nyu.edu/projects/bowman/glue.pdf" target="_blank" rel="noopener">glue</a></p>
+<p><a href="https://gluebenchmark.com/" target="_blank" rel="noopener">一个用于通用语言理解评估的基准，用来训练，预测和分析自然语言理解系统的资源整合</a></p>
+<p>包括：</p>
+<ul>
+<li><p>基于现有数据集构建九个句子或句对语言理解任务的基准，并使用各种大小，不同难度，不同文本类型的数据集，</p>
+</li>
+<li><p>一种诊断数据集，旨在评估和分析自然语言中发现的各种语言现象的模型性能</p>
+</li>
+<li><p>用于跟踪基准测试性能的公共排行榜和用于可视化诊断集上模型性能</p>
+</li>
+</ul>
+<p>GLUE基准与模型无关，因此任何能够处理句子和句子对并产生相应预测的系统都有资格参与。选择基准测试任务以便使用参数共享或其他传输学习技术来支持跨任务共享信息的模型。GLUE的最终目标是推动研究开发通用和强大的自然语言理解系统。</p>
+<h2 id="11个任务"><a href="#11个任务" class="headerlink" title="11个任务"></a>11个任务</h2><p>可以看到包括情感分析，语义分析，相似度评价，问答，文本识别等常见NLP任务</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fx7ewxua0rj30va0jjq4e.jpg" alt=""></p>
+<h2 id="Leaderboard"><a href="#Leaderboard" class="headerlink" title="Leaderboard"></a>Leaderboard</h2><p>看看排行榜，是不是好多熟悉身影，Bert稳居第一</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fx7eymjegpj316a0p577a.jpg" alt=""></p>
 
-基于现有数据集构建九个句子或句对语言理解任务的基准，并使用各种大小，不同难度，不同文本类型的数据集，
-
-一种诊断数据集，旨在评估和分析自然语言中发现的各种语言现象的模型性能
-
-用于跟踪基准
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/11/14/General-Language-Understanding-Evaluation-benchmark/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
         
       
     </div>
+
+    
+
     
     
     
 
     
 
+    
+      
+    
     
 
     
@@ -1134,6 +1651,8 @@ $x = \frac{x - E(x)}{x.std()}$
 
   
   
+  
+
   
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
@@ -1146,7 +1665,7 @@ $x = \frac{x - E(x)}{x.std()}$
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="田小默">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -1160,11 +1679,20 @@ $x = \frac{x - E(x)}{x.std()}$
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/14/Bert/" itemprop="url">Bert</a></h1>
+                
+                <a href="/2018/11/14/Bert/" class="post-title-link" itemprop="url">Bert</a>
+              
+            
+          </h1>
         
 
         <div class="post-meta">
           <span class="post-time">
+
+            
+            
+            
+
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -1172,13 +1700,30 @@ $x = \frac{x - E(x)}{x.std()}$
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-14T10:36:38+08:00">
-                2018-11-14
-              </time>
+
+              
+                
+              
+
+              <time title="Created: 2018-11-14 10:36:38" itemprop="dateCreated datePublished" datetime="2018-11-14T10:36:38+08:00">2018-11-14</time>
             
 
             
+              
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-11-15 11:23:51" itemprop="dateModified" datetime="2018-11-15T11:23:51+08:00">2018-11-15</time>
+              
             
           </span>
 
@@ -1212,24 +1757,49 @@ $x = \frac{x - E(x)}{x.std()}$
       
         
           
-          BERT is designed to pre-train deep bidirectional representations by jointly conditioning on both left and right context in all layers. As a result, th
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/11/14/Bert/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <p><strong>BERT is designed to pre-train deep bidirectional representations by jointly conditioning on both left and right context in all layers. As a result, the pre-trained BERT representations can be ﬁne-tuned with just one additional output layer to create state-of-theart models for a wide range of tasks。</strong></p>
+<p><a href="https://arxiv.org/abs/1810.04805" target="_blank" rel="noopener">论文</a><br><a href="https://github.com/google-research/bert" target="_blank" rel="noopener">代码</a></p>
+<p>它在11项自然语言处理任务中获得了最新的最新成果，包括将GLUE基准推至80.4％（绝对改进率7.6％），MultiNLI精度达到86.7％（绝对改进5.6％）和SQuAD v1.1问题回答测试F1到93.2（1.5绝对改进），超过人类表现2.0。</p>
+<p>GLUE(<a href="https://gluebenchmark.com/" target="_blank" rel="noopener">通用语言理解评价标准</a>):80.4%</p>
+<p>MultiNLI :86.7%</p>
+<p>SQuAD:93.3%</p>
+<h2 id="原来将语言表示应用于下游任务有两种策略"><a href="#原来将语言表示应用于下游任务有两种策略" class="headerlink" title="原来将语言表示应用于下游任务有两种策略"></a>原来将语言表示应用于下游任务有两种策略</h2><ol>
+<li><p>feature-base</p>
+<p> 如 ELMO,用于下游任务时，使用特定的结构，加上与训练好的representation作为补充的特征</p>
+</li>
+<li><p>fine-tuning</p>
+<p> 如 GPT,用于下游任务通过fine_tuning模型</p>
+</li>
+</ol>
+<p>但是他们都是单向的…</p>
+<p>作者认为这种单向的结构限制了模型的表示能力，虽然OpenAI GPT使用了left-to-right的结构，但只能在self-attention层之前的token.这种方法对于sentencelevel 的任务还好，对于token-level任务可能就不那么好了。</p>
+<p>BERT,1.使用双向编码器，2.使用了 masked languge model(MLM),3.还有句子预测任务(next sentence prediction)</p>
+<h2 id="BERT-ELMO-GPT"><a href="#BERT-ELMO-GPT" class="headerlink" title="BERT\ELMO\GPT"></a>BERT\ELMO\GPT</h2><p>一张图看出区别，可以看出只有BERT依赖于左右上下文<br><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fx8kiusx84j31y00g7qfc.jpg" alt=""></p>
+<p>模型架构使用了tensor2tensor,有大小两种模型。</p>
+<p>这里输入比较有想法，token embedding + segment embedding + position embedding,这样可以用在不同任务<br><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fx8kqyirisj31pq0i6aji.jpg" alt=""></p>
+<p>与训练任务</p>
+<ol>
+<li>完形填空(Masked)</li>
+<li>下一句话预测</li>
+</ol>
+<p>实验结果看[论文]</p>
+
+          
         
       
     </div>
+
+    
+
     
     
     
 
     
 
+    
+      
+    
     
 
     
@@ -1260,6 +1830,8 @@ $x = \frac{x - E(x)}{x.std()}$
 
   
   
+  
+
   
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
@@ -1272,7 +1844,7 @@ $x = \frac{x - E(x)}{x.std()}$
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="田小默">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -1286,11 +1858,20 @@ $x = \frac{x - E(x)}{x.std()}$
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/11/hello-world/" itemprop="url">Hello World</a></h1>
+                
+                <a href="/2018/11/11/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
+              
+            
+          </h1>
         
 
         <div class="post-meta">
           <span class="post-time">
+
+            
+            
+            
+
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -1298,13 +1879,30 @@ $x = \frac{x - E(x)}{x.std()}$
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-11-11T14:08:41+08:00">
-                2018-11-11
-              </time>
+
+              
+                
+              
+
+              <time title="Created: 2018-11-11 14:08:41" itemprop="dateCreated datePublished" datetime="2018-11-11T14:08:41+08:00">2018-11-11</time>
             
 
             
+              
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-04-27 19:16:40" itemprop="dateModified" datetime="2018-04-27T19:16:40+08:00">2018-04-27</time>
+              
             
           </span>
 
@@ -1338,24 +1936,32 @@ $x = \frac{x - E(x)}{x.std()}$
       
         
           
-          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in 
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/11/11/hello-world/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+
+          
         
       
     </div>
+
+    
+
     
     
     
 
     
 
+    
+      
+    
     
 
     
@@ -1388,6 +1994,8 @@ $x = \frac{x - E(x)}{x.std()}$
   
   
 
+  
+
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
   
   
@@ -1398,7 +2006,7 @@ $x = \frac{x - E(x)}{x.std()}$
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="田小默">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -1412,11 +2020,20 @@ $x = \frac{x - E(x)}{x.std()}$
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/09/11/linux查看系统信息/" itemprop="url">linux查看系统信息</a></h1>
+                
+                <a href="/2018/09/11/linux查看系统信息/" class="post-title-link" itemprop="url">linux查看系统信息</a>
+              
+            
+          </h1>
         
 
         <div class="post-meta">
           <span class="post-time">
+
+            
+            
+            
+
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -1424,13 +2041,30 @@ $x = \frac{x - E(x)}{x.std()}$
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-11T15:52:19+08:00">
-                2018-09-11
-              </time>
+
+              
+                
+              
+
+              <time title="Created: 2018-09-11 15:52:19" itemprop="dateCreated datePublished" datetime="2018-09-11T15:52:19+08:00">2018-09-11</time>
             
 
             
+              
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-11-11 14:33:19" itemprop="dateModified" datetime="2018-11-11T14:33:19+08:00">2018-11-11</time>
+              
             
           </span>
 
@@ -1464,25 +2098,34 @@ $x = \frac{x - E(x)}{x.std()}$
       
         
           
-          linux系统常用查看系统信息命令
-常用命令12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/09/11/linux查看系统信息/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <p>linux系统常用查看系统信息命令</p>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"># uname -a # 查看内核/操作系统/CPU信息</span><br><span class="line"></span><br><span class="line"># head -n 1 /etc/issue # 查看操作系统版本</span><br><span class="line"></span><br><span class="line"># cat /proc/cpuinfo # 查看CPU信息</span><br><span class="line"></span><br><span class="line"># hostname # 查看计算机名</span><br><span class="line"></span><br><span class="line"># lspci -tv # 列出所有PCI设备</span><br><span class="line"></span><br><span class="line"># lsusb -tv # 列出所有USB设备</span><br><span class="line"></span><br><span class="line"># lsmod # 列出加载的内核模块</span><br><span class="line"></span><br><span class="line"># env # 查看环境变量资源</span><br><span class="line"></span><br><span class="line"># free -m # 查看内存使用量和交换区使用量</span><br><span class="line"></span><br><span class="line"># df -h # 查看各分区使用情况</span><br><span class="line"></span><br><span class="line"># du -sh &lt;目录名&gt; # 查看指定目录的大小</span><br><span class="line"></span><br><span class="line"># grep MemTotal /proc/meminfo # 查看内存总量</span><br><span class="line"></span><br><span class="line"># grep MemFree /proc/meminfo # 查看空闲内存量</span><br><span class="line"></span><br><span class="line"># uptime # 查看系统运行时间、用户数、负载</span><br><span class="line"></span><br><span class="line"># cat /proc/loadavg # 查看系统负载磁盘和分区</span><br><span class="line"></span><br><span class="line"># mount | column -t # 查看挂接的分区状态</span><br><span class="line"></span><br><span class="line"># fdisk -l # 查看所有分区</span><br><span class="line"></span><br><span class="line"># swapon -s # 查看所有交换分区</span><br><span class="line"></span><br><span class="line"># hdparm -i /dev/hda # 查看磁盘参数(仅适用于IDE设备)</span><br><span class="line"></span><br><span class="line"># dmesg | grep IDE # 查看启动时IDE设备检测状况网络</span><br><span class="line"></span><br><span class="line"># ifconfig # 查看所有网络接口的属性</span><br><span class="line"></span><br><span class="line"># iptables -L # 查看防火墙设置</span><br><span class="line"></span><br><span class="line"># route -n # 查看路由表</span><br><span class="line"></span><br><span class="line"># netstat -lntp # 查看所有监听端口</span><br><span class="line"></span><br><span class="line"># netstat -antp # 查看所有已经建立的连接</span><br><span class="line"></span><br><span class="line"># netstat -s # 查看网络统计信息进程</span><br><span class="line"></span><br><span class="line"># ps -ef # 查看所有进程</span><br><span class="line"></span><br><span class="line"># top # 实时显示进程状态用户</span><br><span class="line"></span><br><span class="line"># w # 查看活动用户</span><br><span class="line"></span><br><span class="line"># id &lt;用户名&gt; # 查看指定用户信息</span><br><span class="line"></span><br><span class="line"># last # 查看用户登录日志</span><br><span class="line"></span><br><span class="line"># cut -d: -f1 /etc/passwd # 查看系统所有用户</span><br><span class="line"></span><br><span class="line"># cut -d: -f1 /etc/group # 查看系统所有组</span><br><span class="line"></span><br><span class="line"># crontab -l # 查看当前用户的计划任务服务</span><br><span class="line"></span><br><span class="line"># chkconfig –list # 列出所有系统服务</span><br><span class="line"></span><br><span class="line"># chkconfig –list | grep on # 列出所有启动的系统服务程序</span><br><span class="line"></span><br><span class="line"># rpm -qa # 查看所有安装的软件包</span><br></pre></td></tr></table></figure>
+<h2 id="系统"><a href="#系统" class="headerlink" title="系统"></a>系统</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># uname -a # 查看内核/操作系统/CPU信息</span><br><span class="line"># head -n 1 /etc/issue # 查看操作系统版本</span><br><span class="line"># cat /proc/cpuinfo # 查看CPU信息</span><br><span class="line"># hostname # 查看计算机名</span><br><span class="line"># lspci -tv # 列出所有PCI设备</span><br><span class="line"># lsusb -tv # 列出所有USB设备</span><br><span class="line"># lsmod # 列出加载的内核模块</span><br><span class="line"># env # 查看环境变量</span><br></pre></td></tr></table></figure>
+<h2 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># free -m # 查看内存使用量和交换区使用量</span><br><span class="line"># df -h # 查看各分区使用情况</span><br><span class="line"># du -sh &lt;目录名&gt; # 查看指定目录的大小</span><br><span class="line"># grep MemTotal /proc/meminfo # 查看内存总量</span><br><span class="line"># grep MemFree /proc/meminfo # 查看空闲内存量</span><br><span class="line"># uptime # 查看系统运行时间、用户数、负载</span><br><span class="line"># cat /proc/loadavg # 查看系统负载</span><br></pre></td></tr></table></figure>
+<h2 id="磁盘和分区"><a href="#磁盘和分区" class="headerlink" title="磁盘和分区"></a>磁盘和分区</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># mount | column -t # 查看挂接的分区状态</span><br><span class="line"># fdisk -l # 查看所有分区</span><br><span class="line"># swapon -s # 查看所有交换分区</span><br><span class="line"># hdparm -i /dev/hda # 查看磁盘参数(仅适用于IDE设备)</span><br><span class="line"># dmesg | grep IDE # 查看启动时IDE设备检测状况</span><br></pre></td></tr></table></figure>
+<h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># ifconfig # 查看所有网络接口的属性</span><br><span class="line"># iptables -L # 查看防火墙设置</span><br><span class="line"># route -n # 查看路由表</span><br><span class="line"># netstat -lntp # 查看所有监听端口</span><br><span class="line"># netstat -antp # 查看所有已经建立的连接</span><br><span class="line"># netstat -s # 查看网络统计信息</span><br></pre></td></tr></table></figure>
+<h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># ps -ef # 查看所有进程</span><br><span class="line"># top # 实时显示进程状态</span><br></pre></td></tr></table></figure>
+<h2 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># w # 查看活动用户</span><br><span class="line"># id &lt;用户名&gt; # 查看指定用户信息</span><br><span class="line"># last # 查看用户登录日志</span><br><span class="line"># cut -d: -f1 /etc/passwd # 查看系统所有用户</span><br><span class="line"># cut -d: -f1 /etc/group # 查看系统所有组</span><br><span class="line"># crontab -l # 查看当前用户的计划任务</span><br></pre></td></tr></table></figure>
+<h2 id="服务"><a href="#服务" class="headerlink" title="服务"></a>服务</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># chkconfig --list # 列出所有系统服务</span><br><span class="line"># chkconfig --list | grep on # 列出所有启动的系统服务</span><br></pre></td></tr></table></figure>
+<h2 id="程序"><a href="#程序" class="headerlink" title="程序"></a>程序</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># rpm -qa # 查看所有安装的软件包</span><br></pre></td></tr></table></figure>
+<h2 id="查看Linux内核版本命令（两种方法）："><a href="#查看Linux内核版本命令（两种方法）：" class="headerlink" title="查看Linux内核版本命令（两种方法）："></a>查看Linux内核版本命令（两种方法）：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1、cat /proc/version</span><br><span class="line">[root@localhost ~]# cat /proc/version</span><br><span class="line">Linux version 2.6.18-194.8.1.el5.centos.plus</span><br><span class="line">(mockbuild@builder17.centos.org) (gcc version 4.1.220080704</span><br><span class="line">(Red Hat 4.1.2-48)) #1 SMP Wed Jul 7 11:50:45 EDT 2010</span><br><span class="line">2、uname -a</span><br><span class="line">[root@localhost ~]# uname -a</span><br><span class="line">Linux localhost.localdomain 2.6.18-194.8.1.el5.centos.plus </span><br><span class="line">#1 SMP Wed Jul 7 11:50:45 EDT 2010 i686 i686 i386 GNU/Linux</span><br></pre></td></tr></table></figure>
+<h2 id="查看Linux系统版本的命令（3种方法）"><a href="#查看Linux系统版本的命令（3种方法）" class="headerlink" title="查看Linux系统版本的命令（3种方法）:"></a>查看Linux系统版本的命令（3种方法）:</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">1、lsb_release -a，即可列出所有版本信息：</span><br><span class="line">[root@localhost ~]# lsb_release -a</span><br><span class="line">LSB Version: :core-3.1-ia32:core-3.1-noarch:graphics-3.1-ia32:graphics-3.1-noarch</span><br><span class="line">Distributor ID: CentOS</span><br><span class="line">Description: CentOS release 6.5 (Final)</span><br><span class="line">Release: 6.5</span><br><span class="line">Codename: Final</span><br><span class="line">这个命令适用于所有的Linux发行版，包括Redhat、SuSE、Debian…等发行版。</span><br><span class="line">2、cat /etc/redhat-release，这种方法只适合Redhat系的Linux：</span><br><span class="line">[root@localhost ~]# cat /etc/redhat-release</span><br><span class="line">CentOS release 6.7 (Final)</span><br><span class="line">3、cat /etc/issue，此命令也适用于所有的Linux发行版。</span><br><span class="line">[root@localhost ~]# cat /etc/issue</span><br><span class="line">CentOS release 6.7 (Final)</span><br><span class="line">Kernel \r on an \m</span><br></pre></td></tr></table></figure>
+          
         
       
     </div>
+
+    
+
     
     
     
 
     
 
+    
+      
+    
     
 
     
@@ -1511,15 +2154,12 @@ $x = \frac{x - E(x)}{x.std()}$
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
 
           </div>
-          
-
-
           
 
         </div>
@@ -1542,88 +2182,141 @@ $x = \frac{x - E(x)}{x.std()}$
 
       
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="田小默">
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="田小默">
             
               <p class="site-author-name" itemprop="name">田小默</p>
               <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
-          <nav class="site-state motion-element">
-
-            
-              <div class="site-state-item site-state-posts">
+          
+            <nav class="site-state motion-element">
               
-                <a href="/archives/">
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">27</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
               
-                  <span class="site-state-item-count">27</span>
-                  <span class="site-state-item-name">posts</span>
-                </a>
-              </div>
-            
 
-            
-
-            
               
-              
-              <div class="site-state-item site-state-tags">
-                <a href="/tags/index.html">
-                  <span class="site-state-item-count">24</span>
-                  <span class="site-state-item-name">tags</span>
-                </a>
-              </div>
-            
 
-          </nav>
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
 
           
 
           
             <div class="links-of-author motion-element">
-                
-                  <span class="links-of-author-item">
-                    <a href="https://github.com/Tianxiaomo" target="_blank" title="GitHub">
-                      
-                        <i class="fa fa-fw fa-github"></i>GitHub</a>
-                  </span>
-                
-                  <span class="links-of-author-item">
-                    <a href="http://weibo.com/tianxiaoxiaomo" target="_blank" title="微博">
-                      
-                        <i class="fa fa-fw fa-weibo"></i>微博</a>
-                  </span>
-                
-                  <span class="links-of-author-item">
-                    <a href="http://www.zhihu.com/people/tian-mo-98-60" target="_blank" title="知乎">
-                      
-                        <i class="fa fa-fw fa-globe"></i>知乎</a>
-                  </span>
-                
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/tianxiaomo" title="GitHub &rarr; https://github.com/tianxiaomo" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/tianxiaoxiaomo" title="Weibo &rarr; https://weibo.com/tianxiaoxiaomo" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.zhihu.com/people/tian-mo-98-60" title="Zhihu &rarr; https://www.zhihu.com/people/tian-mo-98-60" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>Zhihu</a>
+                </span>
+              
             </div>
           
 
           
-          
 
           
           
 
+          
+            
+          
           
 
         </div>
-      </section>
-
-      
-
-      
-
-      <div id="music163player">
-        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="110" src="//music.163.com/outchain/player?type=0&id=2058497430&auto=0&height=90"></iframe>
       </div>
+
+      
+
+      
 
     </div>
   </aside>
@@ -1636,16 +2329,18 @@ $x = \frac{x - E(x)}{x.std()}$
     <footer id="footer" class="footer">
       <div class="footer-inner">
         <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
-  <span class="with-love">
+  <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">田小默</span>
 
   
+
+  
 </div>
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
 
 
 
@@ -1653,31 +2348,12 @@ $x = \frac{x - E(x)}{x.std()}$
 
 
 
-  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.6.0</div>
 
 
 
 
         
-<div class="busuanzi-count">
-  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-  
-    <span class="site-uv">
-      <i class="fa fa-user"></i>访问人数
-      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
-      
-    </span>
-  
-
-  
-    <span class="site-pv">
-      <i class="fa fa-eye"></i>总访问量
-      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
-      
-    </span>
-  
-</div>
 
 
 
@@ -1699,11 +2375,14 @@ $x = \frac{x - E(x)}{x.std()}$
 
     
 
+    
+
+    
   </div>
 
   
 
-<script type="text/javascript">
+<script>
   if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
     window.Promise = null;
   }
@@ -1717,10 +2396,6 @@ $x = \frac{x - E(x)}{x.std()}$
 
 
 
-  
-
-
-  
 
 
 
@@ -1732,48 +2407,34 @@ $x = \frac{x - E(x)}{x.std()}$
 
 
 
+
+
+
+
+
+
   
   
-    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
   
 
   
   
-    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
   
 
   
   
-    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
   
 
 
   
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+  <script src="/js/src/utils.js?v=6.6.0"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+  <script src="/js/src/motion.js?v=6.6.0"></script>
 
 
 
@@ -1781,9 +2442,9 @@ $x = \frac{x - E(x)}{x.std()}$
   
 
 
-  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+  <script src="/js/src/affix.js?v=6.6.0"></script>
 
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+  <script src="/js/src/schemes/pisces.js?v=6.6.0"></script>
 
 
 
@@ -1792,21 +2453,7 @@ $x = \frac{x - E(x)}{x.std()}$
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
-
-
-
-  
-
-
-  
-
-
-
-
-	
-
-
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
 
 
 
@@ -1814,10 +2461,7 @@ $x = \frac{x - E(x)}{x.std()}$
 
 
 
-
-
   
-
 
 
 
@@ -1842,35 +2486,81 @@ $x = \frac{x - E(x)}{x.std()}$
   
 
   
+
+  
   
 
   
   
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
 
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
   
+  
 
   
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+
+  
+
 
 </body>
 </html>

@@ -3,11 +3,22 @@
 
 
 
-<html class="theme-next pisces" lang="zh,en">
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh,en">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 
 
@@ -18,8 +29,6 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
 
@@ -36,9 +45,6 @@
 
 
 
-  
-  
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
 
 
 
@@ -48,25 +54,19 @@
 
 <link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
 
-<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
 
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
 
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
 
 
-  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
-
-
-
-
-
-  <meta name="keywords" content="Hexo, NexT">
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
 
 
 
@@ -76,31 +76,18 @@
 
 
 
-
-<meta property="og:type" content="website">
-<meta property="og:title" content="田小默的博客">
-<meta property="og:url" content="http://yoursite.com/page/3/index.html">
-<meta property="og:site_name" content="田小默的博客">
-<meta property="og:locale" content="zh,en">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="田小默的博客">
-
-
-
-<script type="text/javascript" id="hexo.configurations">
+<script id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
     scheme: 'Pisces',
-    version: '5.1.4',
+    version: '6.6.0',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: true,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
     tabs: true,
-    motion: {"enable":false,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    duoshuo: {
-      userId: '0',
-      author: 'Author'
-    },
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     algolia: {
       applicationID: '',
       apiKey: '',
@@ -112,12 +99,33 @@
 </script>
 
 
+  
+
+
+
+
+  <meta property="og:type" content="website">
+<meta property="og:title" content="田小默的博客">
+<meta property="og:url" content="http://yoursite.com/page/3/index.html">
+<meta property="og:site_name" content="田小默的博客">
+<meta property="og:locale" content="zh,en">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="田小默的博客">
+
+
+
+
+
 
   <link rel="canonical" href="http://yoursite.com/page/3/">
 
 
 
-
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
 
   <title>田小默的博客</title>
   
@@ -128,6 +136,35 @@
 
 
 
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
 </head>
 
@@ -144,7 +181,7 @@
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
+  <div class="site-meta">
     
 
     <div class="custom-logo-site-title">
@@ -154,13 +191,12 @@
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
-      
-        <p class="site-subtitle"></p>
-      
+    
+    
   </div>
 
   <div class="site-nav-toggle">
-    <button>
+    <button aria-label="Toggle navigation bar">
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
@@ -168,45 +204,86 @@
   </div>
 </div>
 
-<nav class="site-nav">
-  
 
+
+<nav class="site-nav">
   
     <ul id="menu" class="menu">
       
         
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
-            
-            Home
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
-            
-            Tags
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
-            
-            Archives
-          </a>
-        </li>
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
       
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
 
       
+      
     </ul>
+  
+
   
 
   
@@ -214,12 +291,23 @@
 
 
 
- </div>
+  
+
+
+
+</div>
     </header>
+
+    
+
 
     <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
+          
+            
+
+          
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
@@ -232,6 +320,8 @@
   
   
 
+  
+
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
   
   
@@ -242,7 +332,7 @@
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="田小默">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -256,11 +346,20 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/05/08/python的log使用/" itemprop="url">python的log使用</a></h1>
+                
+                <a href="/2018/05/08/python的log使用/" class="post-title-link" itemprop="url">python的log使用</a>
+              
+            
+          </h1>
         
 
         <div class="post-meta">
           <span class="post-time">
+
+            
+            
+            
+
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -268,13 +367,30 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-08T10:03:58+08:00">
-                2018-05-08
-              </time>
+
+              
+                
+              
+
+              <time title="Created: 2018-05-08 10:03:58" itemprop="dateCreated datePublished" datetime="2018-05-08T10:03:58+08:00">2018-05-08</time>
             
 
             
+              
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-05-10 11:19:06" itemprop="dateModified" datetime="2018-05-10T11:19:06+08:00">2018-05-10</time>
+              
             
           </span>
 
@@ -308,24 +424,24 @@
       
         
           
-          12345678910111213141516171819202122232425import logging# create loggerlogger_name = os.path.basename(__file__)logger = logging.getLogger(logger_name)l
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/05/08/python的log使用/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">import logging</span><br><span class="line"># create logger</span><br><span class="line">logger_name = os.path.basename(__file__)</span><br><span class="line">logger = logging.getLogger(logger_name)</span><br><span class="line">logger.setLevel(logging.DEBUG)</span><br><span class="line"># create_file</span><br><span class="line">log_path = os.path.basename(__file__)+&quot;.log&quot;</span><br><span class="line">fh = logging.FileHandler(log_path)</span><br><span class="line">fh.setLevel(logging.DEBUG)</span><br><span class="line">#打印到屏幕</span><br><span class="line">sh = logging.StreamHandler()</span><br><span class="line">sh.setLevel(logging.DEBUG)</span><br><span class="line"></span><br><span class="line"># create formatter</span><br><span class="line">fmt = &quot;[%(asctime)-15s] [%(levelname)s] [%(filename)s - %(lineno)d %(process)d]   %(message)s&quot;</span><br><span class="line">date_fmt = &quot;%a %d %b %Y %H:%M:%S&quot;</span><br><span class="line">formatter = logging.Formatter(fmt, date_fmt)</span><br><span class="line"></span><br><span class="line"># add handler and formatter to logger</span><br><span class="line">fh.setFormatter(formatter)</span><br><span class="line">logger.addHandler(fh)</span><br><span class="line">logger.addHandler(sh)</span><br><span class="line"></span><br><span class="line">logger.debug(sys.version)</span><br><span class="line">logger.debug(os.getcwd())</span><br></pre></td></tr></table></figure>
+
+          
         
       
     </div>
+
+    
+
     
     
     
 
     
 
+    
+      
+    
     
 
     
@@ -356,6 +472,8 @@
 
   
   
+  
+
   
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
@@ -368,7 +486,7 @@
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="田小默">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -382,11 +500,20 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/05/05/PyCharm小技巧/" itemprop="url">PyCharm小技巧</a></h1>
+                
+                <a href="/2018/05/05/PyCharm小技巧/" class="post-title-link" itemprop="url">PyCharm小技巧</a>
+              
+            
+          </h1>
         
 
         <div class="post-meta">
           <span class="post-time">
+
+            
+            
+            
+
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -394,13 +521,30 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-05T13:23:52+08:00">
-                2018-05-05
-              </time>
+
+              
+                
+              
+
+              <time title="Created: 2018-05-05 13:23:52" itemprop="dateCreated datePublished" datetime="2018-05-05T13:23:52+08:00">2018-05-05</time>
             
 
             
+              
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-05-10 11:19:12" itemprop="dateModified" datetime="2018-05-10T11:19:12+08:00">2018-05-10</time>
+              
             
           </span>
 
@@ -434,26 +578,27 @@
       
         
           
-          PyCharm 运行python传入参数方式1:启动Temminal，在终端运行
-方式2:在Toolbar找到 run/debug configuretions,选择要运行的脚本，在configuretions的Parameters 输入要传入的参数。
-PE8 indentation contain
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/05/05/PyCharm小技巧/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <h3 id="PyCharm-运行python传入参数"><a href="#PyCharm-运行python传入参数" class="headerlink" title="PyCharm 运行python传入参数"></a>PyCharm 运行python传入参数</h3><h4 id="方式1"><a href="#方式1" class="headerlink" title="方式1:"></a>方式1:</h4><p>启动Temminal，在终端运行</p>
+<h4 id="方式2"><a href="#方式2" class="headerlink" title="方式2:"></a>方式2:</h4><p>在<strong>Toolbar</strong>找到 <strong>run/debug configuretions</strong>,选择要运行的脚本，在<strong>configuretions</strong>的<strong>Parameters</strong> 输入要传入的参数。<br><img src="https://tianxiaomo.github.io/images/Tips/PyCharm-1.png" alt="image"><br><img src="https://tianxiaomo.github.io/images/Tips/PyCharm-2.png" alt="image"></p>
+<h3 id="PE8-indentation-contains-tabs"><a href="#PE8-indentation-contains-tabs" class="headerlink" title="PE8 indentation contains tabs"></a>PE8 indentation contains tabs</h3><p><strong>PE8</strong>是一种python编码格式，在PyCharm中会自动检查是否符合这种格式，不符合会有警号。</p>
+<p>怎么关闭呢。<br><strong>File</strong>中打开<strong>setting</strong>,选择<strong>Editor</strong>,选择<strong>Inspactions</strong>,找到<strong>Python</strong>点击,吧<strong>PE8 coding style violation</strong>的选择取消。<br><img src="https://tianxiaomo.github.io/images/Tips/PyCharm-3.png" alt="image"><br><img src="https://tianxiaomo.github.io/images/Tips/PyCharm-4.png" alt="image"></p>
+
+          
         
       
     </div>
+
+    
+
     
     
     
 
     
 
+    
+      
+    
     
 
     
@@ -484,6 +629,8 @@ PE8 indentation contain
 
   
   
+  
+
   
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
@@ -496,7 +643,7 @@ PE8 indentation contain
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="田小默">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -510,11 +657,20 @@ PE8 indentation contain
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/05/02/程序运行过程简单记录/" itemprop="url">程序运行过程简单记录</a></h1>
+                
+                <a href="/2018/05/02/程序运行过程简单记录/" class="post-title-link" itemprop="url">程序运行过程简单记录</a>
+              
+            
+          </h1>
         
 
         <div class="post-meta">
           <span class="post-time">
+
+            
+            
+            
+
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -522,13 +678,30 @@ PE8 indentation contain
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-02T19:24:59+08:00">
-                2018-05-02
-              </time>
+
+              
+                
+              
+
+              <time title="Created: 2018-05-02 19:24:59" itemprop="dateCreated datePublished" datetime="2018-05-02T19:24:59+08:00">2018-05-02</time>
             
 
             
+              
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-05-05 13:48:49" itemprop="dateModified" datetime="2018-05-05T13:48:49+08:00">2018-05-05</time>
+              
             
           </span>
 
@@ -562,27 +735,28 @@ PE8 indentation contain
       
         
           
-          一、从文本生成可执行目标程序
-二、执行过程2.1 读入键盘输入读取键盘输入放在主存储器,输入回车时，结束命令输入.shell加载可执行hello文件。从硬盘读取到存储器。
-2.2 加载程序
-2.3 执行程序一旦程序加载完成，处理器找到程序中的main 指令，将程序从主存储器复制到寄存器文件,再从寄存
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/05/02/程序运行过程简单记录/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <h3 id="一、从文本生成可执行目标程序"><a href="#一、从文本生成可执行目标程序" class="headerlink" title="一、从文本生成可执行目标程序"></a>一、从文本生成可执行目标程序</h3><p><img src="https://tianxiaomo.github.io/images/Computer-Systems/compile.png" alt="image"></p>
+<h3 id="二、执行过程"><a href="#二、执行过程" class="headerlink" title="二、执行过程"></a>二、执行过程</h3><h4 id="2-1-读入键盘输入"><a href="#2-1-读入键盘输入" class="headerlink" title="2.1 读入键盘输入"></a>2.1 读入键盘输入</h4><p>读取键盘输入放在主存储器,输入回车时，结束命令输入.shell加载可执行hello文件。从硬盘读取到存储器。<br><img src="https://tianxiaomo.github.io/images/Computer-Systems/execute-1.png" alt="image"></p>
+<h4 id="2-2-加载程序"><a href="#2-2-加载程序" class="headerlink" title="2.2 加载程序"></a>2.2 加载程序</h4><p><img src="https://tianxiaomo.github.io/images/Computer-Systems/execute-2.png" alt="iamge"></p>
+<h4 id="2-3-执行程序"><a href="#2-3-执行程序" class="headerlink" title="2.3 执行程序"></a>2.3 执行程序</h4><p>一旦程序加载完成，处理器找到程序中的main 指令，将程序从主存储器复制到寄存器文件,再从寄存器文件复制到屏幕,最终屏幕显示<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hello world</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://tianxiaomo.github.io/images/Computer-Systems/execute-3.png" alt="image"></p>
+
+          
         
       
     </div>
+
+    
+
     
     
     
 
     
 
+    
+      
+    
     
 
     
@@ -613,6 +787,8 @@ PE8 indentation contain
 
   
   
+  
+
   
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
@@ -625,7 +801,7 @@ PE8 indentation contain
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="田小默">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -639,11 +815,20 @@ PE8 indentation contain
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/04/30/Taylor公式-多项函数展开/" itemprop="url">Taylor公式-多项函数展开</a></h1>
+                
+                <a href="/2018/04/30/Taylor公式-多项函数展开/" class="post-title-link" itemprop="url">Taylor公式-多项函数展开</a>
+              
+            
+          </h1>
         
 
         <div class="post-meta">
           <span class="post-time">
+
+            
+            
+            
+
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -651,13 +836,18 @@ PE8 indentation contain
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-30T22:58:39+08:00">
-                2018-04-30
-              </time>
+
+              
+                
+              
+
+              <time title="Created: 2018-04-30 22:58:39 / Modified: 23:18:09" itemprop="dateCreated datePublished" datetime="2018-04-30T22:58:39+08:00">2018-04-30</time>
             
 
             
+              
 
+              
             
           </span>
 
@@ -691,30 +881,41 @@ PE8 indentation contain
       
         
           
-          泰勒说：一个函数如果在一点很光滑，也就是说多少阶都可导，那这个一点附近的值就可以用这个点的值和一系列导数值表示。
-下面看一下展开式：
+            <p>泰勒说：一个函数如果在一点很光滑，也就是说多少阶都可导，那这个一点附近的值就可以用这个点的值和一系列导数值表示。</p>
+<p>下面看一下展开式：</p>
+<ol>
+<li><p>一元函数在点xk处的泰勒展开式为： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f(x)=f(xk)+(x−xk)f′(xk)+12!(x−xk)2f′′(xk)+On</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>二元函数在点(xk,yk)处的泰勒展开式为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f(x,y)=f(xk,yk)+(x−xk)f′x(xk,yk)+(y−yk)f′y(xk,yk)+12!(x−xk)2f′′xx(xk,yk)+12!(x−xk)(y−yk)f′′xy(xk,yk)+12!(x−xk)(y−yk)f′′yx(xk,yk)+12!(y−yk)2f′′yy(xk,yk)+On</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>多元函数(n)在点xk处的泰勒展开式为:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f(x1,x2,…,xn)=f(x1k,x2k,…,xnk)+∑i=1n(xi−xik)f′xi(x1k,x2k,…,xnk)+12!∑i,j=1n(xi−xik)(xj−xjk)f′′ij(x1k,x2k,…,xnk)+On</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ul>
+<li>把Taylor展开式写成矩阵的形式：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f(x)=f(xk)+[∇f(xk)]T(x−xk)+12![x−xk]TH(xk)[x−xk]+On</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>其中：<br><img src="https://tianxiaomo.github.io/images/Taylor/Taylor-expansion.png" alt="image"></p>
 
-一元函数在点xk处的泰勒展开式为： 
-1f(x)=f(xk)+(x−xk)f′(xk)+12!(x−xk)2f′′(xk)+On
-
-二元函数在点(xk,yk)处的泰
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/04/30/Taylor公式-多项函数展开/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
         
       
     </div>
+
+    
+
     
     
     
 
     
 
+    
+      
+    
     
 
     
@@ -745,6 +946,8 @@ PE8 indentation contain
 
   
   
+  
+
   
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
@@ -757,7 +960,7 @@ PE8 indentation contain
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="田小默">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -771,11 +974,20 @@ PE8 indentation contain
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/04/29/PyTorch-训练一个分类神经网络/" itemprop="url">PyTorch 训练一个分类神经网络</a></h1>
+                
+                <a href="/2018/04/29/PyTorch-训练一个分类神经网络/" class="post-title-link" itemprop="url">PyTorch 训练一个分类神经网络</a>
+              
+            
+          </h1>
         
 
         <div class="post-meta">
           <span class="post-time">
+
+            
+            
+            
+
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -783,13 +995,30 @@ PE8 indentation contain
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-29T10:44:38+08:00">
-                2018-04-29
-              </time>
+
+              
+                
+              
+
+              <time title="Created: 2018-04-29 10:44:38" itemprop="dateCreated datePublished" datetime="2018-04-29T10:44:38+08:00">2018-04-29</time>
             
 
             
+              
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-05-23 16:23:22" itemprop="dateModified" datetime="2018-05-23T16:23:22+08:00">2018-05-23</time>
+              
             
           </span>
 
@@ -823,28 +1052,66 @@ PE8 indentation contain
       
         
           
-          现在知道怎么定义一个网络，计算loss更新权重了。
-What about data？通常来说处理的数据有图片，文本，声音和视频，python有专门的库加载这些数据成numpy的array格式。然后转成torch.Tensor.
+            <p>现在知道怎么定义一个网络，计算loss更新权重了。</p>
+<h4 id="What-about-data？"><a href="#What-about-data？" class="headerlink" title="What about data？"></a>What about data？</h4><p>通常来说处理的数据有图片，文本，声音和视频，python有专门的库加载这些数据成numpy的array格式。然后转成torch.Tensor.</p>
+<ul>
+<li>对于图片，可以使用 Pillow,OpenCV 等</li>
+<li>声音的话，可以用 scipy,librosa</li>
+<li>文本信息可以使用 原生的 Python或Cython,或者 NLKT 和 SpyCy</li>
+</ul>
+<p>特别是视频，Torch 有专门的包 <a href="http://pytorch.org/docs/master/torchvision/" target="_blank" rel="noopener">torchvision</a>,他为像 Imagenet，CIFAR10，MNIST等这样的数据集提供加载器，也提供图片的数据转换，torchvison.datasets 和 torch.utils.data.DataLoader .</p>
+<p>这样提供了很大的便利，避免重复造轮子。</p>
+<p>这小节使用 CIFAR10 数据集。这是一个包含，飞机，汽车，鸟，猫，鹿，狗，青蛙，马，船，卡车，十种类型图片。 CIFAR-10 图片是统一的 32 x 32 大小，包含 RGB 三个通道。<br><img src="https://tianxiaomo.github.io/images/cifar-10/cifar10.png" alt="image"></p>
+<h3 id="训练一个图片分类器"><a href="#训练一个图片分类器" class="headerlink" title="训练一个图片分类器"></a>训练一个图片分类器</h3><p>我们需要做以下几布：</p>
+<ol>
+<li>利用 torchvision 加载格式化 CIFAR-10 测试集和训练集</li>
+<li>定义一个卷积神经网络</li>
+<li>定义一个 loss 函数</li>
+<li>利用训练集训练网络</li>
+<li>利用测试集进行测试</li>
+</ol>
+<h4 id="1-加载、标准化-CIFAR-10"><a href="#1-加载、标准化-CIFAR-10" class="headerlink" title="1.加载、标准化 CIFAR-10"></a>1.加载、标准化 CIFAR-10</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import torch</span><br><span class="line">import torchvision</span><br><span class="line">import torchvision.transforms as transforms</span><br></pre></td></tr></table></figure>
+<p>torchvision 输出的数据是 [0,1] PILImage 图片，我们需要转换成 标准化的 Tensor [-1,1]格式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">transform = transforms.Compose(</span><br><span class="line">    [transforms.ToTensor(),</span><br><span class="line">    transforms.Normalize((0.5,0.5,0.5),(0.5,0.5,0.5))])</span><br><span class="line"></span><br><span class="line">trainset = torchvision.datasets.CIFAR10(root=&apos;./data&apos;,train=True,</span><br><span class="line">download=True,</span><br><span class="line">transform=transform)</span><br><span class="line"></span><br><span class="line">trainloader = torch.utils.data.DataLoader(trainset,batch_size=4,</span><br><span class="line">shuffle=True,</span><br><span class="line">num_workers=2)</span><br><span class="line"></span><br><span class="line">testset = torchvision.datasets.CIFAR10(root=&apos;./data&apos;,train=False,</span><br><span class="line">download=True,</span><br><span class="line">transform=transform)</span><br><span class="line"></span><br><span class="line">testloader = torch.utils.data.DataLoader(testset,batch_size=4,</span><br><span class="line">shuffle=False,num_workers=2)</span><br><span class="line"></span><br><span class="line">classes = (&apos;plane&apos;,&apos;car&apos;,&apos;bird&apos;,&apos;cat&apos;,&apos;deer&apos;,&apos;dog&apos;,&apos;frog&apos;,&apos;horse&apos;,&apos;ship&apos;,&apos;truck&apos;)</span><br></pre></td></tr></table></figure>
+<p>OUT:</p>
+<pre><code>Files already downloaded and verified
+Files already downloaded and verified
+</code></pre><p>这部分数据是从网上下载下来的，但我根本下载不了，所以从<a href="https://www.kaggle.com/pankrzysiu/cifar10-python/data" target="_blank" rel="noopener">kaggle</a>下载放在./data 文件夹下。</p>
+<p>先看看图片吧。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">import numpy as np</span><br><span class="line">%matplotlib inline</span><br><span class="line"></span><br><span class="line">def imshow(img):</span><br><span class="line">    img = img / 2 + 0.5</span><br><span class="line">    npimg = img.numpy()</span><br><span class="line">    plt.imshow(np.transpose(npimg,(1,2,0)))</span><br><span class="line">    </span><br><span class="line">dataiter = iter(trainloader)</span><br><span class="line">images, labels = dataiter.next()</span><br><span class="line"></span><br><span class="line">imshow(torchvision.utils.make_grid(images))</span><br><span class="line">print(&quot; &quot;.join(&apos;%5s&apos; % classes[labels[j]] for j in range(4)))</span><br></pre></td></tr></table></figure></p>
+<p>OUT:</p>
+<pre><code>frog   dog   dog truck
+</code></pre><p><img src="https://tianxiaomo.github.io/images/cifar-10/cifar10-show.png" alt="image"></p>
+<h4 id="2-定义一个卷积神经网络"><a href="#2-定义一个卷积神经网络" class="headerlink" title="2.定义一个卷积神经网络"></a>2.定义一个卷积神经网络</h4><p>把上一小节那个卷积神经网络复制过来，将输入通道改成三。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">import torch.nn as nn</span><br><span class="line">import torch.nn.functional as F</span><br><span class="line"></span><br><span class="line">class Net(nn.Module):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        super(Net,self).__init__()</span><br><span class="line">        self.conv1 = nn.Conv2d(3,6,5)</span><br><span class="line">        self.pool = nn.MaxPool2d(2,2)</span><br><span class="line">        self.conv2 = nn.Conv2d(6,16,5)</span><br><span class="line">        self.fc1 = nn.Linear(16*5*5,120)</span><br><span class="line">        self.fc2 = nn.Linear(120,84)</span><br><span class="line">        self.fc3 = nn.Linear(84,10)</span><br><span class="line"></span><br><span class="line">    def forward(self, x):</span><br><span class="line">        x = self.pool(F.relu(self.conv1(x)))</span><br><span class="line">        x = self.pool(F.relu(self.conv2(x)))</span><br><span class="line">        x = x.view(-1,16*5*5)</span><br><span class="line">        x = F.relu(self.fc1(x))</span><br><span class="line">        x = F.relu(self.fc2(x))</span><br><span class="line">        x = self.fc3(x)</span><br><span class="line">        return x</span><br><span class="line">    </span><br><span class="line">net = Net()</span><br></pre></td></tr></table></figure></p>
+<h4 id="3-定义-loss-函数和优化器"><a href="#3-定义-loss-函数和优化器" class="headerlink" title="3.定义 loss 函数和优化器"></a>3.定义 loss 函数和优化器</h4><p>利用交叉熵loss 和 SGD.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import torch.optim as optim</span><br><span class="line"></span><br><span class="line">criterion = nn.CrossEntropyLoss()</span><br><span class="line">optimizer = optim.SGD(net.parameters(),lr = 0.001,momentum = 0.9)</span><br></pre></td></tr></table></figure></p>
+<h4 id="4-训练网络"><a href="#4-训练网络" class="headerlink" title="4.训练网络"></a>4.训练网络</h4><p>现在开始好玩了。先简单跑一下数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">for epoch in range(2):</span><br><span class="line"></span><br><span class="line">    running_loss = 0.0</span><br><span class="line">    for i,data in enumerate(trainloader,0):</span><br><span class="line">        inputs, labels = data</span><br><span class="line">        optimizer.zero_grad()</span><br><span class="line">        </span><br><span class="line">        outputs = net(inputs)</span><br><span class="line">        loss = criterion(outputs,labels)</span><br><span class="line">        loss.backward()</span><br><span class="line">        optimizer.step()</span><br><span class="line"></span><br><span class="line">        running_loss += loss.item()</span><br><span class="line">        if i % 2000 == 1999:</span><br><span class="line">            print(&apos;[%d,%5d] loss: %.3f&apos; %(epoch + 1,i+1,running_loss/2000))</span><br><span class="line">            running_loss = 0.0</span><br><span class="line">print(&apos;Finished Training&apos;)</span><br></pre></td></tr></table></figure>
+<h4 id="5-利用测试集测试网络"><a href="#5-利用测试集测试网络" class="headerlink" title="5.利用测试集测试网络"></a>5.利用测试集测试网络</h4><p>现在已经利用训练集训练了两次，我们需要测试集检查一下是否学到了什么东西。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dataiter = iter(testloader)</span><br><span class="line">images,labels = dataiter.next()</span><br><span class="line"></span><br><span class="line">imshow(torchvision.utils.make_grid(images))</span><br><span class="line">print(&apos;GroundTruth: &apos;,&apos; &apos;.join(&apos;%5s&apos; % classes[labels[j]] for j in range(4)))</span><br></pre></td></tr></table></figure></p>
+<p>OUT:<br>    GroundTruth:    cat  ship  ship plane<br><img src="https://tianxiaomo.github.io/images/cifar-10/cifar10-test.png" alt="image"></p>
+<p>看神经网络能不能认出来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">outputs = net(images)</span><br></pre></td></tr></table></figure>
+<p>输出是一个10个类别的权重。哪个权重高，他会认为更可能是那个。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">_,predicted = torch.max(outputs,1)</span><br><span class="line">print(&apos;Predicted: &apos;,&apos; &apos;.join(&apos;%5s&apos; % classes[predicted[j]] </span><br><span class="line">for j in rang(4)))</span><br></pre></td></tr></table></figure></p>
+<p>OUT:<br>    Predicted:    dog   car truck  ship</p>
+<p>好吧…</p>
+<p>大概看下在每个种类上的表现吧<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class_correct = list(0. for i in range(10))</span><br><span class="line">class_total = list(0. for i in range(10))</span><br><span class="line">with torch.no_grad():</span><br><span class="line">    for data in testloader:</span><br><span class="line">        images, labels = data</span><br><span class="line">        outputs = net(images)</span><br><span class="line">        _, predicted = torch.max(outputs, 1)</span><br><span class="line">        c = (predicted == labels).squeeze()</span><br><span class="line">        for i in range(4):</span><br><span class="line">            label = labels[i]</span><br><span class="line">            class_correct[label] += c[i].item()</span><br><span class="line">            class_total[label] += 1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">for i in range(10):</span><br><span class="line">    print(&apos;Accuracy of %5s : %2d %%&apos; % (</span><br><span class="line">        classes[i], 100 * class_correct[i] / class_total[i]))</span><br></pre></td></tr></table></figure></p>
+<p>OUT:<br>    Accuracy of plane : 73 %<br>    Accuracy of   car : 44 %<br>    Accuracy of  bird : 45 %<br>    Accuracy of   cat : 32 %<br>    Accuracy of  deer : 26 %<br>    Accuracy of   dog : 42 %<br>    Accuracy of  frog : 61 %<br>    Accuracy of horse : 75 %<br>    Accuracy of  ship : 43 %<br>    Accuracy of truck : 78 %</p>
+<h4 id="6-在GPU上训练"><a href="#6-在GPU上训练" class="headerlink" title="6.在GPU上训练"></a>6.在GPU上训练</h4><p>这个嘛，额，不存在的，GT740M啊，不支持啊…</p>
 
-对于图片，可以使用 Pillow,OpenCV 等
-声音的话，可以用 
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/04/29/PyTorch-训练一个分类神经网络/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
         
       
     </div>
+
+    
+
     
     
     
 
     
 
+    
+      
+    
     
 
     
@@ -875,6 +1142,8 @@ What about data？通常来说处理的数据有图片，文本，声音和视�
 
   
   
+  
+
   
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
@@ -887,7 +1156,7 @@ What about data？通常来说处理的数据有图片，文本，声音和视�
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="田小默">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -901,11 +1170,20 @@ What about data？通常来说处理的数据有图片，文本，声音和视�
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/04/28/Torch-熟悉/" itemprop="url">Torch 熟悉</a></h1>
+                
+                <a href="/2018/04/28/Torch-熟悉/" class="post-title-link" itemprop="url">Torch 熟悉</a>
+              
+            
+          </h1>
         
 
         <div class="post-meta">
           <span class="post-time">
+
+            
+            
+            
+
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -913,13 +1191,30 @@ What about data？通常来说处理的数据有图片，文本，声音和视�
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-28T23:43:04+08:00">
-                2018-04-28
-              </time>
+
+              
+                
+              
+
+              <time title="Created: 2018-04-28 23:43:04" itemprop="dateCreated datePublished" datetime="2018-04-28T23:43:04+08:00">2018-04-28</time>
             
 
             
+              
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-04-29 12:10:39" itemprop="dateModified" datetime="2018-04-29T12:10:39+08:00">2018-04-29</time>
+              
             
           </span>
 
@@ -953,24 +1248,91 @@ What about data？通常来说处理的数据有图片，文本，声音和视�
       
         
           
-          1234567891011121314151617import torchx = torch.randn(2,3)print(x)x = ((x*2)/(x-1))print(x)print(x.requires_grad)# 把variable的设置grad给tensor了x.requires_g
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/04/28/Torch-熟悉/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line">x = torch.randn(<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line">print(x)</span><br><span class="line">x = ((x*<span class="number">2</span>)/(x<span class="number">-1</span>))</span><br><span class="line">print(x)</span><br><span class="line">print(x.requires_grad)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把variable的设置grad给tensor了</span></span><br><span class="line">x.requires_grad_(<span class="keyword">True</span>)</span><br><span class="line">print(x.requires_grad)</span><br><span class="line"></span><br><span class="line">y = (x*x).sum()</span><br><span class="line"></span><br><span class="line">y.backward()</span><br><span class="line"><span class="comment"># y = x^2</span></span><br><span class="line"><span class="comment">#dy/dx = 2 * x</span></span><br><span class="line">print(x.grad)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">a = torch.randn(<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line">print(a)</span><br><span class="line">b = ((a*<span class="number">2</span>)/(a<span class="number">-1</span>))</span><br><span class="line">print(b)</span><br><span class="line">print(<span class="string">"a grad is "</span>,a.requires_grad)</span><br><span class="line">print(<span class="string">"b grad is "</span>,b.requires_grad)</span><br><span class="line">a.requires_grad_(<span class="keyword">True</span>)</span><br><span class="line">b.requires_grad_(<span class="keyword">True</span>)</span><br><span class="line">print(<span class="string">"a grad is "</span>,a.requires_grad)</span><br><span class="line">print(<span class="string">"b grad is "</span>,b.requires_grad)</span><br><span class="line"></span><br><span class="line">c = (b*b).sum()</span><br><span class="line"></span><br><span class="line">c.backward()</span><br><span class="line"><span class="comment"># b = a*2/(a-1)</span></span><br><span class="line"><span class="comment">#db/da = 2ln(a-1)</span></span><br><span class="line"><span class="comment"># c = b^2</span></span><br><span class="line"><span class="comment"># dc/db = 2b</span></span><br><span class="line">print(<span class="string">"a_grad = "</span>,a.grad)</span><br><span class="line">print(<span class="string">"b_grad = "</span>,b.grad)</span><br></pre></td></tr></table></figure>
+<pre><code>tensor([[ 1.3270, -2.5966, -0.1547],
+        [ 0.3614,  1.0595,  0.8459]])
+tensor([[  8.1156,   1.4439,   0.2679],
+        [ -1.1320,  35.5890, -10.9797]])
+a grad is  False
+b grad is  False
+a grad is  True
+b grad is  True
+a_grad =  None
+b_grad =  tensor([[ 16.2312,   2.8879,   0.5359],
+        [ -2.2639,  71.1781, -21.9595]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">a = torch.ones(<span class="number">2</span>,<span class="number">3</span>)+<span class="number">1</span></span><br><span class="line">print(a)</span><br><span class="line">b = ((a*<span class="number">2</span>)/(a<span class="number">-1</span>))</span><br><span class="line">print(b)</span><br><span class="line">print(<span class="string">"a grad is "</span>,a.requires_grad)</span><br><span class="line">a.requires_grad_(<span class="keyword">True</span>)</span><br><span class="line">print(<span class="string">"a grad is "</span>,a.requires_grad)</span><br><span class="line"></span><br><span class="line">b.backward()</span><br><span class="line"></span><br><span class="line">print(<span class="string">"a_grad = "</span>,a.grad)</span><br></pre></td></tr></table></figure>
+<pre><code>tensor([[ 2.,  2.,  2.],
+        [ 2.,  2.,  2.]])
+tensor([[ 4.,  4.,  4.],
+        [ 4.,  4.,  4.]])
+a grad is  False
+a grad is  True
+
+
+
+---------------------------------------------------------------------------
+
+RuntimeError                              Traceback (most recent call last)
+
+&lt;ipython-input-31-b43c2a9b1b1c&gt; in &lt;module&gt;()
+     13 
+     14 # c.backward()
+---&gt; 15 b.backward()
+     16 # b = a*2/(a-1)
+     17 #db/da = 2ln(a-1)
+
+RuntimeError: element 0 of tensors does not require grad and does not have a grad_fn
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">x = torch.randn(<span class="number">3</span>,requires_grad = <span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line">y = x*<span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># y.data.norm() 是求 y 的范数，就是 y 中的元素全部 p 次方，然后开 p 次方，默认 p=2</span></span><br><span class="line"><span class="keyword">while</span> y.data.norm() &lt; <span class="number">1000</span>:</span><br><span class="line">    y = y*<span class="number">2</span></span><br><span class="line"></span><br><span class="line">print(y)</span><br><span class="line">gradients = torch.tensor([<span class="number">0.1</span>,<span class="number">1.0</span>,<span class="number">0.0001</span>],dtype = torch.float)</span><br><span class="line"></span><br><span class="line"><span class="comment"># backward 自动和参数相乘</span></span><br><span class="line">y.backward(gradients)</span><br><span class="line">print(x.grad)</span><br><span class="line"></span><br><span class="line">print(x.requires_grad)</span><br><span class="line">print((x ** <span class="number">2</span>).requires_grad)</span><br><span class="line"><span class="keyword">with</span> torch.no_grad():</span><br><span class="line">    print((x ** <span class="number">2</span>).requires_grad)</span><br><span class="line">    </span><br><span class="line">print((x ** <span class="number">2</span>).requires_grad)</span><br></pre></td></tr></table></figure>
+<pre><code>tensor([-571.8924,  188.2365, -904.6218])
+tensor([  204.8000,  2048.0000,     0.2048])
+True
+True
+False
+True
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Net</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="comment"># 定义一个网络</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super(Net, self).__init__()</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 1 个图像输入通道，6 个输出通道， 5x5 的卷积核</span></span><br><span class="line">        self.conv1 = nn.Conv2d(<span class="number">1</span>, <span class="number">6</span>, <span class="number">5</span>)</span><br><span class="line">        <span class="comment">#6 个输入通道，16 个输出通道</span></span><br><span class="line">        self.conv2 = nn.Conv2d(<span class="number">6</span>, <span class="number">16</span>, <span class="number">5</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">#1 个线性函数 y = Wx +b</span></span><br><span class="line">        self.fc1 = nn.Linear(<span class="number">16</span> * <span class="number">5</span> *<span class="number">5</span> ,<span class="number">120</span>)</span><br><span class="line">        self.fc2 = nn.Linear(<span class="number">120</span> , <span class="number">84</span>)</span><br><span class="line">        self.fc3 = nn.Linear(<span class="number">84</span>,<span class="number">10</span>)</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        <span class="comment"># 2x2 的池化窗口</span></span><br><span class="line">        x = F.max_pool2d(F.relu(self.conv1(x)),(<span class="number">2</span>,<span class="number">2</span>))</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 如果池话窗口为方形，你也可以设一个参数</span></span><br><span class="line">        x = F.max_pool2d(F.relu(self.conv2(x)),<span class="number">2</span>)</span><br><span class="line">        </span><br><span class="line">        x = x.view(<span class="number">-1</span>,self.num_flat_features(x))  <span class="comment"># 相当于把 16 个 5*5 的矩阵拍平成 16 个 25 的 </span></span><br><span class="line">        x = F.relu(self.fc1(x))</span><br><span class="line">        x = F.relu(self.fc2(x))</span><br><span class="line">        x = self.fc3(x)</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">num_flat_features</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        size = x.size()[<span class="number">1</span>:]  <span class="comment"># 得到除第一维的其他维之和，如：3*4*5*6 则最后返回 4*5*6 = 120</span></span><br><span class="line">        num_features = <span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> s <span class="keyword">in</span> size:</span><br><span class="line">            num_features *= s</span><br><span class="line">        <span class="keyword">return</span> num_features</span><br><span class="line">    </span><br><span class="line">net = Net()</span><br><span class="line">print(net)</span><br></pre></td></tr></table></figure>
+<pre><code>Net(
+  (conv1): Conv2d(1, 6, kernel_size=(5, 5), stride=(1, 1))
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看一下参数</span></span><br><span class="line">params = list(net.parameters())</span><br><span class="line">print(len(params))</span><br><span class="line">print(params[<span class="number">2</span>].size())</span><br></pre></td></tr></table></figure>
+<pre><code>10
+torch.Size([16, 6, 5, 5])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 载入数据</span></span><br><span class="line">input = torch.randn(<span class="number">1</span>,<span class="number">1</span>,<span class="number">32</span>,<span class="number">32</span>)</span><br><span class="line">out = net(input)</span><br><span class="line">print(out)</span><br></pre></td></tr></table></figure>
+<pre><code>tensor([[-0.0400,  0.0145, -0.0109, -0.0255,  0.0603,  0.0657, -0.0557,
+         -0.0260,  0.0959,  0.1870]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">net.zero_grad()</span><br><span class="line">out.backward(torch.randn(<span class="number">1</span>,<span class="number">10</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">output = net(input)</span><br><span class="line">target = torch.arange(<span class="number">1</span>,<span class="number">11</span>)</span><br><span class="line">target = target.view(<span class="number">1</span>,<span class="number">-1</span>)</span><br><span class="line">criterion = nn.MSELoss()</span><br><span class="line"></span><br><span class="line">loss = criterion(output,target)</span><br><span class="line">print(loss)</span><br></pre></td></tr></table></figure>
+<pre><code>tensor(37.9689)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">print(loss.grad_fn) <span class="comment"># MSELoss</span></span><br><span class="line">print(loss.grad_fn.next_functions[<span class="number">0</span>][<span class="number">0</span>]) <span class="comment"># Linear</span></span><br><span class="line">print(loss.grad_fn.next_functions[<span class="number">0</span>][<span class="number">0</span>].next_functions[<span class="number">0</span>][<span class="number">0</span>]) <span class="comment"># ReLU</span></span><br></pre></td></tr></table></figure>
+<pre><code>&lt;MseLossBackward object at 0x00000275FF44FDA0&gt;
+&lt;AddmmBackward object at 0x00000275FF44FBA8&gt;
+&lt;ExpandBackward object at 0x00000275FF44FDA0&gt;
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">net.zero_grad()</span><br><span class="line">print(net.conv1.bias.grad)</span><br><span class="line">loss.backward()</span><br><span class="line">print(net.conv1.bias.grad)</span><br></pre></td></tr></table></figure>
+<pre><code>tensor([ 0.,  0.,  0.,  0.,  0.,  0.])
+tensor([-0.1013,  0.0209, -0.0838, -0.0878, -0.0151,  0.0398])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">learning_rate = <span class="number">0.01</span></span><br><span class="line"><span class="keyword">for</span> f <span class="keyword">in</span> net.parameters():</span><br><span class="line">    f.data.sub_(f.grad.data * learning_rate)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用内置 更新权重</span></span><br><span class="line"><span class="keyword">import</span> torch.optim <span class="keyword">as</span> optim</span><br><span class="line"></span><br><span class="line"><span class="comment"># 做一个自己的 optimizer</span></span><br><span class="line">optimizer = optim.SGD(net.parameters(),lr = <span class="number">0.01</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练</span></span><br><span class="line">optimizer.zero_grad()</span><br><span class="line">output = net(input)</span><br><span class="line">loss = criterion(output, target)</span><br><span class="line">loss.backward()</span><br><span class="line">optimizer.step()</span><br></pre></td></tr></table></figure>
+
+          
         
       
     </div>
+
+    
+
     
     
     
 
     
 
+    
+      
+    
     
 
     
@@ -1003,6 +1365,8 @@ What about data？通常来说处理的数据有图片，文本，声音和视�
   
   
 
+  
+
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
   
   
@@ -1013,7 +1377,7 @@ What about data？通常来说处理的数据有图片，文本，声音和视�
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="田小默">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
@@ -1027,11 +1391,20 @@ What about data？通常来说处理的数据有图片，文本，声音和视�
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/04/27/Github-搭建Blog/" itemprop="url">Github 搭建Blog</a></h1>
+                
+                <a href="/2018/04/27/Github-搭建Blog/" class="post-title-link" itemprop="url">Github 搭建Blog</a>
+              
+            
+          </h1>
         
 
         <div class="post-meta">
           <span class="post-time">
+
+            
+            
+            
+
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -1039,13 +1412,30 @@ What about data？通常来说处理的数据有图片，文本，声音和视�
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-27T19:34:11+08:00">
-                2018-04-27
-              </time>
+
+              
+                
+              
+
+              <time title="Created: 2018-04-27 19:34:11" itemprop="dateCreated datePublished" datetime="2018-04-27T19:34:11+08:00">2018-04-27</time>
             
 
             
+              
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-12-25 20:53:53" itemprop="dateModified" datetime="2018-12-25T20:53:53+08:00">2018-12-25</time>
+              
             
           </span>
 
@@ -1079,24 +1469,23 @@ What about data？通常来说处理的数据有图片，文本，声音和视�
       
         
           
-          安装Node.js安装Git下载安装hexo添加next主题
+            <h2 id="安装Node-js"><a href="#安装Node-js" class="headerlink" title="安装Node.js"></a>安装Node.js</h2><h2 id="安装Git"><a href="#安装Git" class="headerlink" title="安装Git"></a>安装Git</h2><h2 id="下载安装hexo"><a href="#下载安装hexo" class="headerlink" title="下载安装hexo"></a>下载安装hexo</h2><h2 id="添加next主题"><a href="#添加next主题" class="headerlink" title="添加next主题"></a>添加next主题</h2>
           
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/04/27/Github-搭建Blog/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
         
       
     </div>
+
+    
+
     
     
     
 
     
 
+    
+      
+    
     
 
     
@@ -1125,15 +1514,12 @@ What about data？通常来说处理的数据有图片，文本，声音和视�
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
   </nav>
 
 
 
           </div>
-          
-
-
           
 
         </div>
@@ -1156,88 +1542,141 @@ What about data？通常来说处理的数据有图片，文本，声音和视�
 
       
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="田小默">
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="田小默">
             
               <p class="site-author-name" itemprop="name">田小默</p>
               <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
-          <nav class="site-state motion-element">
-
-            
-              <div class="site-state-item site-state-posts">
+          
+            <nav class="site-state motion-element">
               
-                <a href="/archives/">
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">27</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
               
-                  <span class="site-state-item-count">27</span>
-                  <span class="site-state-item-name">posts</span>
-                </a>
-              </div>
-            
 
-            
-
-            
               
-              
-              <div class="site-state-item site-state-tags">
-                <a href="/tags/index.html">
-                  <span class="site-state-item-count">24</span>
-                  <span class="site-state-item-name">tags</span>
-                </a>
-              </div>
-            
 
-          </nav>
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
 
           
 
           
             <div class="links-of-author motion-element">
-                
-                  <span class="links-of-author-item">
-                    <a href="https://github.com/Tianxiaomo" target="_blank" title="GitHub">
-                      
-                        <i class="fa fa-fw fa-github"></i>GitHub</a>
-                  </span>
-                
-                  <span class="links-of-author-item">
-                    <a href="http://weibo.com/tianxiaoxiaomo" target="_blank" title="微博">
-                      
-                        <i class="fa fa-fw fa-weibo"></i>微博</a>
-                  </span>
-                
-                  <span class="links-of-author-item">
-                    <a href="http://www.zhihu.com/people/tian-mo-98-60" target="_blank" title="知乎">
-                      
-                        <i class="fa fa-fw fa-globe"></i>知乎</a>
-                  </span>
-                
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/tianxiaomo" title="GitHub &rarr; https://github.com/tianxiaomo" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/tianxiaoxiaomo" title="Weibo &rarr; https://weibo.com/tianxiaoxiaomo" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.zhihu.com/people/tian-mo-98-60" title="Zhihu &rarr; https://www.zhihu.com/people/tian-mo-98-60" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>Zhihu</a>
+                </span>
+              
             </div>
           
 
           
-          
 
           
           
 
+          
+            
+          
           
 
         </div>
-      </section>
-
-      
-
-      
-
-      <div id="music163player">
-        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="110" src="//music.163.com/outchain/player?type=0&id=2058497430&auto=0&height=90"></iframe>
       </div>
+
+      
+
+      
 
     </div>
   </aside>
@@ -1250,16 +1689,18 @@ What about data？通常来说处理的数据有图片，文本，声音和视�
     <footer id="footer" class="footer">
       <div class="footer-inner">
         <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
-  <span class="with-love">
+  <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">田小默</span>
 
   
+
+  
 </div>
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
 
 
 
@@ -1267,31 +1708,12 @@ What about data？通常来说处理的数据有图片，文本，声音和视�
 
 
 
-  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.6.0</div>
 
 
 
 
         
-<div class="busuanzi-count">
-  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-  
-    <span class="site-uv">
-      <i class="fa fa-user"></i>访问人数
-      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
-      
-    </span>
-  
-
-  
-    <span class="site-pv">
-      <i class="fa fa-eye"></i>总访问量
-      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
-      
-    </span>
-  
-</div>
 
 
 
@@ -1313,11 +1735,14 @@ What about data？通常来说处理的数据有图片，文本，声音和视�
 
     
 
+    
+
+    
   </div>
 
   
 
-<script type="text/javascript">
+<script>
   if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
     window.Promise = null;
   }
@@ -1331,10 +1756,6 @@ What about data？通常来说处理的数据有图片，文本，声音和视�
 
 
 
-  
-
-
-  
 
 
 
@@ -1346,48 +1767,34 @@ What about data？通常来说处理的数据有图片，文本，声音和视�
 
 
 
+
+
+
+
+
+
   
   
-    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
   
 
   
   
-    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
   
 
   
   
-    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
   
 
 
   
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+  <script src="/js/src/utils.js?v=6.6.0"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+  <script src="/js/src/motion.js?v=6.6.0"></script>
 
 
 
@@ -1395,9 +1802,9 @@ What about data？通常来说处理的数据有图片，文本，声音和视�
   
 
 
-  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+  <script src="/js/src/affix.js?v=6.6.0"></script>
 
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+  <script src="/js/src/schemes/pisces.js?v=6.6.0"></script>
 
 
 
@@ -1406,21 +1813,7 @@ What about data？通常来说处理的数据有图片，文本，声音和视�
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
-
-
-
-  
-
-
-  
-
-
-
-
-	
-
-
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
 
 
 
@@ -1428,10 +1821,7 @@ What about data？通常来说处理的数据有图片，文本，声音和视�
 
 
 
-
-
   
-
 
 
 
@@ -1456,35 +1846,69 @@ What about data？通常来说处理的数据有图片，文本，声音和视�
   
 
   
+
+  
   
 
   
   
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
 
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
   
+  
 
   
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  
+
+  
+
 
 </body>
 </html>
