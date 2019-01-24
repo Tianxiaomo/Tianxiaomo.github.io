@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh,en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="BLEU一种机器翻译评价方法，虽然是为机器翻译提出，但后来也广泛用于NLP其他领域。 原理语言的评价是很困难的，这不是简单的分类，涉及句子的流畅性、充分性和准确性等。然而人工去做这件事很显然是不现实的，还有就是个人会掺杂一些主观因素。 BLEU：bilingual evaluation understudyN_Grem指文本中连续出现的n个语词。n元语法模型是基于(n-1)阶马尔可夫链的一种概率语">
+<meta name="keywords" content="NLP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="&#39;NLP_BLEU评价指标&#39;">
+<meta property="og:url" content="http://yoursite.com/2019/01/17/NLP-BLEU评价指标/index.html">
+<meta property="og:site_name" content="田小默的博客">
+<meta property="og:description" content="BLEU一种机器翻译评价方法，虽然是为机器翻译提出，但后来也广泛用于NLP其他领域。 原理语言的评价是很困难的，这不是简单的分类，涉及句子的流畅性、充分性和准确性等。然而人工去做这件事很显然是不现实的，还有就是个人会掺杂一些主观因素。 BLEU：bilingual evaluation understudyN_Grem指文本中连续出现的n个语词。n元语法模型是基于(n-1)阶马尔可夫链的一种概率语">
+<meta property="og:locale" content="zh,en">
+<meta property="og:image" content="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/19-1-17/5188741.jpg">
+<meta property="og:image" content="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/19-1-17/69885474.jpg">
+<meta property="og:image" content="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/19-1-17/38160354.jpg">
+<meta property="og:image" content="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/19-1-17/99088974.jpg">
+<meta property="og:image" content="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/19-1-17/94269799.jpg">
+<meta property="og:image" content="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/19-1-17/11964252.jpg">
+<meta property="og:updated_time" content="2019-01-24T05:59:12.181Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="&#39;NLP_BLEU评价指标&#39;">
+<meta name="twitter:description" content="BLEU一种机器翻译评价方法，虽然是为机器翻译提出，但后来也广泛用于NLP其他领域。 原理语言的评价是很困难的，这不是简单的分类，涉及句子的流畅性、充分性和准确性等。然而人工去做这件事很显然是不现实的，还有就是个人会掺杂一些主观因素。 BLEU：bilingual evaluation understudyN_Grem指文本中连续出现的n个语词。n元语法模型是基于(n-1)阶马尔可夫链的一种概率语">
+<meta name="twitter:image" content="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/19-1-17/5188741.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/17/NLP-BLEU评价指标/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>'NLP_BLEU评价指标' | 田小默的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh,en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">田小默的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/17/NLP-BLEU评价指标/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="田小默">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="田小默的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">'NLP_BLEU评价指标'
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-01-17 15:05:25" itemprop="dateCreated datePublished" datetime="2019-01-17T15:05:25+08:00">2019-01-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-01-24 13:59:12" itemprop="dateModified" datetime="2019-01-24T13:59:12+08:00">2019-01-24</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="BLEU"><a href="#BLEU" class="headerlink" title="BLEU"></a>BLEU</h1><p>一种机器翻译评价方法，虽然是为机器翻译提出，但后来也广泛用于NLP其他领域。</p>
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>语言的评价是很困难的，这不是简单的分类，涉及句子的流畅性、充分性和准确性等。然而人工去做这件事很显然是不现实的，还有就是个人会掺杂一些主观因素。</p>
+<h2 id="BLEU：bilingual-evaluation-understudy"><a href="#BLEU：bilingual-evaluation-understudy" class="headerlink" title="BLEU：bilingual evaluation understudy"></a>BLEU：bilingual evaluation understudy</h2><h2 id="N-Grem"><a href="#N-Grem" class="headerlink" title="N_Grem"></a>N_Grem</h2><p>指文本中连续出现的n个语词。n元语法模型是基于(n-1)阶马尔可夫链的一种概率语言模型，通过n个语词出现的概率来推断语句的结构。</p>
+<ul>
+<li>例子</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">原文： 猫坐在垫子上</span><br><span class="line">机器翻译：The cat sat on the mat.</span><br><span class="line">人工翻译：The cat is on the mat.</span><br></pre></td></tr></table></figure>
+<ol>
+<li>1_grem</li>
+</ol>
+<p><img src="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/19-1-17/5188741.jpg" style="zoom:50%"></p>
+<pre><code>匹配度是5/6
+</code></pre><ol start="2">
+<li>2_grem</li>
+</ol>
+<p><img src="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/19-1-17/69885474.jpg" style="zoom:50%"></p>
+<pre><code>匹配度是3/5
+</code></pre><ol start="3">
+<li>3_grem</li>
+</ol>
+<p><img src="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/19-1-17/38160354.jpg" style="zoom:50%"></p>
+<pre><code>匹配度是1/4
+</code></pre><ol start="4">
+<li>4_grem</li>
+</ol>
+<p><img src="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/19-1-17/99088974.jpg" style="zoom:50%"></p>
+<pre><code>匹配度是0
+</code></pre><p>1_grem表示有多少个独立的词被翻译出来了，n&gt;=2_grem反应翻译的流畅程度。</p>
+<h2 id="改进的N-grem"><a href="#改进的N-grem" class="headerlink" title="改进的N_grem"></a>改进的N_grem</h2><p>如果是这种情况</p>
+<p><img src="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/19-1-17/94269799.jpg" style="zoom:50%"></p>
+<p>计算1_grem是6/6.很明显是不合理的，所以取分子部分为机器翻译和参考翻译词出现次数的最小值。</p>
+<p>Count_clip = min(Count,Max_Ref_Count)</p>
+<p>各阶N_grem计算公式：</p>
+<p>$p_n=\frac{\sum_{C\in{Candidates}}\sum _ { n - g r a m \in C }Count_ { c l i p } ( n - g r a m )}{\sum_{C ^ { \prime } \in {Candidates}}\sum _ { n - g r a m ^{\prime} \in C ^{\prime}}Count_ { c l i p } ( n - g r a m ^ {\prime})}$</p>
+<p>分子部分表示N_grem翻译和参考译文中的出现次数</p>
+<p>以上边的句子为例，计算到4_grem</p>
+<p>分子 = 5/6 + 3/5 + 1/4 = 202/120</p>
+<p>分母表示N_grem在翻译译文中的出现次数:</p>
+<p>分母 = 5/6 + 5/5 + 4/4 + 3/3 = 460/120</p>
+<p>pn = 202/460</p>
+<p>当句子较短时</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Candidate</td>
+<td>the</td>
+<td>cat</td>
+</tr>
+<tr>
+<td>Reference1</td>
+<td>the</td>
+<td>cat</td>
+<td>is</td>
+<td>on</td>
+<td>the</td>
+<td>mat</td>
+</tr>
+<tr>
+<td>Reference2</td>
+<td>there</td>
+<td>is</td>
+<td>a</td>
+<td>cat</td>
+<td>on</td>
+<td>the</td>
+<td>mat</td>
+</tr>
+</tbody>
+</table>
+<p>很明显，分母（等于2）部分会很小，导致pn很大，所以要加入短句惩罚项。</p>
+<p><img src="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/19-1-17/11964252.jpg" alt="image"></p>
+<p>当翻译句长大于参考句长时，BP为1，当小于时，BP为上公式计算得出</p>
+<p>为了使n_grem权重平均，使用了几何加权平均</p>
+<p>最后BLEU公式如下</p>
+<p>$\mathrm { BLEU } = \mathrm { BP } \cdot \exp \left( \sum _ { n = 1 } ^ { N } w _ { n } \log p _ { n } \right)$</p>
+<p>使用对数形式使公式更加简洁</p>
+<p>$\log \mathrm { BLEU } = \min \left( 1 - \frac { r } { c } , 0 \right) + \sum _ { n = 1 } ^ { N } w _ { n } \log p _ { n }$</p>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ul>
+<li><p>优点</p>
+<ul>
+<li>它的计算速度快，容易，特别是与人工翻译速率模型输出相比。</li>
+<li>它无处不在。这使您可以轻松地将模型与同一任务的基准进行比较。</li>
+<li>不幸的是，这种非常便利导致人们过度使用它，即使对于那些不是最佳度量选择的任务也是如此。</li>
+</ul>
+</li>
+<li><p>缺点</p>
+<ul>
+<li>它没有考虑句子意义</li>
+<li>它不直接考虑句子结构</li>
+<li>它不能很好地处理形态丰富的语言</li>
+<li>它不能很好地映射到人类的判断</li>
+</ul>
+</li>
+</ul>
+<p>BLEU在一定程度上解决了NLP的评价问题，但是还存在诸多缺陷，下面是大佬的一篇文章<br><a href="https://medium.com/@rtatman/evaluating-text-output-in-nlp-bleu-at-your-own-risk-e8609665a213" target="_blank" rel="noopener">https://medium.com/@rtatman/evaluating-text-output-in-nlp-bleu-at-your-own-risk-e8609665a213</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NLP/" rel="tag"># NLP</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/14/Topological-structural-analysis-of-digitized-binary-images-by-border-following-论文方法分析及c-实现/" rel="next" title="'Topological_structural_analysis_of_digitized_binary_images_by_border_following_论文方法分析及c++实现'">
+                <i class="fa fa-chevron-left"></i> 'Topological_structural_analysis_of_digitized_binary_images_by_border_following_论文方法分析及c++实现'
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/24/DICOM-医疗数位影像传输协定/" rel="prev" title="'DICOM-医疗数位影像传输协定'">
+                'DICOM-医疗数位影像传输协定' <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="田小默">
+            
+              <p class="site-author-name" itemprop="name">田小默</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">33</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/tianxiaomo" title="GitHub &rarr; https://github.com/tianxiaomo" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/tianxiaoxiaomo" title="Weibo &rarr; https://weibo.com/tianxiaoxiaomo" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.zhihu.com/people/tian-mo-98-60" title="Zhihu &rarr; https://www.zhihu.com/people/tian-mo-98-60" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>Zhihu</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#BLEU"><span class="nav-number">1.</span> <span class="nav-text">BLEU</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#原理"><span class="nav-number">2.</span> <span class="nav-text">原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#BLEU：bilingual-evaluation-understudy"><span class="nav-number">2.1.</span> <span class="nav-text">BLEU：bilingual evaluation understudy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#N-Grem"><span class="nav-number">2.2.</span> <span class="nav-text">N_Grem</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#改进的N-grem"><span class="nav-number">2.3.</span> <span class="nav-text">改进的N_grem</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特点"><span class="nav-number">2.4.</span> <span class="nav-text">特点</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">田小默</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.6.0</div>
+
+
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.6.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.6.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+    overflow: auto hidden;
+}
+</style>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+</body>
+</html>

@@ -327,6 +327,1256 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/05/tensorflow-c-踩的坑/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="田小默">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="田小默的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/08/05/tensorflow-c-踩的坑/" class="post-title-link" itemprop="url">tensorflow c++踩的坑</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-08-05 10:31:05" itemprop="dateCreated datePublished" datetime="2018-08-05T10:31:05+08:00">2018-08-05</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-10-16 10:32:42" itemprop="dateModified" datetime="2018-10-16T10:32:42+08:00">2018-10-16</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="问题1：头文件找不到"><a href="#问题1：头文件找不到" class="headerlink" title="问题1：头文件找不到"></a>问题1：头文件找不到</h2><ul>
+<li>编译tensorflow源码时添加环境变量<br>几种方式：</li>
+</ul>
+<ol>
+<li>打开 /etc/profile 文件，在末尾添加 export PATH=(自己的路径)$PATH</li>
+<li>把编译好的文件复制到 /usr/local/install/ 中</li>
+</ol>
+<ul>
+<li>编译时tensorflow的一些头文件找不到<br>看错误提示，到相应的文件夹下看看有没有相应的文件</li>
+</ul>
+<ol>
+<li>存在，说名环境变量没有设置正确</li>
+<li>若不存在，看看是否存在同样文件名的 .proto 文件，使用 protoc 生成 .cpp 和 .h 文件</li>
+<li>若也不存在 .proto文件，使用 find |grep 文件名，找到相应文件，可以复制到错误提示的文件夹中，或者把当前路径添加到环境变量中(原文件中使用的名字需要作相应的改动改动)</li>
+</ol>
+<h2 id="自己写的文件中方法找不到"><a href="#自己写的文件中方法找不到" class="headerlink" title="自己写的文件中方法找不到"></a>自己写的文件中方法找不到</h2><p>ctrl + 点击，跳转到源文件中查看源码，若却是不存在，使用 grep 在源文件中搜索定义的地方，然后在自己的代码中替换,并作相应修改<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">xzp@xzp-HP-Pavilion-Notebook:/usr/local/include/tf$ grep ends_with /usr/local/include/tf -r</span><br><span class="line">/usr/local/include/tf/tensorflow/docs_src/tutorials/images/image_recognition.md:  if (tensorflow::StringPiece(file_name).ends_with(&quot;.png&quot;)) &#123;</span><br><span class="line">/usr/local/include/tf/tensorflow/contrib/makefile/downloads/protobuf/src/google/protobuf/stubs/stringpiece.h:  bool ends_with(StringPiece x) const &#123;</span><br><span class="line">/usr/local/include/tf/tensorflow/contrib/makefile/downloads/protobuf/src/google/protobuf/stubs/stringpiece.cc:  if (ends_with(x)) &#123;</span><br><span class="line">/usr/local/include/tf/tensorflow/contrib/makefile/downloads/protobuf/src/google/protobuf/stubs/stringpiece_unittest.cc:  EXPECT_TRUE(a.ends_with(a));</span><br><span class="line">/usr/local/include/tf/tensorflow/contrib/makefile/downloads/protobuf/src/google/protobuf/stubs/stringpiece_unittest.cc:  EXPECT_TRUE(a.ends_with(&quot;bar&quot;));</span><br><span class="line">/usr/local/include/tf/tensorflow/contrib/makefile/downloads/protobuf/src/google/protobuf/stubs/stringpiece_unittest.cc:  EXPECT_TRUE(a.ends_with(e));</span><br><span class="line">/usr/local/include/tf/tensorflow/contrib/makefile/downloads/protobuf/src/google/protobuf/stubs/stringpiece_unittest.cc:  EXPECT_TRUE(b.ends_with(s1));</span><br><span class="line">/usr/local/include/tf/tensorflow/contrib/makefile/downloads/protobuf/src/google/protobuf/stubs/stringpiece_unittest.cc:  EXPECT_TRUE(b.ends_with(b));</span><br><span class="line">/usr/local/include/tf/tensorflow/contrib/makefile/downloads/protobuf/src/google/protobuf/stubs/stringpiece_unittest.cc:  EXPECT_TRUE(b.ends_with(e));</span><br><span class="line">/usr/local/include/tf/tensorflow/contrib/makefile/downloads/protobuf/src/google/protobuf/stubs/stringpiece_unittest.cc:  EXPECT_TRUE(e.ends_with(&quot;&quot;));</span><br><span class="line">/usr/local/include/tf/tensorflow/contrib/makefile/downloads/protobuf/src/google/protobuf/stubs/stringpiece_unittest.cc:  EXPECT_TRUE(!a.ends_with(b));</span><br><span class="line">/usr/local/include/tf/tensorflow/contrib/makefile/downloads/protobuf/src/google/protobuf/stubs/stringpiece_unittest.cc:  EXPECT_TRUE(!b.ends_with(a));</span><br><span class="line">/usr/local/include/tf/tensorflow/contrib/makefile/downloads/protobuf/src/google/protobuf/stubs/stringpiece_unittest.cc:  EXPECT_TRUE(!e.ends_with(a));</span><br><span class="line">/usr/local/include/tf/tensorflow/contrib/makefile/downloads/protobuf/src/google/protobuf/stubs/stringpiece_unittest.cc:  // ends_with</span><br><span class="line">/usr/local/include/tf/tensorflow/contrib/makefile/downloads/protobuf/src/google/protobuf/stubs/stringpiece_unittest.cc:  EXPECT_TRUE(abc.ends_with(abc));</span><br><span class="line">/usr/local/include/tf/tensorflow/contrib/makefile/downloads/protobuf/src/google/protobuf/stubs/stringpiece_unittest.cc:  EXPECT_TRUE(!abc.ends_with(&quot;abcdefguvwxyz&quot;));</span><br><span class="line">/usr/local/include/tf/tensorflow/contrib/makefile/downloads/protobuf/src/google/protobuf/stubs/stringpiece_unittest.cc:  EXPECT_TRUE(abc.ends_with(&quot;nopqrstuvwxyz&quot;));</span><br><span class="line">/usr/local/include/tf/tensorflow/contrib/makefile/downloads/protobuf/src/google/protobuf/util/internal/utility.cc:  return text.ends_with(suffix);</span><br><span class="line">/usr/local/include/tf/tensorflow/contrib/makefile/downloads/absl/absl/strings/match.h:// Returns whether a given std::string `text` ends with `ends_with`, ignoring case</span><br><span class="line">/usr/local/include/tf/tensorflow/contrib/makefile/downloads/googletest/googlemock/test/gmock-matchers_test.cc:  Matcher&lt;const string&amp;&gt; ends_with_ok = EndsWith(&quot;ok&quot;);</span><br><span class="line">/usr/local/include/tf/tensorflow/contrib/makefile/downloads/googletest/googlemock/test/gmock-matchers_test.cc:  ASSERT_THAT(&quot;book&quot;, ends_with_ok);</span><br><span class="line">/usr/local/include/tf/tensorflow/contrib/makefile/downloads/googletest/googlemock/test/gmock-matchers_test.cc:  EXPECT_NONFATAL_FAILURE(EXPECT_THAT(bad, ends_with_ok),</span><br><span class="line">/usr/local/include/tf/tensorflow/contrib/makefile/downloads/re2/re2/stringpiece.h:  bool ends_with(const StringPiece&amp; x) const &#123;</span><br><span class="line">xzp@xzp-HP-Pavilion-Notebook:/usr/local/include/tf$</span><br></pre></td></tr></table></figure></p>
+<h2 id="protoc-命令使用踩过的坑"><a href="#protoc-命令使用踩过的坑" class="headerlink" title="protoc 命令使用踩过的坑"></a>protoc 命令使用踩过的坑</h2><ol>
+<li>版本不正确<br>把目前使用的protoc 卸载，然后安装相应的版本，如果使用 apt remove protoc 卸载失败，可以直接在/usr/local/include/ 中把 头文件文件夹删了，在 /usr/local/bin/ 中把 protoc 删除</li>
+<li>找不到依赖的 .proto 文件，使用 protoc -I=相应路径 这种方式(如：sudo protoc -I=/usr/local/include/tf/ -I=. –cpp_out=. cluster.proto )</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/19/IIC驱动调试踩坑/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="田小默">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="田小默的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/06/19/IIC驱动调试踩坑/" class="post-title-link" itemprop="url">IIC驱动调试踩坑</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-06-19 11:09:18 / Modified: 12:10:57" itemprop="dateCreated datePublished" datetime="2018-06-19T11:09:18+08:00">2018-06-19</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近需要使用一个ad的加速度传感器，虽然传感器提供SPI和IIC两种通信方式，由于传感器与主控芯片连接有一定距离，所以只能使用IIC。但是主控芯片使用的是ST cortex-M4内核的芯片，ST的IIC使用硬件总线的话总是有些问题，所以使用模拟IIC。</p>
+<h3 id="1-驱动编写"><a href="#1-驱动编写" class="headerlink" title="1.驱动编写"></a>1.驱动编写</h3><p>官方只给了一个ad自家芯片驱动的SPI例程，所以只能自己写驱动。</p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fsgbqnbm89j30pa0b477g.jpg" alt="image"></p>
+<p>按照数据手册和时序图，写完驱动。</p>
+<h3 id="2-调试驱动"><a href="#2-调试驱动" class="headerlink" title="2.调试驱动"></a>2.调试驱动</h3><h4 id="2-1-IIC发送无回复应答"><a href="#2-1-IIC发送无回复应答" class="headerlink" title="2.1 IIC发送无回复应答"></a>2.1 IIC发送无回复应答</h4><p>驱动完成以后需要调试，刚开始IIC根本收不到回复，</p>
+<pre><code>w_ack = 1
+w_ack = 1
+w_ack = 1
+ui8temp  = 0x 0
+w_ack = 1
+w_ack = 1
+w_ack = 1
+</code></pre><p>又重新看了下时序和代码，发现代码没什么问题，后来重启了一下，可以成功收到回复</p>
+<pre><code>w_ack = 0
+w_ack = 0
+w_ack = 0
+ui8temp  = 0x 0
+w_ack = 0
+w_ack = 0
+w_ack = 0
+</code></pre><p>有时候串口也会受到J-link的影响，可能是电路有点问题。</p>
+<h4 id="2-2-数据读取不出来"><a href="#2-2-数据读取不出来" class="headerlink" title="2.2 数据读取不出来"></a>2.2 数据读取不出来</h4><p>虽然应答可以收到，但还是取不出数据，仔细看了数据手册，发现有一处细节没有注意。<br><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fsgcg0hpo8j30oj045my7.jpg" alt="image"></p>
+<p>上图红色圈到的地方，在发送完寄存器地址后，收到应答应该再次发送IIC start信号，但是给遗漏了。加上重新发送开始信号后，可以读到数据。</p>
+<pre><code>0xed
+0xff
+0xff
+0xff
+0xff
+0xff
+</code></pre><h4 id="2-3-只能读到一次数据"><a href="#2-3-只能读到一次数据" class="headerlink" title="2.3 只能读到一次数据"></a>2.3 只能读到一次数据</h4><p>虽然数据可以读到，但是如上面看到的，只有第一次可以读到，后续还是没有数据。这时我把最后一个ACK改成了1，但是还是依然如此，忽然想起来好像是我将时钟分频改了，又原来的168改成了8所以导致这种结果。</p>
+<h4 id="2-4-隔一次读到一次"><a href="#2-4-隔一次读到一次" class="headerlink" title="2.4 隔一次读到一次"></a>2.4 隔一次读到一次</h4><p>改后是可以读到数据了，但是隔一次读一个，这又是哪出问题了，示波器看波形。<br><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fsgcub1rrmj30g10783ys.jpg" alt="image"></p>
+<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fsgcuksbcbj30gf07mmxg.jpg" alt="image"></p>
+<p>呃，什么情况，本来空闲状态都应该是高电平的，这么一会高一会低。</p>
+<p>有点崩溃了，后来来回找了好久，才发现，上次把最后一个ACK给搞错了。改回低电平，成功读取数据。</p>
+<h3 id="3-总结"><a href="#3-总结" class="headerlink" title="3.总结"></a>3.总结</h3><p>驱动的编写调试是嵌入式编程的基础，但这也是最复杂最让人厌烦的事情，需要耐心和细心。</p>
+<p>韩智鸿老师说波形有些杂波，韩老师建议加104p旁路电容。IIC需要加4k7的电阻。</p>
+<p>感谢韩智鸿老师和linuxhan的帮助。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/11/Learning-Compression-Algorithms-for-Neural-Net-Pruning/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="田小默">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="田小默的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/06/11/Learning-Compression-Algorithms-for-Neural-Net-Pruning/" class="post-title-link" itemprop="url">Learning-Compression Algorithms for Neural Net Pruning</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-06-11 09:54:15" itemprop="dateCreated datePublished" datetime="2018-06-11T09:54:15+08:00">2018-06-11</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-12-25 20:53:31" itemprop="dateModified" datetime="2018-12-25T20:53:31+08:00">2018-12-25</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/30/python笔记/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="田小默">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="田小默的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/05/30/python笔记/" class="post-title-link" itemprop="url">python笔记</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-05-30 17:27:59" itemprop="dateCreated datePublished" datetime="2018-05-30T17:27:59+08:00">2018-05-30</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-10-16 10:38:43" itemprop="dateModified" datetime="2018-10-16T10:38:43+08:00">2018-10-16</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>[TOC]</p>
+<h1 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h1><h2 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h2><h3 id="三元运算符"><a href="#三元运算符" class="headerlink" title="三元运算符"></a>三元运算符</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">其他语言：</span><br><span class="line">    a = x&gt;y:x?y</span><br><span class="line">python:</span><br><span class="line">    a = x if x&gt;y else y</span><br></pre></td></tr></table></figure>
+<h3 id="set"><a href="#set" class="headerlink" title="set()"></a>set()</h3><h2 id="装饰器和神奇的"><a href="#装饰器和神奇的" class="headerlink" title="装饰器和神奇的@"></a>装饰器和神奇的@</h2><ul>
+<li>装饰器 Decorator<br>在程序运行期间动态增加功能的方式称为‘装饰器’。其实就是高阶函数，把原来的函数作为装饰器的参数运行，然后返回一个闭包代替原来函数。装饰器可以在运行函数前进行预处理，如参数类型检查等。</li>
+</ul>
+<p>使用装饰器的时候，定义函数/对象方法前使用 @ 。</p>
+<ul>
+<li><p>简单装饰器及装饰器运行机制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; def log(func):</span><br><span class="line">...     def wrapper(*args,**kw):</span><br><span class="line">...         print(&apos;call %s():&apos; %func.__name__)</span><br><span class="line">...         return func(*args,**kw)</span><br><span class="line">...     return wrapper</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; @log #装饰一下</span><br><span class="line">... def now():</span><br><span class="line">...     print(&apos;2018-7-24&apos;)</span><br><span class="line">...     return &apos;done&apos;</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; now() #运行时相当于运行 log(now()) -&gt; wrapper(now())</span><br><span class="line">call now():</span><br><span class="line">2018-7-24</span><br><span class="line">&apos;done&apos;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>传参装饰器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; def log(text):</span><br><span class="line">...     def decorator(func):</span><br><span class="line">...         def wrapper(*args, **kw):</span><br><span class="line">...             print &apos;%s %s():&apos; % (text, func.__name__)</span><br><span class="line">...             return func(*args, **kw)</span><br><span class="line">...         return wrapper</span><br><span class="line">...     return decorator</span><br><span class="line">... </span><br><span class="line">&gt;&gt;&gt; @log(&apos;execute&apos;)</span><br><span class="line">... def now():</span><br><span class="line">...     print &apos;2015-10-26&apos;</span><br><span class="line">...     return &quot;done&quot;</span><br><span class="line">... </span><br><span class="line">&gt;&gt;&gt; now() #运行时相当于运行 log(now()) -&gt; wrapper(now())</span><br><span class="line">excute now()</span><br><span class="line">2018-7-24</span><br><span class="line">&apos;done&apos;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h2><h3 id="list-to-str"><a href="#list-to-str" class="headerlink" title="list to str"></a>list to str</h3><pre><code>&apos;&apos;.join(str(x) for x in list)
+</code></pre><h1 id="builtins-内容"><a href="#builtins-内容" class="headerlink" title="builtins 内容"></a><strong>builtins</strong> 内容</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line">&apos;ArithmeticError&apos;</span><br><span class="line">&apos;AssertionError&apos;</span><br><span class="line">&apos;AttributeError&apos;</span><br><span class="line">&apos;BaseException&apos;</span><br><span class="line">&apos;BlockingIOError&apos;</span><br><span class="line">&apos;BrokenPipeError&apos;</span><br><span class="line">&apos;BufferError&apos;</span><br><span class="line">&apos;BytesWarning&apos;</span><br><span class="line">&apos;ChildProcessError&apos;</span><br><span class="line">&apos;ConnectionAbortedError&apos;</span><br><span class="line">&apos;ConnectionError&apos;</span><br><span class="line">&apos;ConnectionRefusedError&apos;</span><br><span class="line">&apos;ConnectionResetError&apos;</span><br><span class="line">&apos;DeprecationWarning&apos;</span><br><span class="line">&apos;EOFError&apos;</span><br><span class="line">&apos;Ellipsis&apos;</span><br><span class="line">&apos;EnvironmentError&apos;</span><br><span class="line">&apos;Exception&apos;</span><br><span class="line">&apos;False&apos;</span><br><span class="line">&apos;FileExistsError&apos;</span><br><span class="line">&apos;FileNotFoundError&apos;</span><br><span class="line">&apos;FloatingPointError&apos;</span><br><span class="line">&apos;FutureWarning&apos;</span><br><span class="line">&apos;GeneratorExit&apos;</span><br><span class="line">&apos;IOError&apos;</span><br><span class="line">&apos;ImportError&apos;</span><br><span class="line">&apos;ImportWarning&apos;</span><br><span class="line">&apos;IndentationError&apos;</span><br><span class="line">&apos;IndexError&apos;</span><br><span class="line">&apos;InterruptedError&apos;</span><br><span class="line">&apos;IsADirectoryError&apos;</span><br><span class="line">&apos;KeyError&apos;</span><br><span class="line">&apos;KeyboardInterrupt&apos;</span><br><span class="line">&apos;LookupError&apos;</span><br><span class="line">&apos;MemoryError&apos;</span><br><span class="line">&apos;NameError&apos;</span><br><span class="line">&apos;None&apos;</span><br><span class="line">&apos;NotADirectoryError&apos;</span><br><span class="line">&apos;NotImplemented&apos;</span><br><span class="line">&apos;NotImplementedError&apos;</span><br><span class="line">&apos;OSError&apos;</span><br><span class="line">&apos;OverflowError&apos;</span><br><span class="line">&apos;PendingDeprecationWarning&apos;</span><br><span class="line">&apos;PermissionError&apos;</span><br><span class="line">&apos;ProcessLookupError&apos;</span><br><span class="line">&apos;RecursionError&apos;</span><br><span class="line">&apos;ReferenceError&apos;</span><br><span class="line">&apos;ResourceWarning&apos;</span><br><span class="line">&apos;RuntimeError&apos;</span><br><span class="line">&apos;RuntimeWarning&apos;</span><br><span class="line">&apos;StopAsyncIteration&apos;</span><br><span class="line">&apos;StopIteration&apos;</span><br><span class="line">&apos;SyntaxError&apos;</span><br><span class="line">&apos;SyntaxWarning&apos;</span><br><span class="line">&apos;SystemError&apos;</span><br><span class="line">&apos;SystemExit&apos;</span><br><span class="line">&apos;TabError&apos;</span><br><span class="line">&apos;TimeoutError&apos;</span><br><span class="line">&apos;True&apos;</span><br><span class="line">&apos;TypeError&apos;</span><br><span class="line">&apos;UnboundLocalError&apos;</span><br><span class="line">&apos;UnicodeDecodeError&apos;</span><br><span class="line">&apos;UnicodeEncodeError&apos;</span><br><span class="line">&apos;UnicodeError&apos;</span><br><span class="line">&apos;UnicodeTranslateError&apos;</span><br><span class="line">&apos;UnicodeWarning&apos;</span><br><span class="line">&apos;UserWarning&apos;</span><br><span class="line">&apos;ValueError&apos;</span><br><span class="line">&apos;Warning&apos;</span><br><span class="line">&apos;WindowsError&apos;</span><br><span class="line">&apos;ZeroDivisionError&apos;</span><br><span class="line">&apos;_&apos;</span><br><span class="line">&apos;__build_class__&apos;</span><br><span class="line">&apos;__debug__&apos;</span><br><span class="line">&apos;__doc__&apos;</span><br><span class="line">&apos;__import__&apos;</span><br><span class="line">&apos;__loader__&apos;</span><br><span class="line">&apos;__name__&apos;</span><br><span class="line">&apos;__package__&apos;</span><br><span class="line">&apos;__spec__&apos;</span><br><span class="line">&apos;abs&apos;</span><br><span class="line">&apos;all&apos;</span><br><span class="line">&apos;any&apos;</span><br><span class="line">&apos;ascii&apos;</span><br><span class="line">&apos;bin&apos;</span><br><span class="line">&apos;bool&apos;</span><br><span class="line">&apos;bytearray&apos;</span><br><span class="line">&apos;bytes&apos;</span><br></pre></td></tr></table></figure>
+<h5 id="callable"><a href="#callable" class="headerlink" title="callable()"></a>callable()</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">    函数用于检查一个对象是否是可调用的。如果返回True，object仍然可能调用失败；但如果返回False，调用对象ojbect绝对不会成功。</span><br><span class="line">    </span><br><span class="line">    对于函数, 方法, lambda 函式, 类, 以及实现了 __call__ 方法的类实例, 它都返回 True。</span><br><span class="line"></span><br><span class="line">callable(object)</span><br><span class="line">para:   object -- 对象</span><br><span class="line">返回值:可调用返回 True，否则返回 False。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&apos;chr&apos;</span><br><span class="line">&apos;classmethod&apos;</span><br><span class="line">&apos;compile&apos;</span><br><span class="line">&apos;complex&apos;</span><br><span class="line">&apos;copyright&apos;</span><br><span class="line">&apos;credits&apos;</span><br><span class="line">&apos;delattr&apos;</span><br><span class="line">&apos;dict&apos;</span><br><span class="line">&apos;dir&apos;</span><br><span class="line">&apos;divmod&apos;</span><br><span class="line">&apos;enumerate&apos;</span><br></pre></td></tr></table></figure>
+<h5 id="eval"><a href="#eval" class="headerlink" title="eval()"></a>eval()</h5><p>把输入字符串当作表达式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&apos;exec&apos;</span><br><span class="line">&apos;exit&apos;</span><br><span class="line">&apos;filter&apos;</span><br><span class="line">&apos;float&apos;</span><br><span class="line">&apos;format&apos;</span><br><span class="line">&apos;frozenset&apos;</span><br><span class="line">&apos;getattr&apos;</span><br><span class="line">&apos;globals&apos;</span><br><span class="line">&apos;hasattr&apos;</span><br><span class="line">&apos;hash&apos;</span><br><span class="line">&apos;help&apos;</span><br><span class="line">&apos;hex&apos;</span><br><span class="line">&apos;id&apos;</span><br><span class="line">&apos;input&apos;</span><br><span class="line">&apos;int&apos;</span><br></pre></td></tr></table></figure></p>
+<h5 id="int"><a href="#int" class="headerlink" title="int()"></a>int()</h5><p>int()用于取整，且只能向下取整，并不能四舍五入<br>round() 有四舍五入功能<br>若想实现向上取整的功能，可以使用round(values + 0.5)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; int(1.3)</span><br><span class="line">1</span><br><span class="line">&gt;&gt;&gt; int(1.8)</span><br><span class="line">1</span><br><span class="line">&gt;&gt;&gt; round(1.3)</span><br><span class="line">1</span><br><span class="line">&gt;&gt;&gt; round(1.8)</span><br><span class="line">2</span><br><span class="line">&gt;&gt;&gt; round(1.3 + 0.5)</span><br><span class="line">2</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&apos;isinstance&apos;</span><br><span class="line">&apos;issubclass&apos;</span><br><span class="line">&apos;iter&apos;</span><br><span class="line">&apos;len&apos;</span><br><span class="line">&apos;license&apos;</span><br><span class="line">&apos;list&apos;</span><br><span class="line">&apos;locals&apos;</span><br><span class="line">&apos;map&apos;</span><br><span class="line">&apos;max&apos;</span><br><span class="line">&apos;memoryview&apos;</span><br><span class="line">&apos;min&apos;</span><br><span class="line">&apos;next&apos;</span><br><span class="line">&apos;object&apos;</span><br><span class="line">&apos;oct&apos;</span><br><span class="line">&apos;open&apos;</span><br><span class="line">&apos;ord&apos;</span><br><span class="line">&apos;pow&apos;</span><br><span class="line">&apos;print&apos;</span><br></pre></td></tr></table></figure>
+<h5 id="property"><a href="#property" class="headerlink" title="property()"></a>property()</h5><ul>
+<li>将类的方法转为只读属性</li>
+<li>重新实现一个属性的setter和getter方法</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">class Person(object):</span><br><span class="line"></span><br><span class="line">    def __init__(self, first_name, last_name):</span><br><span class="line">        self.first_name = first_name</span><br><span class="line">        self.last_name = last_name</span><br><span class="line"> </span><br><span class="line">    @property</span><br><span class="line">    def full_name(self):</span><br><span class="line">        return &quot;%s %s&quot; % (self.first_name, self.last_name)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; person = Person(&quot;Mike&quot;, &quot;Driscoll&quot;)</span><br><span class="line">&gt;&gt;&gt; person.full_name</span><br><span class="line">&apos;Mike Driscoll&apos;</span><br><span class="line">&gt;&gt;&gt; person.first_name</span><br><span class="line">&apos;Mike&apos;</span><br><span class="line">&gt;&gt;&gt; person.full_name = &quot;Jackalope&quot;</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;string&gt;&quot;, line 1, in &lt;fragment&gt;</span><br><span class="line">AttributeError: can&apos;t set attribute</span><br><span class="line">&gt;&gt;&gt; person.first_name = &quot;Dan&quot;</span><br><span class="line">&gt;&gt;&gt; person.full_name</span><br><span class="line">&apos;Dan Driscoll&apos;</span><br><span class="line"></span><br><span class="line">#原来一个类都是这样</span><br><span class="line">&gt;&gt;&gt; class Fees(object):</span><br><span class="line">...     def __init__(self):</span><br><span class="line">...         self._fee = None</span><br><span class="line">...     def get_fee(self):</span><br><span class="line">...         return self._fee</span><br><span class="line">...     def set_fee(self,value):</span><br><span class="line">...         self._fee=value</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; f = Fees()</span><br><span class="line">&gt;&gt;&gt; f.set_fee(1)</span><br><span class="line">&gt;&gt;&gt; f.get_fee()</span><br><span class="line">1</span><br><span class="line"></span><br><span class="line">#用property改一下</span><br><span class="line">&gt;&gt;&gt; class Fees(object):</span><br><span class="line">...     def __init__(self):</span><br><span class="line">...         self._fee = None</span><br><span class="line">...     def get_fee(self):</span><br><span class="line">...         return self._fee</span><br><span class="line">...     def set_fee(self,value):</span><br><span class="line">...         self._fee=value</span><br><span class="line">...     fee = property(get_fee,set_fee)</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; f = Fees()</span><br><span class="line">&gt;&gt;&gt; f.fee = 1</span><br><span class="line">&gt;&gt;&gt; f.fee</span><br><span class="line">1</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; class Fees(object):</span><br><span class="line">...     def __init__(self):</span><br><span class="line">...         self._fee = None</span><br><span class="line">...     @property</span><br><span class="line">...     def fee(self):</span><br><span class="line">...         return self._fee</span><br><span class="line">...     @fee.setter</span><br><span class="line">...     def fee(self,value):</span><br><span class="line">...         self._fee=value</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; f = Fees()</span><br><span class="line">&gt;&gt;&gt; f.fee = 2</span><br><span class="line">&gt;&gt;&gt; f.fee</span><br><span class="line">2</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&apos;quit&apos;</span><br><span class="line">&apos;range&apos;</span><br><span class="line">&apos;repr&apos;</span><br><span class="line">&apos;reversed&apos;</span><br></pre></td></tr></table></figure>
+<h5 id="round"><a href="#round" class="headerlink" title="round()"></a>round()</h5><p>round()四舍五入，参考int()<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&apos;set&apos;</span><br><span class="line">&apos;setattr&apos;</span><br><span class="line">&apos;slice&apos;</span><br><span class="line">&apos;sorted&apos;</span><br><span class="line">&apos;staticmethod&apos;</span><br><span class="line">&apos;str&apos;</span><br></pre></td></tr></table></figure></p>
+<h3 id="sum"><a href="#sum" class="headerlink" title="sum()"></a>sum()</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; a</span><br><span class="line">[1, 2, 3]</span><br><span class="line">&gt;&gt;&gt; sum(a)</span><br><span class="line">6</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&apos;super&apos;</span><br><span class="line">&apos;tuple&apos;</span><br><span class="line">&apos;type&apos;</span><br><span class="line">&apos;vars&apos;</span><br><span class="line">&apos;zip&apos;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line">To solve this problem, we need to understand &quot;What is the use of median&quot;. In statistics, the median is used for dividing a set into two equal length subsets, that one subset is always greater than the other. If we understand the use of median for dividing, we are very close to the answer.</span><br><span class="line"></span><br><span class="line">First let&apos;s cut A into two parts at a random position i:</span><br><span class="line"></span><br><span class="line">      left_A             |        right_A</span><br><span class="line">A[0], A[1], ..., A[i-1]  |  A[i], A[i+1], ..., A[m-1]</span><br><span class="line">Since A has m elements, so there are m+1 kinds of cutting( i = 0 ~ m ). And we know: len(left_A) = i, len(right_A) = m - i . Note: when i = 0 , left_A is empty, and when i = m , right_A is empty.</span><br><span class="line"></span><br><span class="line">With the same way, cut B into two parts at a random position j:</span><br><span class="line"></span><br><span class="line">      left_B             |        right_B</span><br><span class="line">B[0], B[1], ..., B[j-1]  |  B[j], B[j+1], ..., B[n-1]</span><br><span class="line">Put left_A and left_B into one set, and put right_A and right_B into another set. Let&apos;s name them left_part and right_part :</span><br><span class="line"></span><br><span class="line">      left_part          |        right_part</span><br><span class="line">A[0], A[1], ..., A[i-1]  |  A[i], A[i+1], ..., A[m-1]</span><br><span class="line">B[0], B[1], ..., B[j-1]  |  B[j], B[j+1], ..., B[n-1]</span><br><span class="line">If we can ensure:</span><br><span class="line"></span><br><span class="line">1) len(left_part) == len(right_part)</span><br><span class="line">2) max(left_part) &lt;= min(right_part)</span><br><span class="line">then we divide all elements in &#123;A, B&#125; into two parts with equal length, and one part is always greater than the other. Then median = (max(left_part) + min(right_part))/2.</span><br><span class="line"></span><br><span class="line">To ensure these two conditions, we just need to ensure:</span><br><span class="line"></span><br><span class="line">(1) i + j == m - i + n - j (or: m - i + n - j + 1)</span><br><span class="line">    if n &gt;= m, we just need to set: i = 0 ~ m, j = (m + n + 1)/2 - i</span><br><span class="line">(2) B[j-1] &lt;= A[i] and A[i-1] &lt;= B[j]</span><br><span class="line">ps.1 For simplicity, I presume A[i-1],B[j-1],A[i],B[j] are always valid even if i=0/i=m/j=0/j=n . I will talk about how to deal with these edge values at last.</span><br><span class="line"></span><br><span class="line">ps.2 Why n &gt;= m? Because I have to make sure j is non-nagative since 0 &lt;= i &lt;= m and j = (m + n + 1)/2 - i. If n &lt; m , then j may be nagative, that will lead to wrong result.</span><br><span class="line"></span><br><span class="line">So, all we need to do is:</span><br><span class="line"></span><br><span class="line">Searching i in [0, m], to find an object `i` that:</span><br><span class="line">    B[j-1] &lt;= A[i] and A[i-1] &lt;= B[j], ( where j = (m + n + 1)/2 - i )</span><br><span class="line">And we can do a binary search following steps described below:</span><br><span class="line"></span><br><span class="line">&lt;1&gt; Set imin = 0, imax = m, then start searching in [imin, imax]</span><br><span class="line"></span><br><span class="line">&lt;2&gt; Set i = (imin + imax)/2, j = (m + n + 1)/2 - i</span><br><span class="line"></span><br><span class="line">&lt;3&gt; Now we have len(left_part)==len(right_part). And there are only 3 situations</span><br><span class="line">     that we may encounter:</span><br><span class="line">    &lt;a&gt; B[j-1] &lt;= A[i] and A[i-1] &lt;= B[j]</span><br><span class="line">        Means we have found the object `i`, so stop searching.</span><br><span class="line">    &lt;b&gt; B[j-1] &gt; A[i]</span><br><span class="line">        Means A[i] is too small. We must `ajust` i to get `B[j-1] &lt;= A[i]`.</span><br><span class="line">        Can we `increase` i?</span><br><span class="line">            Yes. Because when i is increased, j will be decreased.</span><br><span class="line">            So B[j-1] is decreased and A[i] is increased, and `B[j-1] &lt;= A[i]` may</span><br><span class="line">            be satisfied.</span><br><span class="line">        Can we `decrease` i?</span><br><span class="line">            `No!` Because when i is decreased, j will be increased.</span><br><span class="line">            So B[j-1] is increased and A[i] is decreased, and B[j-1] &lt;= A[i] will</span><br><span class="line">            be never satisfied.</span><br><span class="line">        So we must `increase` i. That is, we must ajust the searching range to</span><br><span class="line">        [i+1, imax]. So, set imin = i+1, and goto &lt;2&gt;.</span><br><span class="line">    &lt;c&gt; A[i-1] &gt; B[j]</span><br><span class="line">        Means A[i-1] is too big. And we must `decrease` i to get `A[i-1]&lt;=B[j]`.</span><br><span class="line">        That is, we must ajust the searching range to [imin, i-1].</span><br><span class="line">        So, set imax = i-1, and goto &lt;2&gt;.</span><br><span class="line">When the object i is found, the median is:</span><br><span class="line"></span><br><span class="line">max(A[i-1], B[j-1]) (when m + n is odd)</span><br><span class="line">or (max(A[i-1], B[j-1]) + min(A[i], B[j]))/2 (when m + n is even)</span><br><span class="line">Now let&apos;s consider the edges values i=0,i=m,j=0,j=n where A[i-1],B[j-1],A[i],B[j] may not exist. Actually this situation is easier than you think.</span><br><span class="line"></span><br><span class="line">What we need to do is ensuring that max(left_part) &lt;= min(right_part). So, if i and j are not edges values(means A[i-1],B[j-1],A[i],B[j] all exist), then we must check both B[j-1] &lt;= A[i] and A[i-1] &lt;= B[j]. But if some of A[i-1],B[j-1],A[i],B[j] don&apos;t exist, then we don&apos;t need to check one(or both) of these two conditions. For example, if i=0, then A[i-1] doesn&apos;t exist, then we don&apos;t need to check A[i-1] &lt;= B[j]. So, what we need to do is:</span><br><span class="line"></span><br><span class="line">Searching i in [0, m], to find an object `i` that:</span><br><span class="line">    (j == 0 or i == m or B[j-1] &lt;= A[i]) and</span><br><span class="line">    (i == 0 or j == n or A[i-1] &lt;= B[j])</span><br><span class="line">    where j = (m + n + 1)/2 - i</span><br><span class="line">And in a searching loop, we will encounter only three situations:</span><br><span class="line"></span><br><span class="line">&lt;a&gt; (j == 0 or i == m or B[j-1] &lt;= A[i]) and</span><br><span class="line">    (i == 0 or j = n or A[i-1] &lt;= B[j])</span><br><span class="line">    Means i is perfect, we can stop searching.</span><br><span class="line"></span><br><span class="line">&lt;b&gt; j &gt; 0 and i &lt; m and B[j - 1] &gt; A[i]</span><br><span class="line">    Means i is too small, we must increase it.</span><br><span class="line"></span><br><span class="line">&lt;c&gt; i &gt; 0 and j &lt; n and A[i - 1] &gt; B[j]</span><br><span class="line">    Means i is too big, we must decrease it.</span><br><span class="line">Thank @Quentin.chen , him pointed out that: i &lt; m ==&gt; j &gt; 0 and i &gt; 0 ==&gt; j &lt; n . Because:</span><br><span class="line"></span><br><span class="line">m &lt;= n, i &lt; m ==&gt; j = (m+n+1)/2 - i &gt; (m+n+1)/2 - m &gt;= (2*m+1)/2 - m &gt;= 0    </span><br><span class="line">m &lt;= n, i &gt; 0 ==&gt; j = (m+n+1)/2 - i &lt; (m+n+1)/2 &lt;= (2*n+1)/2 &lt;= n</span><br><span class="line">So in situation &lt;b&gt; and &lt;c&gt;, we don&apos;t need to check whether j &gt; 0 and whether j &lt; n.</span><br><span class="line"></span><br><span class="line">Below is the accepted code:</span><br><span class="line"></span><br><span class="line"> def median(A, B):</span><br><span class="line">    m, n = len(A), len(B)</span><br><span class="line">    if m &gt; n:</span><br><span class="line">        A, B, m, n = B, A, n, m</span><br><span class="line">    if n == 0:</span><br><span class="line">        raise ValueError</span><br><span class="line"></span><br><span class="line">    imin, imax, half_len = 0, m, (m + n + 1) / 2</span><br><span class="line">    while imin &lt;= imax:</span><br><span class="line">        i = (imin + imax) / 2</span><br><span class="line">        j = half_len - i</span><br><span class="line">        if i &lt; m and B[j-1] &gt; A[i]:</span><br><span class="line">            # i is too small, must increase it</span><br><span class="line">            imin = i + 1</span><br><span class="line">        elif i &gt; 0 and A[i-1] &gt; B[j]:</span><br><span class="line">            # i is too big, must decrease it</span><br><span class="line">            imax = i - 1</span><br><span class="line">        else:</span><br><span class="line">            # i is perfect</span><br><span class="line"></span><br><span class="line">            if i == 0: max_of_left = B[j-1]</span><br><span class="line">            elif j == 0: max_of_left = A[i-1]</span><br><span class="line">            else: max_of_left = max(A[i-1], B[j-1])</span><br><span class="line"></span><br><span class="line">            if (m + n) % 2 == 1:</span><br><span class="line">                return max_of_left</span><br><span class="line"></span><br><span class="line">            if i == m: min_of_right = B[j]</span><br><span class="line">            elif j == n: min_of_right = A[i]</span><br><span class="line">            else: min_of_right = min(A[i], B[j])</span><br><span class="line"></span><br><span class="line">            return (max_of_left + min_of_right) / 2.0</span><br></pre></td></tr></table></figure>
+<h1 id="常用数据处理库"><a href="#常用数据处理库" class="headerlink" title="常用数据处理库"></a>常用数据处理库</h1><h2 id="numpy"><a href="#numpy" class="headerlink" title="numpy"></a>numpy</h2><h3 id="合并"><a href="#合并" class="headerlink" title="合并"></a>合并</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; x = np.array([1,2,3])</span><br><span class="line">&gt;&gt;&gt; y = np.array([4,5,6])</span><br><span class="line">&gt;&gt;&gt; np.concatenate([x,y],axis = 0)</span><br><span class="line">array([1, 2, 3, 4, 5, 6])</span><br><span class="line">&gt;&gt;&gt; np.vstack((x,y))</span><br><span class="line">array([[1, 2, 3],</span><br><span class="line">       [4, 5, 6]])</span><br><span class="line">&gt;&gt;&gt; np.hstack((x,y))</span><br><span class="line">array([1, 2, 3, 4, 5, 6])</span><br></pre></td></tr></table></figure>
+<h2 id="pandas"><a href="#pandas" class="headerlink" title="pandas"></a>pandas</h2><pre><code>关键缩写和包导入
+在这个速查手册中，我们使用如下缩写：
+
+df：任意的Pandas DataFrame对象
+s：任意的Pandas Series对象
+同时我们需要做如下的引入：
+</code></pre><p>​<br>    import pandas as pd<br>    import numpy as np</p>
+<h3 id="导入数据"><a href="#导入数据" class="headerlink" title="导入数据"></a>导入数据</h3><ul>
+<li>pd.read_csv(filename)：从CSV文件导入数据</li>
+<li>pd.read_table(filename)：从限定分隔符的文本文件导入数据</li>
+<li>pd.read_excel(filename)：从Excel文件导入数据</li>
+<li>pd.read_sql(query, connection_object)：从SQL表/库导入数据</li>
+<li>pd.read_json(json_string)：从JSON格式的字符串导入数据</li>
+<li>pd.read_html(url)：解析URL、字符串或者HTML文件，抽取其中的tables表格</li>
+<li>pd.read_clipboard()：从你的粘贴板获取内容，并传给read_table()</li>
+<li>pd.DataFrame(dict)：从字典对象导入数据，Key是列名，Value是数据</li>
+</ul>
+<h3 id="导出数据"><a href="#导出数据" class="headerlink" title="导出数据"></a>导出数据</h3><ul>
+<li>df.to_csv(filename)：导出数据到CSV文件</li>
+<li>df.to_excel(filename)：导出数据到Excel文件</li>
+<li>df.to_sql(table_name, connection_object)：导出数据到SQL表</li>
+<li>df.to_json(filename)：以Json格式导出数据到文本文件</li>
+</ul>
+<h3 id="创建测试对象"><a href="#创建测试对象" class="headerlink" title="创建测试对象"></a>创建测试对象</h3><ul>
+<li>pd.DataFrame(np.random.rand(20,5))：创建20行5列的随机数组成的DataFrame对象</li>
+<li>pd.Series(my_list)：从可迭代对象my_list创建一个Series对象</li>
+<li>df.index = pd.date_range(‘1900/1/30’, periods=df.shape[0])：增加一个日期索引</li>
+</ul>
+<h3 id="查看、检查数据"><a href="#查看、检查数据" class="headerlink" title="查看、检查数据"></a>查看、检查数据</h3><ul>
+<li>df.head(n)：查看DataFrame对象的前n行</li>
+<li>df.tail(n)：查看DataFrame对象的最后n行</li>
+<li>df.shape()：查看行数和列数</li>
+<li>df.info()：查看索引、数据类型和内存信息</li>
+<li>df.describe()：查看数值型列的汇总统计</li>
+<li>s.value_counts(dropna=False)：查看Series对象的唯一值和计数</li>
+<li>df.apply(pd.Series.value_counts)：查看DataFrame对象中每一列的唯一值和计数</li>
+</ul>
+<h3 id="数据选取"><a href="#数据选取" class="headerlink" title="数据选取"></a>数据选取</h3><ul>
+<li>df[col]：根据列名，并以Series的形式返回列</li>
+<li>df[[col1, col2]]：以DataFrame形式返回多列</li>
+<li>s.iloc[0]：按位置选取数据</li>
+<li>s.loc[‘index_one’]：按索引选取数据</li>
+<li>df.iloc[0,:]：返回第一行</li>
+<li>df.iloc[0,0]：返回第一列的第一个元素</li>
+<li>df.sample(n=None, frac=None, replace=False, weights=None, random_state=None, axis=None)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">n是要抽取的行数。（例如n=20000时，抽取其中的2W行）</span><br><span class="line"></span><br><span class="line">frac是抽取的比列。（有一些时候，我们并对具体抽取的行数不关系，我们想抽取其中的百分比，这个时候就可以选择使用frac，例如frac=0.8，就是抽取其中80%）</span><br><span class="line"></span><br><span class="line">replace抽样后的数据是否代替原DataFrame()</span><br><span class="line"></span><br><span class="line">weights这个是每个样本的权重，具体可以看官方文档说明。</span><br><span class="line"></span><br><span class="line">random_state这个在之前的文章已经介绍过了。</span><br><span class="line"></span><br><span class="line">axis是选择抽取数据的行还是列。axis=0的时是抽取行，axis=1时是抽取列（也就是说axis=1时，在列中随机抽取n列，在axis=0时，在行中随机抽取n行）</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="数据清理"><a href="#数据清理" class="headerlink" title="数据清理"></a>数据清理</h3><ul>
+<li>df.columns = [‘a’,’b’,’c’]：重命名列名</li>
+<li>pd.isnull()：检查DataFrame对象中的空值，并返回一个Boolean数组</li>
+<li>pd.notnull()：检查DataFrame对象中的非空值，并返回一个Boolean数组</li>
+<li>df.dropna()：删除所有包含空值的行</li>
+<li>df.dropna(axis=1)：删除所有包含空值的列</li>
+<li>df.dropna(axis=1,thresh=n)：删除所有小于n个非空值的行</li>
+<li>df.fillna(x)：用x替换DataFrame对象中所有的空值</li>
+<li>s.astype(float)：将Series中的数据类型更改为float类型</li>
+<li>s.replace(1,’one’)：用‘one’代替所有等于1的值</li>
+<li>s.replace([1,3],[‘one’,’three’])：用’one’代替1，用’three’代替3</li>
+<li>df.rename(columns=lambda x: x + 1)：批量更改列名</li>
+<li>df.rename(columns={‘old_name’: ‘new_ name’})：选择性更改列名</li>
+<li>df.set_index(‘column_one’)：更改索引列</li>
+<li>df.rename(index=lambda x: x + 1)：批量重命名索引</li>
+<li>df.drop(df,axis=…):删除行或列<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; df</span><br><span class="line">     A      B         C         D</span><br><span class="line">0  foo    one  0.016336  0.087302</span><br><span class="line">1  bar    one -0.394784 -2.609699</span><br><span class="line">2  foo    two -0.241163  0.429637</span><br><span class="line">3  bar  three -1.450263  1.574793</span><br><span class="line">4  foo    two -0.436486  0.047045</span><br><span class="line">5  bar    two  0.378663 -0.596585</span><br><span class="line">6  foo    one  0.576077  0.036312</span><br><span class="line">7  foo  three -1.507273  0.212231</span><br><span class="line">&gt;&gt;&gt; df.drop(&apos;A&apos;,axis = 1)</span><br><span class="line">       B         C         D</span><br><span class="line">0    one  0.016336  0.087302</span><br><span class="line">1    one -0.394784 -2.609699</span><br><span class="line">2    two -0.241163  0.429637</span><br><span class="line">3  three -1.450263  1.574793</span><br><span class="line">4    two -0.436486  0.047045</span><br><span class="line">5    two  0.378663 -0.596585</span><br><span class="line">6    one  0.576077  0.036312</span><br><span class="line">7  three -1.507273  0.212231</span><br><span class="line">&gt;&gt;&gt; df.drop([&apos;A&apos;,&apos;B&apos;],axis = 1)</span><br><span class="line">          C         D</span><br><span class="line">0  0.016336  0.087302</span><br><span class="line">1 -0.394784 -2.609699</span><br><span class="line">2 -0.241163  0.429637</span><br><span class="line">3 -1.450263  1.574793</span><br><span class="line">4 -0.436486  0.047045</span><br><span class="line">5  0.378663 -0.596585</span><br><span class="line">6  0.576077  0.036312</span><br><span class="line">7 -1.507273  0.212231</span><br><span class="line">&gt;&gt;&gt; df.drop([1,2,4],axis = 0)</span><br><span class="line">     A      B         C         D</span><br><span class="line">0  foo    one  0.016336  0.087302</span><br><span class="line">3  bar  three -1.450263  1.574793</span><br><span class="line">5  bar    two  0.378663 -0.596585</span><br><span class="line">6  foo    one  0.576077  0.036312</span><br><span class="line">7  foo  three -1.507273  0.212231</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="数据处理：Filter、Sort和GroupBy"><a href="#数据处理：Filter、Sort和GroupBy" class="headerlink" title="数据处理：Filter、Sort和GroupBy"></a>数据处理：Filter、Sort和GroupBy</h3><ul>
+<li>df[df[col] &gt; 0.5]：选择col列的值大于0.5的行</li>
+<li>df.sort_values(col1)：按照列col1排序数据，默认升序排列</li>
+<li>df.sort_values(col2, ascending=False)：按照列col1降序排列数据</li>
+<li>df.sort_values([col1,col2],ascending=[True,False])：先按列col1升序排列，后按col2降序排列数据</li>
+<li>df.groupby(col)：返回一个按列col进行分组的Groupby对象</li>
+<li>df.groupby([col1,col2])：返回一个按多列进行分组的Groupby对象</li>
+<li>df.groupby(col1)[col2]：返回按列col1进行分组后，列col2的均值</li>
+<li>df.pivot_table(index=col1,values=[col2,col3],aggfunc=max)：创建一个按列col1进行分组，并计算col2和col3的最大值的数据透视表</li>
+<li>df.groupby(col1).agg(np.mean)：返回按列col1分组的所有列的均值</li>
+<li>data.apply(np.mean)：对DataFrame中的每一列应用函数np.mean</li>
+<li>data.apply(np.max,axis=1)：对DataFrame中的每一行应用函数np.max<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">#同一属性先移动到同一行，在做差</span><br><span class="line">df = pd.DataFrame(&#123;&apos;A&apos; : [&apos;foo&apos;, &apos;bar&apos;, &apos;foo&apos;, &apos;bar&apos;,&apos;foo&apos;, &apos;bar&apos;, &apos;foo&apos;, &apos;foo&apos;],</span><br><span class="line">&apos;B&apos; : [&apos;one&apos;, &apos;one&apos;, &apos;two&apos;, &apos;three&apos;,&apos;two&apos;, &apos;two&apos;, &apos;one&apos;, &apos;three&apos;],</span><br><span class="line">&apos;C&apos; : np.random.randn(8),</span><br><span class="line">&apos;D&apos; : np.random.randn(8)&#125;)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; df</span><br><span class="line">     A      B         C         D         E</span><br><span class="line">0  foo    one -0.660824  0.758762  0.097938</span><br><span class="line">1  bar    one  1.673826 -0.369888  1.303938</span><br><span class="line">2  foo    two  1.151669  0.750455  1.902124</span><br><span class="line">3  bar  three -0.902216 -0.344720 -1.246936</span><br><span class="line">4  foo    two -0.232781 -1.256137 -1.488918</span><br><span class="line">5  bar    two  0.387244 -0.671663 -0.284419</span><br><span class="line">6  foo    one -1.199822  0.078424 -1.121398</span><br><span class="line">7  foo  three -0.404454  0.271658 -0.132796</span><br><span class="line">&gt;&gt;&gt; df[&apos;shift&apos;] = df.groupby(&apos;A&apos;)[&apos;C&apos;].apply(lambda i:i.shift(1))</span><br><span class="line">&gt;&gt;&gt; df</span><br><span class="line">     A      B         C         D         E     shift</span><br><span class="line">0  foo    one -0.660824  0.758762  0.097938       NaN</span><br><span class="line">1  bar    one  1.673826 -0.369888  1.303938       NaN</span><br><span class="line">2  foo    two  1.151669  0.750455  1.902124 -0.660824</span><br><span class="line">3  bar  three -0.902216 -0.344720 -1.246936  1.673826</span><br><span class="line">4  foo    two -0.232781 -1.256137 -1.488918  1.151669</span><br><span class="line">5  bar    two  0.387244 -0.671663 -0.284419 -0.902216</span><br><span class="line">6  foo    one -1.199822  0.078424 -1.121398 -0.232781</span><br><span class="line">7  foo  three -0.404454  0.271658 -0.132796 -1.199822</span><br><span class="line">&gt;&gt;&gt; df[&apos;diff&apos;] = df[&apos;C&apos;] - df[&apos;shift&apos;]</span><br><span class="line">&gt;&gt;&gt; df</span><br><span class="line">     A      B         C         D         E     shift      diff</span><br><span class="line">0  foo    one -0.660824  0.758762  0.097938       NaN       NaN</span><br><span class="line">1  bar    one  1.673826 -0.369888  1.303938       NaN       NaN</span><br><span class="line">2  foo    two  1.151669  0.750455  1.902124 -0.660824  1.812493</span><br><span class="line">3  bar  three -0.902216 -0.344720 -1.246936  1.673826 -2.576042</span><br><span class="line">4  foo    two -0.232781 -1.256137 -1.488918  1.151669 -1.384450</span><br><span class="line">5  bar    two  0.387244 -0.671663 -0.284419 -0.902216  1.289460</span><br><span class="line"></span><br><span class="line">#求A&apos;A&apos;中同一个元素对应的几个 &apos;C&apos;的 去量纲化</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; df[&apos;shift&apos;] = df.groupby(&apos;A&apos;)[&apos;C&apos;].apply(lambda i:(i-i.min())/i.std())</span><br><span class="line">#错了，对的df[&apos;shift&apos;] = df.groupby(&apos;A&apos;)[&apos;C&apos;].apply(lambda i:(i-i.mean())/i.std())</span><br><span class="line">&gt;&gt;&gt; df</span><br><span class="line">     A      B         C         D         E     shift      diff</span><br><span class="line">0  foo    one -0.660824  0.758762  0.097938  0.616460       NaN</span><br><span class="line">1  bar    one  1.673826 -0.369888  1.303938  2.000000       NaN</span><br><span class="line">2  foo    two  1.151669  0.750455  1.902124  2.689432  1.812493</span><br><span class="line">3  bar  three -0.902216 -0.344720 -1.246936  0.000000 -2.576042</span><br><span class="line">4  foo    two -0.232781 -1.256137 -1.488918  1.106018 -1.384450</span><br><span class="line">5  bar    two  0.387244 -0.671663 -0.284419  1.001117  1.289460</span><br><span class="line">6  foo    one -1.199822  0.078424 -1.121398  0.000000 -0.967042</span><br><span class="line">7  foo  three -0.404454  0.271658 -0.132796  0.909673  0.795368</span><br><span class="line"></span><br><span class="line">#概率计算</span><br><span class="line">&gt;&gt;&gt; rating_A = f.groupby(&apos;A&apos;).size().div(len(f))</span><br><span class="line">&gt;&gt;&gt; rating_A</span><br><span class="line">A</span><br><span class="line">bar    0.375</span><br><span class="line">foo    0.625</span><br><span class="line">dtype: float64</span><br><span class="line"></span><br><span class="line">#条件概率</span><br><span class="line">&gt;&gt;&gt; f.groupby([&apos;A&apos;, &apos;B&apos;]).size().div(len(f)).div(rating_A, axis=0, level=&apos;A&apos;)</span><br><span class="line">A    B</span><br><span class="line">bar  one      0.333333</span><br><span class="line">     three    0.333333</span><br><span class="line">     two      0.333333</span><br><span class="line">foo  one      0.400000</span><br><span class="line">     three    0.200000</span><br><span class="line">     two      0.400000</span><br><span class="line">dtype: float64</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="数据合并"><a href="#数据合并" class="headerlink" title="数据合并"></a>数据合并</h3><ul>
+<li>df1.append(df2)：将df2中的行添加到df1的尾部</li>
+<li>df.concat([df1, df2],axis=1)：将df2中的列添加到df1的尾部</li>
+<li>df1.join(df2,on=col1,how=’inner’)：对df1的列和df2的列执行SQL形式的join</li>
+</ul>
+<h3 id="数据统计"><a href="#数据统计" class="headerlink" title="数据统计"></a>数据统计</h3><ul>
+<li>df.describe()：查看数据值列的汇总统计</li>
+<li>df.mean()：返回所有列的均值</li>
+<li>df.corr()：返回列与列之间的相关系数</li>
+<li>df.count()：返回每一列中的非空值的个数</li>
+<li>df.max()：返回每一列的最大值</li>
+<li>df.min()：返回每一列的最小值</li>
+<li>df.median()：返回每一列的中位数</li>
+<li>df.std()：返回每一列的标准差<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">pd.factorize() #标签映射为数字</span><br><span class="line">&gt;&gt;&gt; df = pd.DataFrame(&#123;&quot;id&quot;:[1,2,3,4,5,6,3,2], &quot;raw_grade&quot;:[&apos;a&apos;, &apos;b&apos;, &apos;b&apos;,&apos;a&apos;, &apos;a&apos;,&apos;e&apos;,&apos;c&apos;,&apos;a&apos;]&#125;)</span><br><span class="line">&gt;&gt;&gt; x,y = pd.factorize(df.raw_grade)</span><br><span class="line">&gt;&gt;&gt; x</span><br><span class="line">array([0, 1, 1, 0, 0, 2, 3, 0], dtype=int64)</span><br><span class="line">&gt;&gt;&gt; y</span><br><span class="line">Index([&apos;a&apos;, &apos;b&apos;, &apos;e&apos;, &apos;c&apos;], dtype=&apos;object&apos;)</span><br><span class="line">&gt;&gt;&gt; pd.factorize(df.raw_grade)</span><br><span class="line">(array([0, 1, 1, 0, 0, 2, 3, 0], dtype=int64), Index([&apos;a&apos;, &apos;b&apos;, &apos;e&apos;, &apos;c&apos;], dtype=&apos;object&apos;))</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="多条件筛选"><a href="#多条件筛选" class="headerlink" title="多条件筛选"></a>多条件筛选</h3><p>在使用dataframe处理数据的时候碰到了按照条件选取行的问题，单个条件时可以使用：</p>
+<p>df[df[‘one’] &gt; 5]</p>
+<p>如果多个条件的话需要这么写：</p>
+<p>import numpy as np</p>
+<p>df[np.logical_and(df[‘one’]&gt; 5,df[‘two’]&gt;5)]</p>
+<p>也可以这么写</p>
+<p>df[(df[‘one’]&gt; 5) &amp; (df[‘two’]&gt;5)]</p>
+<h3 id="数值优化来一波"><a href="#数值优化来一波" class="headerlink" title="数值优化来一波"></a>数值优化来一波</h3><ul>
+<li><p>数值变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">df_int = df_t.select_dtypes(include=[&apos;int&apos;])</span><br><span class="line">df_t[df_int.columns] = df_int.apply(pd.to_numeric, downcast=&apos;unsigned&apos;)</span><br><span class="line"></span><br><span class="line">df_float = df_t.select_dtypes(include=[&apos;int&apos;])</span><br><span class="line">df_t[df_int.columns] = df_float.apply(pd.to_numeric, downcast=&apos;float&apos;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>object变量</p>
+</li>
+</ul>
+<ol>
+<li>可以使用 one_hot</li>
+<li>可以使用 categoricals<br>其实都一样啦</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#大佬的方法</span><br><span class="line">def one_hot_encoder(df, nan_as_category=True):</span><br><span class="line">    original_columns = list(df.columns)</span><br><span class="line">    categorical_columns = [col for col in df.columns if df[col].dtype == &apos;object&apos;]</span><br><span class="line">    df = pd.get_dummies(df, columns=categorical_columns, dummy_na=nan_as_category)</span><br><span class="line">    new_columns = [c for c in df.columns if c not in original_columns]</span><br><span class="line">    return df, new_columns</span><br></pre></td></tr></table></figure>
+<h1 id="python工具类插件"><a href="#python工具类插件" class="headerlink" title="python工具类插件"></a>python工具类插件</h1><h2 id="itertools"><a href="#itertools" class="headerlink" title="itertools"></a>itertools</h2><p>迭代器的特点是：惰性求值（Lazy evaluation），即只有当迭代至某个值时，它才会被计算，这个特点使得迭代器特别适合于遍历大文件或无限集合等，因为我们不用一次性将它们存储在内存中。</p>
+<p>Python 内置的 itertools 模块包含了一系列用来产生不同类型迭代器的函数或类，这些函数的返回都是一个迭代器，我们可以通过 for 循环来遍历取值，也可以使用 next() 来取值。</p>
+<p>itertools 模块提供的迭代器函数有以下几种类型：</p>
+<ul>
+<li>无限迭代器：生成一个无限序列，比如自然数序列 1, 2, 3, 4, …；</li>
+<li>有限迭代器：接收一个或多个序列（sequence）作为参数，进行组合、分组和过滤等；</li>
+<li>组合生成器：序列的排列、组合，求序列的笛卡儿积等；</li>
+</ul>
+<h3 id="无限迭代器"><a href="#无限迭代器" class="headerlink" title="无限迭代器"></a>无限迭代器</h3><h4 id="count-firstval-0-step-1"><a href="#count-firstval-0-step-1" class="headerlink" title="count(firstval=0, step=1)"></a>count(firstval=0, step=1)</h4><p>创建一个从 firstval (默认值为 0) 开始，以 step (默认值为 1) 为步长的的无限整数迭代器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; nums = itertools.count(10, 2)    # 指定开始值和步长</span><br><span class="line">&gt;&gt;&gt; for i in nums:</span><br><span class="line">...     if i &gt; 20:</span><br><span class="line">...         break</span><br><span class="line">...     print i</span><br><span class="line">...</span><br><span class="line">10</span><br><span class="line">12</span><br><span class="line">14</span><br><span class="line">16</span><br><span class="line">18</span><br><span class="line">20</span><br></pre></td></tr></table></figure>
+<h4 id="cycle-iterable"><a href="#cycle-iterable" class="headerlink" title="cycle(iterable)"></a>cycle(iterable)</h4><p>对 iterable 中的元素反复执行循环，返回迭代器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; cycle_strings = itertools.cycle(&apos;ABC&apos;)</span><br><span class="line">&gt;&gt;&gt; i = 1</span><br><span class="line">&gt;&gt;&gt; for string in cycle_strings:</span><br><span class="line">...     if i == 10:</span><br><span class="line">...         break</span><br><span class="line">...     print i, string</span><br><span class="line">...     i += 1</span><br><span class="line">...</span><br><span class="line">1 A</span><br><span class="line">2 B</span><br><span class="line">3 C</span><br><span class="line">4 A</span><br><span class="line">5 B</span><br><span class="line">6 C</span><br><span class="line">7 A</span><br><span class="line">8 B</span><br><span class="line">9 C</span><br></pre></td></tr></table></figure>
+<h4 id="repeat-object-times"><a href="#repeat-object-times" class="headerlink" title="repeat(object [,times]"></a>repeat(object [,times]</h4><p>反复生成 object，如果给定 times，则重复次数为 times，否则为无限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; for item in itertools.repeat(&apos;hello world&apos;, 3):</span><br><span class="line">...     print item</span><br><span class="line">...</span><br><span class="line">hello world</span><br><span class="line">hello world</span><br><span class="line">hello world</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">&gt;&gt;&gt; for item in itertools.repeat([1, 2, 3, 4], 3):</span><br><span class="line">...     print item</span><br><span class="line">...</span><br><span class="line">[1, 2, 3, 4]</span><br><span class="line">[1, 2, 3, 4]</span><br><span class="line">[1, 2, 3, 4]</span><br></pre></td></tr></table></figure>
+<h3 id="有限迭代器"><a href="#有限迭代器" class="headerlink" title="有限迭代器"></a>有限迭代器</h3><p>itertools 模块提供了多个函数（类），接收一个或多个迭代对象作为参数，对它们进行组合、分组和过滤等：</p>
+<h4 id="chain-iterable1-iterable2-iterable3-…"><a href="#chain-iterable1-iterable2-iterable3-…" class="headerlink" title="chain(iterable1, iterable2, iterable3, …)"></a>chain(iterable1, iterable2, iterable3, …)</h4><pre><code>chain 接收多个可迭代对象作为参数，将它们『连接』起来，作为一个新的迭代器返回。
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; for item in chain([1, 2, 3], [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;]):</span><br><span class="line">...     print item</span><br><span class="line">...</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">a</span><br><span class="line">b</span><br><span class="line">c</span><br></pre></td></tr></table></figure>
+<p>chain 还有一个常见的用法：</p>
+<p>chain.from_iterable(iterable)<br>接收一个可迭代对象作为参数，返回一个迭代器：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; from itertools import chain</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">&gt;&gt;&gt; string = chain.from_iterable(&apos;ABCD&apos;)</span><br><span class="line">&gt;&gt;&gt; string.next()</span><br><span class="line">&apos;A&apos;</span><br></pre></td></tr></table></figure></p>
+<h4 id="compress-data-selectors"><a href="#compress-data-selectors" class="headerlink" title="compress(data, selectors)"></a>compress(data, selectors)</h4><p>compress 可用于对数据进行筛选，当 selectors 的某个元素为 true 时，则保留 data 对应位置的元素，否则去除：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">list(compress(&apos;ABCDEF&apos;, [1, 1, 0, 1, 0, 1]))</span><br><span class="line">[&apos;A&apos;, &apos;B&apos;, &apos;D&apos;, &apos;F&apos;]</span><br></pre></td></tr></table></figure></p>
+<h4 id="dropwhile-predicate-iterable"><a href="#dropwhile-predicate-iterable" class="headerlink" title="dropwhile(predicate, iterable)"></a>dropwhile(predicate, iterable)</h4><p>其中，predicate 是函数，iterable 是可迭代对象。对于 iterable 中的元素，如果 predicate(item) 为 true，则丢弃该元素，否则返回该项及所有后续项<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">list(dropwhile(lambda x: x &lt; 5, [1, 3, 6, 2, 1]))</span><br><span class="line">[6, 2, 1]</span><br></pre></td></tr></table></figure></p>
+<h4 id="groupby-iterable-keyfunc"><a href="#groupby-iterable-keyfunc" class="headerlink" title="groupby(iterable[, keyfunc])"></a>groupby(iterable[, keyfunc])</h4><p>其中，iterable 是一个可迭代对象，keyfunc 是分组函数，用于对 iterable 的连续项进行分组，如果不指定，则默认对 iterable 中的连续相同项进行分组，返回一个 (key, sub-iterator) 的迭代器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; data = [&apos;a&apos;, &apos;bb&apos;, &apos;ccc&apos;, &apos;dd&apos;, &apos;eee&apos;, &apos;f&apos;]</span><br><span class="line">&gt;&gt;&gt; for key,value_iter in groupby(data,len):</span><br><span class="line">...     print(key,&apos;:&apos;,list(value_iter))</span><br><span class="line">...</span><br><span class="line">1 : [&apos;a&apos;]</span><br><span class="line">2 : [&apos;bb&apos;]</span><br><span class="line">3 : [&apos;ccc&apos;]</span><br><span class="line">2 : [&apos;dd&apos;]</span><br><span class="line">3 : [&apos;eee&apos;]</span><br><span class="line">1 : [&apos;f&apos;]</span><br><span class="line">&gt;&gt;&gt; data = [&apos;a&apos;, &apos;bb&apos;, &apos;cc&apos;, &apos;ddd&apos;, &apos;eee&apos;, &apos;f&apos;]</span><br><span class="line">&gt;&gt;&gt; for key,value_iter in groupby(data,len):</span><br><span class="line">...     print(key,&apos;:&apos;,list(value_iter))</span><br><span class="line">...</span><br><span class="line">1 : [&apos;a&apos;]</span><br><span class="line">2 : [&apos;bb&apos;, &apos;cc&apos;]</span><br><span class="line">3 : [&apos;ddd&apos;, &apos;eee&apos;]</span><br><span class="line">1 : [&apos;f&apos;]</span><br></pre></td></tr></table></figure></p>
+<h4 id="ifilter-function-or-None-sequence"><a href="#ifilter-function-or-None-sequence" class="headerlink" title="ifilter(function or None, sequence)"></a>ifilter(function or None, sequence)</h4><p>将 iterable 中 function(item) 为 True 的元素组成一个迭代器返回，如果 function 是 None，则返回 iterable 中所有计算为 True 的项<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; list(ifilter(lambda x: x &lt; 6, range(10)))</span><br><span class="line">[0, 1, 2, 3, 4, 5]</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">&gt;&gt;&gt; list(ifilter(None, [0, 1, 2, 0, 3, 4]))</span><br><span class="line">[1, 2, 3, 4]</span><br></pre></td></tr></table></figure></p>
+<h4 id="ifilterfalse"><a href="#ifilterfalse" class="headerlink" title="ifilterfalse()"></a>ifilterfalse()</h4><p>和ifilter()类似，看名字也可以看出来了，相反嘛</p>
+<h4 id="islice-iterable-start-stop-step"><a href="#islice-iterable-start-stop-step" class="headerlink" title="islice(iterable, [start,] stop [, step])"></a>islice(iterable, [start,] stop [, step])</h4><p>其中，iterable 是可迭代对象，start 是开始索引，stop 是结束索引，step 是步长，start 和 step 可选<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; list(islice([10, 6, 2, 8, 1, 3, 9], 5))</span><br><span class="line">[10, 6, 2, 8, 1]</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">&gt;&gt;&gt; list(islice(count(), 6))</span><br><span class="line">[0, 1, 2, 3, 4, 5]</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">&gt;&gt;&gt; list(islice(count(), 3, 10))</span><br><span class="line">[3, 4, 5, 6, 7, 8, 9]</span><br><span class="line">&gt;&gt;&gt; list(islice(count(), 3, 10 ,2))</span><br><span class="line">[3, 5, 7, 9]</span><br></pre></td></tr></table></figure></p>
+<h4 id="imap"><a href="#imap" class="headerlink" title="imap()"></a>imap()</h4><p>imap(func, iter1, iter2, iter3, …)<br>imap 返回一个迭代器，元素为 func(i1, i2, i3, …)，i1，i2 等分别来源于 iter, iter2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; imap(str, [1, 2, 3, 4])</span><br><span class="line">&lt;itertools.imap object at 0x10556d050&gt;</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">&gt;&gt;&gt; list(imap(str, [1, 2, 3, 4]))</span><br><span class="line">[&apos;1&apos;, &apos;2&apos;, &apos;3&apos;, &apos;4&apos;]</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">&gt;&gt;&gt; list(imap(pow, [2, 3, 10], [4, 2, 3]))</span><br><span class="line">[16, 9, 1000]</span><br></pre></td></tr></table></figure></p>
+<h4 id="starmap"><a href="#starmap" class="headerlink" title="starmap()"></a>starmap()</h4><h4 id="tee"><a href="#tee" class="headerlink" title="tee()"></a>tee()</h4><p>tee(iterable [,n])<br>tee 用于从 iterable 创建 n 个独立的迭代器，以元组的形式返回，n 的默认值是 2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; tee(&apos;abcd&apos;)   # n 默认为 2，创建两个独立的迭代器</span><br><span class="line">(&lt;itertools.tee object at 0x1049957e8&gt;, &lt;itertools.tee object at 0x104995878&gt;)</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">&gt;&gt;&gt; iter1, iter2 = tee(&apos;abcde&apos;)</span><br><span class="line">&gt;&gt;&gt; list(iter1)</span><br><span class="line">[&apos;a&apos;, &apos;b&apos;, &apos;c&apos;, &apos;d&apos;, &apos;e&apos;]</span><br><span class="line">&gt;&gt;&gt; list(iter2)</span><br><span class="line">[&apos;a&apos;, &apos;b&apos;, &apos;c&apos;, &apos;d&apos;, &apos;e&apos;]</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">&gt;&gt;&gt; tee(&apos;abc&apos;, 3)  # 创建三个独立的迭代器</span><br><span class="line">(&lt;itertools.tee object at 0x104995998&gt;, &lt;itertools.tee object at 0x1049959e0&gt;, &lt;itertools.tee object at 0x104995a28&gt;)</span><br></pre></td></tr></table></figure></p>
+<h4 id="takewhile"><a href="#takewhile" class="headerlink" title="takewhile()"></a>takewhile()</h4><p>takewhile(predicate, iterable)<br>其中，predicate 是函数，iterable 是可迭代对象。对于 iterable 中的元素，如果 predicate(item) 为 true，则保留该元素，只要 predicate(item) 为 false，则立即停止迭代<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; list(takewhile(lambda x: x &lt; 5, [1, 3, 6, 2, 1]))</span><br><span class="line">[1, 3]</span><br><span class="line">&gt;&gt;&gt; list(takewhile(lambda x: x &gt; 3, [2, 1, 6, 5, 4]))</span><br><span class="line">[]</span><br></pre></td></tr></table></figure></p>
+<h4 id="izip"><a href="#izip" class="headerlink" title="izip()"></a>izip()</h4><p>izip(iter1, iter2, …, iterN)<br>如果某个可迭代对象不再生成值，则迭代停止<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; for item in izip(&apos;ABCD&apos;, &apos;xy&apos;):</span><br><span class="line">...     print item</span><br><span class="line">...</span><br><span class="line">(&apos;A&apos;, &apos;x&apos;)</span><br><span class="line">(&apos;B&apos;, &apos;y&apos;)</span><br><span class="line">&gt;&gt;&gt; for item in izip([1, 2, 3], [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;, &apos;d&apos;, &apos;e&apos;]):</span><br><span class="line">...     print item</span><br><span class="line">...</span><br><span class="line">(1, &apos;a&apos;)</span><br><span class="line">(2, &apos;b&apos;)</span><br><span class="line">(3, &apos;c&apos;)</span><br></pre></td></tr></table></figure></p>
+<h4 id="izip-longest"><a href="#izip-longest" class="headerlink" title="izip_longest()"></a>izip_longest()</h4><p>izip_longest(iter1, iter2, …, iterN, [fillvalue=None])<br>如果有指定 fillvalue，则会用其填充缺失的值，否则为 None<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; for item in izip_longest(&apos;ABCD&apos;, &apos;xy&apos;):</span><br><span class="line">...     print item</span><br><span class="line">...</span><br><span class="line">(&apos;A&apos;, &apos;x&apos;)</span><br><span class="line">(&apos;B&apos;, &apos;y&apos;)</span><br><span class="line">(&apos;C&apos;, None)</span><br><span class="line">(&apos;D&apos;, None)</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">&gt;&gt;&gt; for item in izip_longest(&apos;ABCD&apos;, &apos;xy&apos;, fillvalue=&apos;-&apos;):</span><br><span class="line">...     print item</span><br><span class="line">...</span><br><span class="line">(&apos;A&apos;, &apos;x&apos;)</span><br><span class="line">(&apos;B&apos;, &apos;y&apos;)</span><br><span class="line">(&apos;C&apos;, &apos;-&apos;)</span><br><span class="line">(&apos;D&apos;, &apos;-&apos;)</span><br></pre></td></tr></table></figure></p>
+<h3 id="组合生成器"><a href="#组合生成器" class="headerlink" title="组合生成器"></a>组合生成器</h3><p>itertools 模块还提供了多个组合生成器函数，用于求序列的排列、组合等：</p>
+<ul>
+<li>product</li>
+<li>permutations</li>
+<li>combinations</li>
+<li>combinations_with_replacement<h4 id="product-iter1-iter2-…-iterN-repeat-1"><a href="#product-iter1-iter2-…-iterN-repeat-1" class="headerlink" title="product(iter1, iter2, … iterN, [repeat=1])"></a>product(iter1, iter2, … iterN, [repeat=1])</h4>其中，repeat 是一个关键字参数，用于指定重复生成序列的次数<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; for item in product(&apos;ABCD&apos;, &apos;xy&apos;):</span><br><span class="line">...     print item</span><br><span class="line">...</span><br><span class="line">(&apos;A&apos;, &apos;x&apos;)</span><br><span class="line">(&apos;A&apos;, &apos;y&apos;)</span><br><span class="line">(&apos;B&apos;, &apos;x&apos;)</span><br><span class="line">(&apos;B&apos;, &apos;y&apos;)</span><br><span class="line">(&apos;C&apos;, &apos;x&apos;)</span><br><span class="line">(&apos;C&apos;, &apos;y&apos;)</span><br><span class="line">(&apos;D&apos;, &apos;x&apos;)</span><br><span class="line">(&apos;D&apos;, &apos;y&apos;)</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">&gt;&gt;&gt; list(product(&apos;ab&apos;, range(3)))</span><br><span class="line">[(&apos;a&apos;, 0), (&apos;a&apos;, 1), (&apos;a&apos;, 2), (&apos;b&apos;, 0), (&apos;b&apos;, 1), (&apos;b&apos;, 2)]</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">&gt;&gt;&gt; list(product((0,1), (0,1), (0,1)))</span><br><span class="line">[(0, 0, 0), (0, 0, 1), (0, 1, 0), (0, 1, 1), (1, 0, 0), (1, 0, 1), (1, 1, 0), (1, 1, 1)]</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">&gt;&gt;&gt; list(product(&apos;ABC&apos;, repeat=2))</span><br><span class="line">[(&apos;A&apos;, &apos;A&apos;), (&apos;A&apos;, &apos;B&apos;), (&apos;A&apos;, &apos;C&apos;), (&apos;B&apos;, &apos;A&apos;), (&apos;B&apos;, &apos;B&apos;), (&apos;B&apos;, &apos;C&apos;), (&apos;C&apos;, &apos;A&apos;), (&apos;C&apos;, &apos;B&apos;), (&apos;C&apos;, &apos;C&apos;)]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="permutations-iterable-r"><a href="#permutations-iterable-r" class="headerlink" title="permutations(iterable[, r])"></a>permutations(iterable[, r])</h4><p>其中，r 指定生成排列的元素的长度，如果不指定，则默认为可迭代对象的元素长度<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; permutations(&apos;ABC&apos;, 2)</span><br><span class="line">&lt;itertools.permutations object at 0x1074d9c50&gt;</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">&gt;&gt;&gt; list(permutations(&apos;ABC&apos;, 2))</span><br><span class="line">[(&apos;A&apos;, &apos;B&apos;), (&apos;A&apos;, &apos;C&apos;), (&apos;B&apos;, &apos;A&apos;), (&apos;B&apos;, &apos;C&apos;), (&apos;C&apos;, &apos;A&apos;), (&apos;C&apos;, &apos;B&apos;)]</span><br><span class="line">&gt;&gt;&gt;</span><br><span class="line">&gt;&gt;&gt; list(permutations(&apos;ABC&apos;))</span><br><span class="line">[(&apos;A&apos;, &apos;B&apos;, &apos;C&apos;), (&apos;A&apos;, &apos;C&apos;, &apos;B&apos;), (&apos;B&apos;, &apos;A&apos;, &apos;C&apos;), (&apos;B&apos;, &apos;C&apos;, &apos;A&apos;), (&apos;C&apos;, &apos;A&apos;, &apos;B&apos;), (&apos;C&apos;, &apos;B&apos;, &apos;A&apos;)]</span><br></pre></td></tr></table></figure></p>
+<h4 id="combinations-iterable-r"><a href="#combinations-iterable-r" class="headerlink" title="combinations(iterable, r)"></a>combinations(iterable, r)</h4><p>其中，r 指定生成组合的元素的长度<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; list(combinations(&apos;ABC&apos;, 2))</span><br><span class="line">[(&apos;A&apos;, &apos;B&apos;), (&apos;A&apos;, &apos;C&apos;), (&apos;B&apos;, &apos;C&apos;)]</span><br></pre></td></tr></table></figure></p>
+<h2 id="click"><a href="#click" class="headerlink" title="click"></a>click</h2><p>click为命令行工具的开发封装了大量的方法，下面简单学习一下。详细使用还要开官方文档。</p>
+<ul>
+<li><p>程序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># hello.py</span><br><span class="line">import click</span><br><span class="line"></span><br><span class="line">@click.command()</span><br><span class="line">@click.option(&apos;--count&apos;, default=1, help=&apos;Number of greetings.&apos;)</span><br><span class="line">@click.option(&apos;--name&apos;, prompt=&apos;Your name&apos;,help=&apos;The person to greet.&apos;)</span><br><span class="line">def hello(count, name):</span><br><span class="line">    for x in range(count):</span><br><span class="line">        click.echo(&apos;Hello %s!&apos; % name)</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    hello()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PS G:\test&gt; python .\hello.py</span><br><span class="line">Your name: a</span><br><span class="line">Hello a!</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>相当于click将原来的函数封装了，可以使用输入参数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">PS G:\test&gt; python .\hello.py --help</span><br><span class="line">Usage: hello.py [OPTIONS]</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">  --count INTEGER  Number of greetings.</span><br><span class="line">  --name TEXT      The person to greet.</span><br><span class="line">  --help           Show this message and exit.</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>click.group()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@click.group()</span><br><span class="line">def cli():</span><br><span class="line">    pass</span><br><span class="line"></span><br><span class="line">@click.command()</span><br><span class="line">def initdb():</span><br><span class="line">    click.echo(&apos;Initialized the database&apos;)</span><br><span class="line"></span><br><span class="line">@click.command()</span><br><span class="line">def dropdb():</span><br><span class="line">    click.echo(&apos;Dropped the database&apos;)</span><br><span class="line"></span><br><span class="line">cli.add_command(initdb)</span><br><span class="line">cli.add_command(dropdb)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>运行<br>秒变子命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">PS G:\test&gt; python .\hello.py</span><br><span class="line">Usage: hello.py [OPTIONS] COMMAND [ARGS]...</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">  --help  Show this message and exit.</span><br><span class="line"></span><br><span class="line">Commands:</span><br><span class="line">  dropdb</span><br><span class="line">  initdb</span><br><span class="line">PS G:\test&gt; python hello.py initdb</span><br><span class="line">Initialized the database</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Group.command()<br>直接关联，如上面程序的升级版就是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">import click</span><br><span class="line">@click.group()</span><br><span class="line">def cli():</span><br><span class="line">    pass</span><br><span class="line"></span><br><span class="line">@cli.command()</span><br><span class="line">def initdb():</span><br><span class="line">    click.echo(&apos;Initialized the database&apos;)</span><br><span class="line"></span><br><span class="line">@cli.command()</span><br><span class="line">def dropdb():</span><br><span class="line">    click.echo(&apos;Dropped the database&apos;)</span><br><span class="line"></span><br><span class="line">cli()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>运行结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">PS G:\test&gt; python .\hello.py</span><br><span class="line">Usage: hello.py [OPTIONS] COMMAND [ARGS]...</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">  --help  Show this message and exit.</span><br><span class="line"></span><br><span class="line">Commands:</span><br><span class="line">  dropdb</span><br><span class="line">  initdb</span><br><span class="line">PS G:\test&gt; python .\hello.py initdb</span><br><span class="line">Initialized the database</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="yaml-pickle"><a href="#yaml-pickle" class="headerlink" title="yaml(pickle)"></a>yaml(pickle)</h2><p>加载yaml文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import yaml</span><br><span class="line">&gt;&gt;&gt; f = open(&apos;test.yml&apos;)</span><br><span class="line">&gt;&gt;&gt; f</span><br><span class="line">&lt;_io.TextIOWrapper name=&apos;test.yml&apos; mode=&apos;r&apos; encoding=&apos;UTF-8&apos;&gt;</span><br><span class="line">&gt;&gt;&gt; x = yaml.load(f)</span><br><span class="line">&gt;&gt;&gt; x</span><br><span class="line">&#123;&apos;name&apos;: &apos;Tom Smith&apos;, &apos;age&apos;: 37, &apos;spouse&apos;: &#123;&apos;name&apos;: &apos;Jane Smith&apos;, &apos;age&apos;: 25&#125;, &apos;children&apos;: [&#123;&apos;name&apos;: &apos;Jimmy Smith&apos;, &apos;age&apos;: 15&#125;, &#123;&apos;name1&apos;: &apos;Jenny Smith&apos;, &apos;age1&apos;: 12&#125;]&#125;</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">name: Tom Smith  </span><br><span class="line">age: 37  </span><br><span class="line">spouse:  </span><br><span class="line">    name: Jane Smith  </span><br><span class="line">    age: 25  </span><br><span class="line">children:  </span><br><span class="line"> - name: Jimmy Smith  </span><br><span class="line">   age: 15  </span><br><span class="line"> - name1: Jenny Smith  </span><br><span class="line">   age1: 12</span><br></pre></td></tr></table></figure>
+<h2 id="easydict"><a href="#easydict" class="headerlink" title="easydict"></a>easydict</h2><p>可以以属性的方式访问字典的值,和yaml一起使用效果更加，度配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import yaml</span><br><span class="line">&gt;&gt;&gt; from easydict import EasyDict as edict</span><br><span class="line">&gt;&gt;&gt; y = open(&apos;test.yml&apos;)</span><br><span class="line">&gt;&gt;&gt; x = yaml.load(y)</span><br><span class="line">&gt;&gt;&gt; x</span><br><span class="line">&#123;&apos;name&apos;: &apos;Tom Smith&apos;, &apos;age&apos;: 37, &apos;spouse&apos;: &#123;&apos;name&apos;: &apos;Jane Smith&apos;, &apos;age&apos;: 25&#125;, &apos;children&apos;: [&#123;&apos;name&apos;: &apos;Jimmy Smith&apos;, &apos;age&apos;: 15&#125;, &#123;&apos;name1&apos;: &apos;Jenny Smith&apos;, &apos;age1&apos;: 12&#125;]&#125;</span><br><span class="line">&gt;&gt;&gt; d = edict(x)</span><br><span class="line">&gt;&gt;&gt; d</span><br><span class="line">&#123;&apos;name&apos;: &apos;Tom Smith&apos;, &apos;age&apos;: 37, &apos;spouse&apos;: &#123;&apos;name&apos;: &apos;Jane Smith&apos;, &apos;age&apos;: 25&#125;, &apos;children&apos;: [&#123;&apos;name&apos;: &apos;Jimmy Smith&apos;, &apos;age&apos;: 15&#125;, &#123;&apos;name1&apos;: &apos;Jenny Smith&apos;, &apos;age1&apos;: 12&#125;]&#125;</span><br><span class="line">&gt;&gt;&gt; d.name</span><br><span class="line">&apos;Tom Smith&apos;</span><br><span class="line">&gt;&gt;&gt; x.name</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">AttributeError: &apos;dict&apos; object has no attribute &apos;name&apos;</span><br></pre></td></tr></table></figure></p>
+<h1 id="常用数据库"><a href="#常用数据库" class="headerlink" title="常用数据库"></a>常用数据库</h1><h2 id="SQLite"><a href="#SQLite" class="headerlink" title="SQLite"></a>SQLite</h2><p>SQLite是一种嵌入式关系型数据库，它的数据库就是一个文件。Python 2.5x以上版本内置了SQLite3，使用时直接import sqlite3即可<br><a href="http://www.runoob.com/sqlite/sqlite-python.html" target="_blank" rel="noopener">教程</a></p>
+<h3 id="操作流程"><a href="#操作流程" class="headerlink" title="操作流程"></a>操作流程</h3><h4 id="sqlite3-connect-database-timeout-…"><a href="#sqlite3-connect-database-timeout-…" class="headerlink" title="sqlite3.connect(database,[timeout,…])"></a>sqlite3.connect(database,[timeout,…])</h4><p>打开一个文件与SQLite连接，如果存在打开，不存在，创建。</p>
+<h4 id="sqlite3-cursor"><a href="#sqlite3-cursor" class="headerlink" title="sqlite3.cursor()"></a>sqlite3.cursor()</h4><p>可以创建表</p>
+<h4 id="增删改查都可以用-connect-execute-完成…"><a href="#增删改查都可以用-connect-execute-完成…" class="headerlink" title="增删改查都可以用 connect.execute()完成…"></a>增删改查都可以用 connect.execute()完成…</h4><h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h2><p>也是关系型数据库，和SQLite差不多，建立连接与光标对象，用execute()执行SQL语句，commit()提交事务，fetchall()获得查询结果</p>
+<h2 id="LMDB"><a href="#LMDB" class="headerlink" title="LMDB"></a>LMDB</h2><p>属于key-value型(键值对，非关系型)数据库</p>
+<h3 id="操作流程-1"><a href="#操作流程-1" class="headerlink" title="操作流程"></a>操作流程</h3><p>通过env = lmdb.open()打开环境<br>通过txn = env.begin()建立事务<br>通过txn.put(key, value)进行插入和修改<br>通过txn.delete(key)进行删除<br>通过txn.get(key)进行查询<br>通过txn.cursor()进行遍历<br>通过txn.commit()提交更改</p>
+<h2 id="LevelDB"><a href="#LevelDB" class="headerlink" title="LevelDB"></a>LevelDB</h2><p>同为key-value数据库</p>
+<h3 id="操作流程-2"><a href="#操作流程-2" class="headerlink" title="操作流程"></a>操作流程</h3><p>LevelDB操作时类似与LMDB，使用Put/Get/Delete，但是更加简单（不需要事务txn和commit提交），同时支持范围迭代器RangeIter。</p>
+<p><strong>SQLite与MySQL都是关系型数据库，操作时创建连接对象connection与光标对象cursor，通过execute执行SQL语句，commit提交变更，fetch得到查询结果；LMDB与LevelDB都是K-V数据库，操作时建立与数据库的连接，用put/delete改变数据，用get获取数据，区别是LMDB中有事务需要commit，LevelDB不需要。</strong></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/14/OBject-Detection/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="田小默">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="田小默的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/05/14/OBject-Detection/" class="post-title-link" itemprop="url">OBject-Detection</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-05-14 16:23:19" itemprop="dateCreated datePublished" datetime="2018-05-14T16:23:19+08:00">2018-05-14</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-10-16 10:38:33" itemprop="dateModified" datetime="2018-10-16T10:38:33+08:00">2018-10-16</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>[TOC]</p>
+<h2 id="Object-Detection"><a href="#Object-Detection" class="headerlink" title="Object Detection:"></a><a href="https://blog.csdn.net/xyfengbo/article/details/70227173" target="_blank" rel="noopener">Object Detection:</a></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">RCNN --&gt; SPP_NET</span><br><span class="line">SPP_NET--&gt;Fast_RCNN</span><br><span class="line">Fast_RCNN--&gt;Faster_RCNN</span><br><span class="line">Faster_RCNN--&gt;Mask_RCNN</span><br></pre></td></tr></table></figure>
+<h1 id="一、R-CNN"><a href="#一、R-CNN" class="headerlink" title="一、R-CNN"></a>一、<a href="https://blog.csdn.net/WoPawn/article/details/52133338" target="_blank" rel="noopener">R-CNN</a></h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">image--&gt;Region_Proposal</span><br><span class="line">Region_Proposal--&gt;CNN</span><br><span class="line">CNN--&gt;SVM</span><br><span class="line">CNN--&gt;Regression</span><br><span class="line">Regression--&gt;CNN</span><br></pre></td></tr></table></figure>
+<h3 id="1-候选框"><a href="#1-候选框" class="headerlink" title="1.候选框"></a>1.候选框</h3><p>使用Region Proposal算法选择区域，一般2k个候选区域</p>
+<h3 id="2-CNN提取特征"><a href="#2-CNN提取特征" class="headerlink" title="2.CNN提取特征"></a>2.CNN提取特征</h3><p>一般使用AlexNet、VGG-16网络作为提取特征的CNN网络。先对网络进行预训练，使用ILVCR 2012作为数据集进行训练，输出为1000维的标签。与训练完后，将最后的分类层删除，4096维特征直接输入SVM进行分类。</p>
+<h3 id="3-SVM分类器分类，打分，非极大值抑制"><a href="#3-SVM分类器分类，打分，非极大值抑制" class="headerlink" title="3. SVM分类器分类，打分，非极大值抑制"></a>3. SVM分类器分类，打分，非极大值抑制</h3><p>CNN提取的特征输入SVM，分类</p>
+<h3 id="4-回归器finetune"><a href="#4-回归器finetune" class="headerlink" title="4.回归器finetune"></a>4.回归器finetune</h3><p>CNN提取的特征输入回归器Regression进行对网络FineTune.</p>
+<h3 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h3><ol>
+<li><p>多个候选区域对应的图像需要预先提取，占用较大的磁盘空间；</p>
+</li>
+<li><p>针对传统CNN需要固定尺寸的输入图像，crop/warp（归一化）产生物体截断或拉伸，会导致输入CNN的信息丢失；</p>
+</li>
+<li><p>每一个ProposalRegion都需要进入CNN网络计算，上千个Region存在大量的范围重叠，重复的特征提取带来巨大的计算浪费。</p>
+</li>
+</ol>
+<hr>
+<h1 id="二、SPP-NET"><a href="#二、SPP-NET" class="headerlink" title="二、SPP NET"></a>二、SPP NET</h1><p>Spatial Pyramid Pooling<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">image--&gt;CNN</span><br><span class="line">image--&gt;Region_Proposal</span><br><span class="line">CNN--&gt;Features</span><br><span class="line">Region_Proposal--&gt;Features</span><br><span class="line">Features--&gt;SPP</span><br><span class="line">SPP--&gt;FC</span><br><span class="line">FC--&gt;SVM</span><br><span class="line">FC--&gt;Regression</span><br></pre></td></tr></table></figure></p>
+<h3 id="改进"><a href="#改进" class="headerlink" title="改进"></a>改进</h3><p>使用SPP特殊的pooling使得卷积计算大大减少</p>
+<h3 id="1-候选框-1"><a href="#1-候选框-1" class="headerlink" title="1.候选框"></a>1.候选框</h3><p>和RCNN相同</p>
+<h3 id="2-对整个图片做SPP-Net卷积"><a href="#2-对整个图片做SPP-Net卷积" class="headerlink" title="2.对整个图片做SPP_Net卷积"></a>2.对整个图片做SPP_Net卷积</h3><p>采用空间金字塔池化（SpatialPyramid Pooling ）替换了 全连接层之前的最后一个池化层（上图top）.</p>
+<p>把整张待检测的图片，输入CNN中，进行一次性特征提取，得到feature maps，然后在feature maps中找到各个候选框的区域，再对各个候选框采用金字塔空间池化，提取出固定长度的特征向量。而R-CNN输入的是每个候选框，然后在进入CNN，因为SPP-Net只需要一次对整张图片进行特征提取，速度会大大提升。</p>
+<h3 id="3-SVM"><a href="#3-SVM" class="headerlink" title="3.SVM"></a>3.SVM</h3><p>和RCNN相同</p>
+<h3 id="4-Regression"><a href="#4-Regression" class="headerlink" title="4.Regression"></a>4.Regression</h3><p>和RCNN相同</p>
+<h3 id="缺点：-1"><a href="#缺点：-1" class="headerlink" title="缺点："></a>缺点：</h3><p>1）和RCNN一样，训练过程仍然是隔离的，提取候选框 | 计算CNN特征| SVM分类 | Bounding Box回归独立训练，大量的中间结果需要转存，无法整体训练参数；</p>
+<p>2）SPP-Net在无法同时Tuning在SPP-Layer两边的卷积层和全连接层，很大程度上限制了深度CNN的效果；</p>
+<p>3）在整个过程中，Proposal Region仍然很耗时。</p>
+<hr>
+<h1 id="三、Fast-RCNN"><a href="#三、Fast-RCNN" class="headerlink" title="三、Fast-RCNN"></a>三、<a href="https://blog.csdn.net/shenxiaolu1984/article/details/51036677" target="_blank" rel="noopener">Fast-RCNN</a></h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">image--&gt;CNN</span><br><span class="line">CNN--&gt;RIO_Pooling</span><br><span class="line">image--&gt;Region_Proposal</span><br><span class="line">RIO_Pooling--&gt;Features</span><br><span class="line">Region_Proposal--&gt;RIO_Pooling</span><br><span class="line">Features--&gt;SoftmaxLoss</span><br><span class="line">SoftmaxLoss--&gt;Loss</span><br><span class="line">Features--&gt;SmoothL1Loss</span><br><span class="line">SmoothL1Loss--&gt;Loss</span><br><span class="line">Loss--&gt;Features</span><br></pre></td></tr></table></figure>
+<h3 id="改进-1"><a href="#改进-1" class="headerlink" title="改进"></a>改进</h3><p> 1）借鉴SPP思路，提出简化版的ROI池化层（注意，没用金字塔），同时加入了候选框映射功能，使得网络能够反向传播，解决了SPP的整体网络训练问题；</p>
+<p>2）多任务Loss层</p>
+<pre><code>A）SoftmaxLoss代替了SVM，证明了softmax比SVM更好的效果
+B）SmoothL1Loss取代Bouding box回归。
+</code></pre><p>将分类和边框回归进行合并（又一个开创性的思路），通过多任务Loss层进一步整合深度网络，统一了训练过程，从而提高了算法准确度。</p>
+<p>3）全连接层通过SVD加速</p>
+<p>4）结合上面的改进，模型训练时可对所有层进行更新，除了速度提升外（训练速度是SPP的3倍，测试速度10倍），得到了更好的检测效果</p>
+<h3 id="1-候选框-2"><a href="#1-候选框-2" class="headerlink" title="1.候选框"></a>1.候选框</h3><p>同上</p>
+<h3 id="2-特征提取"><a href="#2-特征提取" class="headerlink" title="2.特征提取"></a>2.特征提取</h3><p>整个图片CNN网络提取特征，取出候选框中的特征进行RIO Pooling得到Features</p>
+<h3 id="3-LOSS"><a href="#3-LOSS" class="headerlink" title="3.LOSS"></a>3.LOSS</h3><p>使用SoftmaxLoss取代了SVM，SmoothL1Loss取代了回归器，最后两个Loss合并。</p>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>虽然已经很厉害了，但是候选框的选取还是慢啊</p>
+<p>=========================================</p>
+<h1 id="四、Faster-RCNN"><a href="#四、Faster-RCNN" class="headerlink" title="四、Faster-RCNN"></a>四、Faster-RCNN</h1><pre><code>graph LR
+image--&gt;CNN
+CNN--&gt;Features
+Features--&gt;RPN
+Features--&gt;Feature
+RPN--&gt;Feature
+Feature--&gt;RIO_Pooling
+RIO_Pooling--&gt;SoftmaxLoss
+SoftmaxLoss--&gt;Loss
+RIO_Pooling--&gt;SmoothL1Loss
+SmoothL1Loss--&gt;Loss
+</code></pre><h3 id="改进-2"><a href="#改进-2" class="headerlink" title="改进"></a>改进</h3><p>这个就厉害了，直接把候选框选取用一个网络实现了，而且是在特征提取过以后，想想就快啊。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/10/Conda使用总结/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="田小默">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="田小默的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/05/10/Conda使用总结/" class="post-title-link" itemprop="url">Conda使用总结</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-05-10 11:19:00 / Modified: 11:22:50" itemprop="dateCreated datePublished" datetime="2018-05-10T11:19:00+08:00">2018-05-10</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="1-创建新的开发环境："><a href="#1-创建新的开发环境：" class="headerlink" title="1 创建新的开发环境："></a>1 创建新的开发环境：</h3><p>创建新开发环境的语法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create --name &lt;envname&gt; python=&lt;version&gt; &lt;optional dependencies&gt;</span><br></pre></td></tr></table></figure></p>
+<p>例如如下命令会在Anaconda安装目录下的envs目录中创建一个名为Python36的新开发环境并且使用的python版本为3.6。</p>
+<pre><code>conda create -n Python35 python=3.6
+</code></pre><p>若要在当前目录下创建，则使用</p>
+<pre><code>conda create -p &lt;envname&gt; python=&lt;version&gt; &lt;optional dependencies&gt;
+</code></pre><h3 id="2-激活新的开发环境"><a href="#2-激活新的开发环境" class="headerlink" title="2 激活新的开发环境"></a>2 激活新的开发环境</h3><p>Linux, OS X:</p>
+<pre><code>source activate &lt;envname&gt;
+</code></pre><p>Windows:</p>
+<pre><code>activate &lt;envname&gt;
+</code></pre><p>激活了开发环境后可以使用conda或者pip在该开发环境中安装新的包。</p>
+<h3 id="3-退出新的开发环境"><a href="#3-退出新的开发环境" class="headerlink" title="3 退出新的开发环境"></a>3 退出新的开发环境</h3><p>Linux, OS X:</p>
+<pre><code>source deactivate
+</code></pre><p>Windows:</p>
+<pre><code>deactivate
+</code></pre><h3 id="4-查看目前拥有的开发环境"><a href="#4-查看目前拥有的开发环境" class="headerlink" title="4 查看目前拥有的开发环境"></a>4 查看目前拥有的开发环境</h3><pre><code>conda info --envs
+</code></pre><p>或者</p>
+<pre><code>conda env list
+</code></pre><h3 id="5-复制现有开发环境"><a href="#5-复制现有开发环境" class="headerlink" title="5 复制现有开发环境"></a>5 复制现有开发环境</h3><pre><code>conda create --name &lt;envname&gt; --clone &lt;existing_env&gt;
+</code></pre><h3 id="6-删除整个开发环境"><a href="#6-删除整个开发环境" class="headerlink" title="6 删除整个开发环境"></a>6 删除整个开发环境</h3><pre><code>conda env remove --name &lt;envname&gt; --all
+</code></pre><h3 id="7-导出和导入开发环境"><a href="#7-导出和导入开发环境" class="headerlink" title="7 导出和导入开发环境"></a>7 导出和导入开发环境</h3><p>导出：</p>
+<pre><code>conda env export &gt; environment.yml
+</code></pre><p>导入：</p>
+<pre><code>conda env create -f environment.yml
+</code></pre><p>导出和导入都会自动帮你处理好pip中的依赖。</p>
+<h3 id="8-总结"><a href="#8-总结" class="headerlink" title="8 总结"></a>8 总结</h3><p>更多说明请查阅<a href="https://conda.io/docs/user-guide/tasks/manage-environments.html" target="_blank" rel="noopener">官方文档</a>。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/08/python的log使用/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -940,581 +2190,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/29/PyTorch-训练一个分类神经网络/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="田小默">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="田小默的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/04/29/PyTorch-训练一个分类神经网络/" class="post-title-link" itemprop="url">PyTorch 训练一个分类神经网络</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-04-29 10:44:38" itemprop="dateCreated datePublished" datetime="2018-04-29T10:44:38+08:00">2018-04-29</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2018-05-23 16:23:22" itemprop="dateModified" datetime="2018-05-23T16:23:22+08:00">2018-05-23</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>现在知道怎么定义一个网络，计算loss更新权重了。</p>
-<h4 id="What-about-data？"><a href="#What-about-data？" class="headerlink" title="What about data？"></a>What about data？</h4><p>通常来说处理的数据有图片，文本，声音和视频，python有专门的库加载这些数据成numpy的array格式。然后转成torch.Tensor.</p>
-<ul>
-<li>对于图片，可以使用 Pillow,OpenCV 等</li>
-<li>声音的话，可以用 scipy,librosa</li>
-<li>文本信息可以使用 原生的 Python或Cython,或者 NLKT 和 SpyCy</li>
-</ul>
-<p>特别是视频，Torch 有专门的包 <a href="http://pytorch.org/docs/master/torchvision/" target="_blank" rel="noopener">torchvision</a>,他为像 Imagenet，CIFAR10，MNIST等这样的数据集提供加载器，也提供图片的数据转换，torchvison.datasets 和 torch.utils.data.DataLoader .</p>
-<p>这样提供了很大的便利，避免重复造轮子。</p>
-<p>这小节使用 CIFAR10 数据集。这是一个包含，飞机，汽车，鸟，猫，鹿，狗，青蛙，马，船，卡车，十种类型图片。 CIFAR-10 图片是统一的 32 x 32 大小，包含 RGB 三个通道。<br><img src="https://tianxiaomo.github.io/images/cifar-10/cifar10.png" alt="image"></p>
-<h3 id="训练一个图片分类器"><a href="#训练一个图片分类器" class="headerlink" title="训练一个图片分类器"></a>训练一个图片分类器</h3><p>我们需要做以下几布：</p>
-<ol>
-<li>利用 torchvision 加载格式化 CIFAR-10 测试集和训练集</li>
-<li>定义一个卷积神经网络</li>
-<li>定义一个 loss 函数</li>
-<li>利用训练集训练网络</li>
-<li>利用测试集进行测试</li>
-</ol>
-<h4 id="1-加载、标准化-CIFAR-10"><a href="#1-加载、标准化-CIFAR-10" class="headerlink" title="1.加载、标准化 CIFAR-10"></a>1.加载、标准化 CIFAR-10</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import torch</span><br><span class="line">import torchvision</span><br><span class="line">import torchvision.transforms as transforms</span><br></pre></td></tr></table></figure>
-<p>torchvision 输出的数据是 [0,1] PILImage 图片，我们需要转换成 标准化的 Tensor [-1,1]格式。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">transform = transforms.Compose(</span><br><span class="line">    [transforms.ToTensor(),</span><br><span class="line">    transforms.Normalize((0.5,0.5,0.5),(0.5,0.5,0.5))])</span><br><span class="line"></span><br><span class="line">trainset = torchvision.datasets.CIFAR10(root=&apos;./data&apos;,train=True,</span><br><span class="line">download=True,</span><br><span class="line">transform=transform)</span><br><span class="line"></span><br><span class="line">trainloader = torch.utils.data.DataLoader(trainset,batch_size=4,</span><br><span class="line">shuffle=True,</span><br><span class="line">num_workers=2)</span><br><span class="line"></span><br><span class="line">testset = torchvision.datasets.CIFAR10(root=&apos;./data&apos;,train=False,</span><br><span class="line">download=True,</span><br><span class="line">transform=transform)</span><br><span class="line"></span><br><span class="line">testloader = torch.utils.data.DataLoader(testset,batch_size=4,</span><br><span class="line">shuffle=False,num_workers=2)</span><br><span class="line"></span><br><span class="line">classes = (&apos;plane&apos;,&apos;car&apos;,&apos;bird&apos;,&apos;cat&apos;,&apos;deer&apos;,&apos;dog&apos;,&apos;frog&apos;,&apos;horse&apos;,&apos;ship&apos;,&apos;truck&apos;)</span><br></pre></td></tr></table></figure>
-<p>OUT:</p>
-<pre><code>Files already downloaded and verified
-Files already downloaded and verified
-</code></pre><p>这部分数据是从网上下载下来的，但我根本下载不了，所以从<a href="https://www.kaggle.com/pankrzysiu/cifar10-python/data" target="_blank" rel="noopener">kaggle</a>下载放在./data 文件夹下。</p>
-<p>先看看图片吧。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">import numpy as np</span><br><span class="line">%matplotlib inline</span><br><span class="line"></span><br><span class="line">def imshow(img):</span><br><span class="line">    img = img / 2 + 0.5</span><br><span class="line">    npimg = img.numpy()</span><br><span class="line">    plt.imshow(np.transpose(npimg,(1,2,0)))</span><br><span class="line">    </span><br><span class="line">dataiter = iter(trainloader)</span><br><span class="line">images, labels = dataiter.next()</span><br><span class="line"></span><br><span class="line">imshow(torchvision.utils.make_grid(images))</span><br><span class="line">print(&quot; &quot;.join(&apos;%5s&apos; % classes[labels[j]] for j in range(4)))</span><br></pre></td></tr></table></figure></p>
-<p>OUT:</p>
-<pre><code>frog   dog   dog truck
-</code></pre><p><img src="https://tianxiaomo.github.io/images/cifar-10/cifar10-show.png" alt="image"></p>
-<h4 id="2-定义一个卷积神经网络"><a href="#2-定义一个卷积神经网络" class="headerlink" title="2.定义一个卷积神经网络"></a>2.定义一个卷积神经网络</h4><p>把上一小节那个卷积神经网络复制过来，将输入通道改成三。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">import torch.nn as nn</span><br><span class="line">import torch.nn.functional as F</span><br><span class="line"></span><br><span class="line">class Net(nn.Module):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        super(Net,self).__init__()</span><br><span class="line">        self.conv1 = nn.Conv2d(3,6,5)</span><br><span class="line">        self.pool = nn.MaxPool2d(2,2)</span><br><span class="line">        self.conv2 = nn.Conv2d(6,16,5)</span><br><span class="line">        self.fc1 = nn.Linear(16*5*5,120)</span><br><span class="line">        self.fc2 = nn.Linear(120,84)</span><br><span class="line">        self.fc3 = nn.Linear(84,10)</span><br><span class="line"></span><br><span class="line">    def forward(self, x):</span><br><span class="line">        x = self.pool(F.relu(self.conv1(x)))</span><br><span class="line">        x = self.pool(F.relu(self.conv2(x)))</span><br><span class="line">        x = x.view(-1,16*5*5)</span><br><span class="line">        x = F.relu(self.fc1(x))</span><br><span class="line">        x = F.relu(self.fc2(x))</span><br><span class="line">        x = self.fc3(x)</span><br><span class="line">        return x</span><br><span class="line">    </span><br><span class="line">net = Net()</span><br></pre></td></tr></table></figure></p>
-<h4 id="3-定义-loss-函数和优化器"><a href="#3-定义-loss-函数和优化器" class="headerlink" title="3.定义 loss 函数和优化器"></a>3.定义 loss 函数和优化器</h4><p>利用交叉熵loss 和 SGD.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import torch.optim as optim</span><br><span class="line"></span><br><span class="line">criterion = nn.CrossEntropyLoss()</span><br><span class="line">optimizer = optim.SGD(net.parameters(),lr = 0.001,momentum = 0.9)</span><br></pre></td></tr></table></figure></p>
-<h4 id="4-训练网络"><a href="#4-训练网络" class="headerlink" title="4.训练网络"></a>4.训练网络</h4><p>现在开始好玩了。先简单跑一下数据。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">for epoch in range(2):</span><br><span class="line"></span><br><span class="line">    running_loss = 0.0</span><br><span class="line">    for i,data in enumerate(trainloader,0):</span><br><span class="line">        inputs, labels = data</span><br><span class="line">        optimizer.zero_grad()</span><br><span class="line">        </span><br><span class="line">        outputs = net(inputs)</span><br><span class="line">        loss = criterion(outputs,labels)</span><br><span class="line">        loss.backward()</span><br><span class="line">        optimizer.step()</span><br><span class="line"></span><br><span class="line">        running_loss += loss.item()</span><br><span class="line">        if i % 2000 == 1999:</span><br><span class="line">            print(&apos;[%d,%5d] loss: %.3f&apos; %(epoch + 1,i+1,running_loss/2000))</span><br><span class="line">            running_loss = 0.0</span><br><span class="line">print(&apos;Finished Training&apos;)</span><br></pre></td></tr></table></figure>
-<h4 id="5-利用测试集测试网络"><a href="#5-利用测试集测试网络" class="headerlink" title="5.利用测试集测试网络"></a>5.利用测试集测试网络</h4><p>现在已经利用训练集训练了两次，我们需要测试集检查一下是否学到了什么东西。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dataiter = iter(testloader)</span><br><span class="line">images,labels = dataiter.next()</span><br><span class="line"></span><br><span class="line">imshow(torchvision.utils.make_grid(images))</span><br><span class="line">print(&apos;GroundTruth: &apos;,&apos; &apos;.join(&apos;%5s&apos; % classes[labels[j]] for j in range(4)))</span><br></pre></td></tr></table></figure></p>
-<p>OUT:<br>    GroundTruth:    cat  ship  ship plane<br><img src="https://tianxiaomo.github.io/images/cifar-10/cifar10-test.png" alt="image"></p>
-<p>看神经网络能不能认出来</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">outputs = net(images)</span><br></pre></td></tr></table></figure>
-<p>输出是一个10个类别的权重。哪个权重高，他会认为更可能是那个。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">_,predicted = torch.max(outputs,1)</span><br><span class="line">print(&apos;Predicted: &apos;,&apos; &apos;.join(&apos;%5s&apos; % classes[predicted[j]] </span><br><span class="line">for j in rang(4)))</span><br></pre></td></tr></table></figure></p>
-<p>OUT:<br>    Predicted:    dog   car truck  ship</p>
-<p>好吧…</p>
-<p>大概看下在每个种类上的表现吧<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class_correct = list(0. for i in range(10))</span><br><span class="line">class_total = list(0. for i in range(10))</span><br><span class="line">with torch.no_grad():</span><br><span class="line">    for data in testloader:</span><br><span class="line">        images, labels = data</span><br><span class="line">        outputs = net(images)</span><br><span class="line">        _, predicted = torch.max(outputs, 1)</span><br><span class="line">        c = (predicted == labels).squeeze()</span><br><span class="line">        for i in range(4):</span><br><span class="line">            label = labels[i]</span><br><span class="line">            class_correct[label] += c[i].item()</span><br><span class="line">            class_total[label] += 1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">for i in range(10):</span><br><span class="line">    print(&apos;Accuracy of %5s : %2d %%&apos; % (</span><br><span class="line">        classes[i], 100 * class_correct[i] / class_total[i]))</span><br></pre></td></tr></table></figure></p>
-<p>OUT:<br>    Accuracy of plane : 73 %<br>    Accuracy of   car : 44 %<br>    Accuracy of  bird : 45 %<br>    Accuracy of   cat : 32 %<br>    Accuracy of  deer : 26 %<br>    Accuracy of   dog : 42 %<br>    Accuracy of  frog : 61 %<br>    Accuracy of horse : 75 %<br>    Accuracy of  ship : 43 %<br>    Accuracy of truck : 78 %</p>
-<h4 id="6-在GPU上训练"><a href="#6-在GPU上训练" class="headerlink" title="6.在GPU上训练"></a>6.在GPU上训练</h4><p>这个嘛，额，不存在的，GT740M啊，不支持啊…</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/28/Torch-熟悉/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="田小默">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="田小默的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/04/28/Torch-熟悉/" class="post-title-link" itemprop="url">Torch 熟悉</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-04-28 23:43:04" itemprop="dateCreated datePublished" datetime="2018-04-28T23:43:04+08:00">2018-04-28</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2018-04-29 12:10:39" itemprop="dateModified" datetime="2018-04-29T12:10:39+08:00">2018-04-29</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line">x = torch.randn(<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line">print(x)</span><br><span class="line">x = ((x*<span class="number">2</span>)/(x<span class="number">-1</span>))</span><br><span class="line">print(x)</span><br><span class="line">print(x.requires_grad)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把variable的设置grad给tensor了</span></span><br><span class="line">x.requires_grad_(<span class="keyword">True</span>)</span><br><span class="line">print(x.requires_grad)</span><br><span class="line"></span><br><span class="line">y = (x*x).sum()</span><br><span class="line"></span><br><span class="line">y.backward()</span><br><span class="line"><span class="comment"># y = x^2</span></span><br><span class="line"><span class="comment">#dy/dx = 2 * x</span></span><br><span class="line">print(x.grad)</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">a = torch.randn(<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line">print(a)</span><br><span class="line">b = ((a*<span class="number">2</span>)/(a<span class="number">-1</span>))</span><br><span class="line">print(b)</span><br><span class="line">print(<span class="string">"a grad is "</span>,a.requires_grad)</span><br><span class="line">print(<span class="string">"b grad is "</span>,b.requires_grad)</span><br><span class="line">a.requires_grad_(<span class="keyword">True</span>)</span><br><span class="line">b.requires_grad_(<span class="keyword">True</span>)</span><br><span class="line">print(<span class="string">"a grad is "</span>,a.requires_grad)</span><br><span class="line">print(<span class="string">"b grad is "</span>,b.requires_grad)</span><br><span class="line"></span><br><span class="line">c = (b*b).sum()</span><br><span class="line"></span><br><span class="line">c.backward()</span><br><span class="line"><span class="comment"># b = a*2/(a-1)</span></span><br><span class="line"><span class="comment">#db/da = 2ln(a-1)</span></span><br><span class="line"><span class="comment"># c = b^2</span></span><br><span class="line"><span class="comment"># dc/db = 2b</span></span><br><span class="line">print(<span class="string">"a_grad = "</span>,a.grad)</span><br><span class="line">print(<span class="string">"b_grad = "</span>,b.grad)</span><br></pre></td></tr></table></figure>
-<pre><code>tensor([[ 1.3270, -2.5966, -0.1547],
-        [ 0.3614,  1.0595,  0.8459]])
-tensor([[  8.1156,   1.4439,   0.2679],
-        [ -1.1320,  35.5890, -10.9797]])
-a grad is  False
-b grad is  False
-a grad is  True
-b grad is  True
-a_grad =  None
-b_grad =  tensor([[ 16.2312,   2.8879,   0.5359],
-        [ -2.2639,  71.1781, -21.9595]])
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">a = torch.ones(<span class="number">2</span>,<span class="number">3</span>)+<span class="number">1</span></span><br><span class="line">print(a)</span><br><span class="line">b = ((a*<span class="number">2</span>)/(a<span class="number">-1</span>))</span><br><span class="line">print(b)</span><br><span class="line">print(<span class="string">"a grad is "</span>,a.requires_grad)</span><br><span class="line">a.requires_grad_(<span class="keyword">True</span>)</span><br><span class="line">print(<span class="string">"a grad is "</span>,a.requires_grad)</span><br><span class="line"></span><br><span class="line">b.backward()</span><br><span class="line"></span><br><span class="line">print(<span class="string">"a_grad = "</span>,a.grad)</span><br></pre></td></tr></table></figure>
-<pre><code>tensor([[ 2.,  2.,  2.],
-        [ 2.,  2.,  2.]])
-tensor([[ 4.,  4.,  4.],
-        [ 4.,  4.,  4.]])
-a grad is  False
-a grad is  True
-
-
-
----------------------------------------------------------------------------
-
-RuntimeError                              Traceback (most recent call last)
-
-&lt;ipython-input-31-b43c2a9b1b1c&gt; in &lt;module&gt;()
-     13 
-     14 # c.backward()
----&gt; 15 b.backward()
-     16 # b = a*2/(a-1)
-     17 #db/da = 2ln(a-1)
-
-RuntimeError: element 0 of tensors does not require grad and does not have a grad_fn
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">x = torch.randn(<span class="number">3</span>,requires_grad = <span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line">y = x*<span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># y.data.norm() 是求 y 的范数，就是 y 中的元素全部 p 次方，然后开 p 次方，默认 p=2</span></span><br><span class="line"><span class="keyword">while</span> y.data.norm() &lt; <span class="number">1000</span>:</span><br><span class="line">    y = y*<span class="number">2</span></span><br><span class="line"></span><br><span class="line">print(y)</span><br><span class="line">gradients = torch.tensor([<span class="number">0.1</span>,<span class="number">1.0</span>,<span class="number">0.0001</span>],dtype = torch.float)</span><br><span class="line"></span><br><span class="line"><span class="comment"># backward 自动和参数相乘</span></span><br><span class="line">y.backward(gradients)</span><br><span class="line">print(x.grad)</span><br><span class="line"></span><br><span class="line">print(x.requires_grad)</span><br><span class="line">print((x ** <span class="number">2</span>).requires_grad)</span><br><span class="line"><span class="keyword">with</span> torch.no_grad():</span><br><span class="line">    print((x ** <span class="number">2</span>).requires_grad)</span><br><span class="line">    </span><br><span class="line">print((x ** <span class="number">2</span>).requires_grad)</span><br></pre></td></tr></table></figure>
-<pre><code>tensor([-571.8924,  188.2365, -904.6218])
-tensor([  204.8000,  2048.0000,     0.2048])
-True
-True
-False
-True
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Net</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="comment"># 定义一个网络</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super(Net, self).__init__()</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 1 个图像输入通道，6 个输出通道， 5x5 的卷积核</span></span><br><span class="line">        self.conv1 = nn.Conv2d(<span class="number">1</span>, <span class="number">6</span>, <span class="number">5</span>)</span><br><span class="line">        <span class="comment">#6 个输入通道，16 个输出通道</span></span><br><span class="line">        self.conv2 = nn.Conv2d(<span class="number">6</span>, <span class="number">16</span>, <span class="number">5</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">#1 个线性函数 y = Wx +b</span></span><br><span class="line">        self.fc1 = nn.Linear(<span class="number">16</span> * <span class="number">5</span> *<span class="number">5</span> ,<span class="number">120</span>)</span><br><span class="line">        self.fc2 = nn.Linear(<span class="number">120</span> , <span class="number">84</span>)</span><br><span class="line">        self.fc3 = nn.Linear(<span class="number">84</span>,<span class="number">10</span>)</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        <span class="comment"># 2x2 的池化窗口</span></span><br><span class="line">        x = F.max_pool2d(F.relu(self.conv1(x)),(<span class="number">2</span>,<span class="number">2</span>))</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 如果池话窗口为方形，你也可以设一个参数</span></span><br><span class="line">        x = F.max_pool2d(F.relu(self.conv2(x)),<span class="number">2</span>)</span><br><span class="line">        </span><br><span class="line">        x = x.view(<span class="number">-1</span>,self.num_flat_features(x))  <span class="comment"># 相当于把 16 个 5*5 的矩阵拍平成 16 个 25 的 </span></span><br><span class="line">        x = F.relu(self.fc1(x))</span><br><span class="line">        x = F.relu(self.fc2(x))</span><br><span class="line">        x = self.fc3(x)</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">num_flat_features</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        size = x.size()[<span class="number">1</span>:]  <span class="comment"># 得到除第一维的其他维之和，如：3*4*5*6 则最后返回 4*5*6 = 120</span></span><br><span class="line">        num_features = <span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> s <span class="keyword">in</span> size:</span><br><span class="line">            num_features *= s</span><br><span class="line">        <span class="keyword">return</span> num_features</span><br><span class="line">    </span><br><span class="line">net = Net()</span><br><span class="line">print(net)</span><br></pre></td></tr></table></figure>
-<pre><code>Net(
-  (conv1): Conv2d(1, 6, kernel_size=(5, 5), stride=(1, 1))
-  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
-  (fc1): Linear(in_features=400, out_features=120, bias=True)
-  (fc2): Linear(in_features=120, out_features=84, bias=True)
-  (fc3): Linear(in_features=84, out_features=10, bias=True)
-)
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看一下参数</span></span><br><span class="line">params = list(net.parameters())</span><br><span class="line">print(len(params))</span><br><span class="line">print(params[<span class="number">2</span>].size())</span><br></pre></td></tr></table></figure>
-<pre><code>10
-torch.Size([16, 6, 5, 5])
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 载入数据</span></span><br><span class="line">input = torch.randn(<span class="number">1</span>,<span class="number">1</span>,<span class="number">32</span>,<span class="number">32</span>)</span><br><span class="line">out = net(input)</span><br><span class="line">print(out)</span><br></pre></td></tr></table></figure>
-<pre><code>tensor([[-0.0400,  0.0145, -0.0109, -0.0255,  0.0603,  0.0657, -0.0557,
-         -0.0260,  0.0959,  0.1870]])
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">net.zero_grad()</span><br><span class="line">out.backward(torch.randn(<span class="number">1</span>,<span class="number">10</span>))</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">output = net(input)</span><br><span class="line">target = torch.arange(<span class="number">1</span>,<span class="number">11</span>)</span><br><span class="line">target = target.view(<span class="number">1</span>,<span class="number">-1</span>)</span><br><span class="line">criterion = nn.MSELoss()</span><br><span class="line"></span><br><span class="line">loss = criterion(output,target)</span><br><span class="line">print(loss)</span><br></pre></td></tr></table></figure>
-<pre><code>tensor(37.9689)
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">print(loss.grad_fn) <span class="comment"># MSELoss</span></span><br><span class="line">print(loss.grad_fn.next_functions[<span class="number">0</span>][<span class="number">0</span>]) <span class="comment"># Linear</span></span><br><span class="line">print(loss.grad_fn.next_functions[<span class="number">0</span>][<span class="number">0</span>].next_functions[<span class="number">0</span>][<span class="number">0</span>]) <span class="comment"># ReLU</span></span><br></pre></td></tr></table></figure>
-<pre><code>&lt;MseLossBackward object at 0x00000275FF44FDA0&gt;
-&lt;AddmmBackward object at 0x00000275FF44FBA8&gt;
-&lt;ExpandBackward object at 0x00000275FF44FDA0&gt;
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">net.zero_grad()</span><br><span class="line">print(net.conv1.bias.grad)</span><br><span class="line">loss.backward()</span><br><span class="line">print(net.conv1.bias.grad)</span><br></pre></td></tr></table></figure>
-<pre><code>tensor([ 0.,  0.,  0.,  0.,  0.,  0.])
-tensor([-0.1013,  0.0209, -0.0838, -0.0878, -0.0151,  0.0398])
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">learning_rate = <span class="number">0.01</span></span><br><span class="line"><span class="keyword">for</span> f <span class="keyword">in</span> net.parameters():</span><br><span class="line">    f.data.sub_(f.grad.data * learning_rate)</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用内置 更新权重</span></span><br><span class="line"><span class="keyword">import</span> torch.optim <span class="keyword">as</span> optim</span><br><span class="line"></span><br><span class="line"><span class="comment"># 做一个自己的 optimizer</span></span><br><span class="line">optimizer = optim.SGD(net.parameters(),lr = <span class="number">0.01</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练</span></span><br><span class="line">optimizer.zero_grad()</span><br><span class="line">output = net(input)</span><br><span class="line">loss = criterion(output, target)</span><br><span class="line">loss.backward()</span><br><span class="line">optimizer.step()</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/27/Github-搭建Blog/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="田小默">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="田小默的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/04/27/Github-搭建Blog/" class="post-title-link" itemprop="url">Github 搭建Blog</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-04-27 19:34:11" itemprop="dateCreated datePublished" datetime="2018-04-27T19:34:11+08:00">2018-04-27</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2018-12-25 20:53:53" itemprop="dateModified" datetime="2018-12-25T20:53:53+08:00">2018-12-25</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="安装Node-js"><a href="#安装Node-js" class="headerlink" title="安装Node.js"></a>安装Node.js</h2><h2 id="安装Git"><a href="#安装Git" class="headerlink" title="安装Git"></a>安装Git</h2><h2 id="下载安装hexo"><a href="#下载安装hexo" class="headerlink" title="下载安装hexo"></a>下载安装hexo</h2><h2 id="添加next主题"><a href="#添加next主题" class="headerlink" title="添加next主题"></a>添加next主题</h2>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1559,7 +2239,7 @@ tensor([-0.1013,  0.0209, -0.0838, -0.0878, -0.0151,  0.0398])
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">27</span>
+                    <span class="site-state-item-count">33</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -1612,7 +2292,11 @@ tensor([-0.1013,  0.0209, -0.0838, -0.0878, -0.0151,  0.0398])
                     
                       
                     
-                    <span class="site-state-item-count">19</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
@@ -1688,7 +2372,7 @@ tensor([-0.1013,  0.0209, -0.0838, -0.0878, -0.0151,  0.0398])
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -1710,6 +2394,16 @@ tensor([-0.1013,  0.0209, -0.0838, -0.0878, -0.0151,  0.0398])
 
   <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.6.0</div>
 
+
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
 
 
 
@@ -1867,6 +2561,12 @@ tensor([-0.1013,  0.0209, -0.0838, -0.0878, -0.0151,  0.0398])
     
       
     
+      
+    
+      
+    
+      
+    
   
 
   
@@ -1920,6 +2620,12 @@ tensor([-0.1013,  0.0209, -0.0838, -0.0878, -0.0151,  0.0398])
 
   
   
+    
+      
+    
+      
+    
+      
     
       
     

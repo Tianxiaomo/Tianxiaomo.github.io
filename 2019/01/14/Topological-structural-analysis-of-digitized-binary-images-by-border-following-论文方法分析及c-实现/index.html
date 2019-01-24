@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh,en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="（1）框架：框架就是指图片的第一列、最后一列、第一行、最后一行像素，这四个长条组成的一个矩形框框，我们这些点是黑点，也就是0。 （2）背景：除了框架之外，和框架属于同一层级的像素点，这些点也是黑点，也就是0。 （3）外轮廓：外轮廓就是指包裹了一堆白点的最外围的白点。 （4）内轮廓：内轮廓是指在包裹了一堆白点的最内部的白点。 用一张图片表示会很清晰： 在这张图片中，S1是背景，也是框架层。S2是包裹">
+<meta name="keywords" content="CV,论文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="&#39;Topological_structural_analysis_of_digitized_binary_images_by_border_following_论文方法分析及c++实现&#39;">
+<meta property="og:url" content="http://yoursite.com/2019/01/14/Topological-structural-analysis-of-digitized-binary-images-by-border-following-论文方法分析及c-实现/index.html">
+<meta property="og:site_name" content="田小默的博客">
+<meta property="og:description" content="（1）框架：框架就是指图片的第一列、最后一列、第一行、最后一行像素，这四个长条组成的一个矩形框框，我们这些点是黑点，也就是0。 （2）背景：除了框架之外，和框架属于同一层级的像素点，这些点也是黑点，也就是0。 （3）外轮廓：外轮廓就是指包裹了一堆白点的最外围的白点。 （4）内轮廓：内轮廓是指在包裹了一堆白点的最内部的白点。 用一张图片表示会很清晰： 在这张图片中，S1是背景，也是框架层。S2是包裹">
+<meta property="og:locale" content="zh,en">
+<meta property="og:image" content="http://www.itdaan.com/imgs/4/5/3/7/43/69cf069044ae9b7be5240da6393ef557.jpe">
+<meta property="og:updated_time" content="2019-01-15T14:35:55.934Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="&#39;Topological_structural_analysis_of_digitized_binary_images_by_border_following_论文方法分析及c++实现&#39;">
+<meta name="twitter:description" content="（1）框架：框架就是指图片的第一列、最后一列、第一行、最后一行像素，这四个长条组成的一个矩形框框，我们这些点是黑点，也就是0。 （2）背景：除了框架之外，和框架属于同一层级的像素点，这些点也是黑点，也就是0。 （3）外轮廓：外轮廓就是指包裹了一堆白点的最外围的白点。 （4）内轮廓：内轮廓是指在包裹了一堆白点的最内部的白点。 用一张图片表示会很清晰： 在这张图片中，S1是背景，也是框架层。S2是包裹">
+<meta name="twitter:image" content="http://www.itdaan.com/imgs/4/5/3/7/43/69cf069044ae9b7be5240da6393ef557.jpe">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/14/Topological-structural-analysis-of-digitized-binary-images-by-border-following-论文方法分析及c-实现/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>'Topological_structural_analysis_of_digitized_binary_images_by_border_following_论文方法分析及c++实现' | 田小默的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh,en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">田小默的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/14/Topological-structural-analysis-of-digitized-binary-images-by-border-following-论文方法分析及c-实现/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="田小默">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="田小默的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">'Topological_structural_analysis_of_digitized_binary_images_by_border_following_论文方法分析及c++实现'
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-01-14 15:06:02" itemprop="dateCreated datePublished" datetime="2019-01-14T15:06:02+08:00">2019-01-14</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-01-15 22:35:55" itemprop="dateModified" datetime="2019-01-15T22:35:55+08:00">2019-01-15</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>（1）框架：框架就是指图片的第一列、最后一列、第一行、最后一行像素，这四个长条组成的一个矩形框框，我们这些点是黑点，也就是0。</p>
+<p>（2）背景：除了框架之外，和框架属于同一层级的像素点，这些点也是黑点，也就是0。</p>
+<p>（3）外轮廓：外轮廓就是指包裹了一堆白点的最外围的白点。</p>
+<p>（4）内轮廓：内轮廓是指在包裹了一堆白点的最内部的白点。</p>
+<p>用一张图片表示会很清晰：</p>
+<p>在这张图片中，S1是背景，也是框架层。S2是包裹的一堆白点，这堆白点的最外层和框架层紧密相连，B1就是S2的外轮廓，B2就是S2的内轮廓。</p>
+<p>那么我们怎么用计算机判断一张图片上的点是外轮廓还是内轮廓呢？</p>
+<p>那么就得进行如下的步骤：</p>
+<p>（1）首先，我们设定外部框架的边界值NBD为1。</p>
+<p>（2）接着忽略最外层的框架，然后从图片的第二行的最左侧开始，判断：</p>
+<p>如果这个数字是1，并且它的左侧的像素是0，那么我们令(i,j)为这个像素，然后令(i2,j2)=(i,j-1)为它左侧的像素（如果是第一次运算，那么坐标就是(2,2)，它要是1，(2,1)是0，那么(i,j)=(2,2)、(i2,j2)=(i,j-1)=（2,1））。然后我们令NBD=NBD+1，并且认为这个点是外轮廓点。</p>
+<p>如果这个数字是大于等于1的，并且它的右侧像素是0，那么我们令(i,j)为这个像素，然后令(i2,j2)=(i,j+1)为它右侧的像素。（如果是第一次运算，那么坐标就是(2,2)，它要是1，(2,3)是0，那么那么(i,j)=(2,2)、(i2,j2)=(i,j+1)=（2,3）），并且认为这个点是内轮廓点。</p>
+<p>如果是其它的情况，那么，令直接跳到最后一步。</p>
+<p>（3）下一步是判断这个点到底是内轮廓还是外轮廓，我们用这个表格来判断：</p>
+<p><img src="http://www.itdaan.com/imgs/4/5/3/7/43/69cf069044ae9b7be5240da6393ef557.jpe" alt="image"></p>
+<p>这里面B’表示的是上一个按照我们这个步骤走的点是什么轮廓。B表示我们当前的点是什么轮廓。如果这是第一次，没有上一次的点，那么直接认为是外轮廓就好了。</p>
+<p>（4）从点(i,j)开始，它的邻近地方有8个点（3*3）的格子之内，然后我们以(i2,j2)点为起始点，然后顺时针的沿着这8个点移动，一直走走走走，唉，发现了一个不为0的像素点，并且令这个点为(i1,j1)。如果这8个点都为0的话，令中心点(i,j)为-NBD，然后直接跳到最后一步。</p>
+<p>（5）如果(i1,j1)存在的话，那么我们令(i2,j2)=(i1,j1)，(i3,j3)=(i,j)。</p>
+<p>（6）然后我们从点(i3,j3)开始，以(i2,j2)为起始点，然后逆时针移动遍历(i,j)邻近地方的8个点。找到第一个不为0的点（(i2,j2)这个点不算）。然后令它为(i4,j4)。注意这里肯定不会存在没有不为0点的情况，因为(i3,j3)=(i,j)，上一次循环都循环一次了，没有早退出了。</p>
+<p>（7）然后我们判断：如果(i3,j3)前面的点(i3,j3+1)为0的话，那么我们把(i3,j3)这个点的像素值赋予-NBD。</p>
+<p>如果(i3,j3)点前面的点不为0，且(i3,j3)这个点的像素为1的话，那么把(i3,j3)的像素值赋予NBD。</p>
+<p>如果是其它情况的话，这个值保持不变。</p>
+<p>（8）判断，如果(i4,j4)=(i,j)也就是我们最开始的那个值，且(i3,j3)=(i1,j1)，那么我们跳到最后一步。如果要不符合条件，我们返回到（6）继续计算直到满足条件。</p>
+<p>（9）我们回到我们最开始选择的那个点，也就是(i,j)然后我们往右边移动一格，如果已经到达末尾了，换到下一行的左边。如果我们于(i,j)那点的像素不为1的话，我们令LNBD等于(i,j)那点的像素的绝对值。</p>
+<p>这九步，我们就把轮廓计算完毕了。在铃木桑的论文中，它举了一个例子来说明这个算法，如下所示：</p>
+<p>这个是它最后得到的结果，但是我有点不信，下面我按照它同样的算法，自己手算了一遍：</p>
+<p>我的最后结果是分为4部分，4个外轮廓，没有内轮廓，而铃木的是5部分，有一个内轮廓。我认为我的里面那个-3不是内轮廓，因为内轮廓应该是八方向都封闭起来的，而这两个-3只有2个方向是封闭，两个方向直接和背景连接。所以我认为是外轮廓。</p>
+<p>谁对谁错我不好说，你们自己分析，然后对这两个人的案例对错评论一下，告诉我哈！</p>
+<p>这样，我们的轮廓就检测完毕了。我们用OPENCV检测也非常的简单：</p>
+<p>（1）首先我们导入一张图片。</p>
+<p>（2）将图片二值化变成黑白图像</p>
+<p>（3）运用轮廓搜索算法找出轮廓</p>
+<p>（4）显示轮廓。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CV/" rel="tag"># CV</a>
+          
+            <a href="/tags/论文/" rel="tag"># 论文</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/10/终端调试工具-pudb/" rel="next" title="终端调试工具--pudb'">
+                <i class="fa fa-chevron-left"></i> 终端调试工具--pudb'
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/17/NLP-BLEU评价指标/" rel="prev" title="'NLP_BLEU评价指标'">
+                'NLP_BLEU评价指标' <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="田小默">
+            
+              <p class="site-author-name" itemprop="name">田小默</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">33</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/tianxiaomo" title="GitHub &rarr; https://github.com/tianxiaomo" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/tianxiaoxiaomo" title="Weibo &rarr; https://weibo.com/tianxiaoxiaomo" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.zhihu.com/people/tian-mo-98-60" title="Zhihu &rarr; https://www.zhihu.com/people/tian-mo-98-60" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>Zhihu</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">田小默</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.6.0</div>
+
+
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.6.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.6.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+    overflow: auto hidden;
+}
+</style>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+</body>
+</html>

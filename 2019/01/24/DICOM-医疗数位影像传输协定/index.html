@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh,en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.6.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="最近有一个医疗图像的比赛，医疗图像以前没有接触过，对于这种格式的数据不甚了解，做了一些调研，记录一下。 定义医疗数位影像传输协定（DICOM，Digital Imaging and Communications in Medicine）是一组通用的标准协定，在对于医学影像的处理、储存、打印、传输上。它包含了档案格式的定义及网络通信协定。DICOM是以TCP/IP为基础的应用协定，并以TCP/IP联">
+<meta name="keywords" content="CV">
+<meta property="og:type" content="article">
+<meta property="og:title" content="&#39;DICOM-医疗数位影像传输协定&#39;">
+<meta property="og:url" content="http://yoursite.com/2019/01/24/DICOM-医疗数位影像传输协定/index.html">
+<meta property="og:site_name" content="田小默的博客">
+<meta property="og:description" content="最近有一个医疗图像的比赛，医疗图像以前没有接触过，对于这种格式的数据不甚了解，做了一些调研，记录一下。 定义医疗数位影像传输协定（DICOM，Digital Imaging and Communications in Medicine）是一组通用的标准协定，在对于医学影像的处理、储存、打印、传输上。它包含了档案格式的定义及网络通信协定。DICOM是以TCP/IP为基础的应用协定，并以TCP/IP联">
+<meta property="og:locale" content="zh,en">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/24/kZ63bF.png">
+<meta property="og:updated_time" content="2019-01-24T06:21:21.387Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="&#39;DICOM-医疗数位影像传输协定&#39;">
+<meta name="twitter:description" content="最近有一个医疗图像的比赛，医疗图像以前没有接触过，对于这种格式的数据不甚了解，做了一些调研，记录一下。 定义医疗数位影像传输协定（DICOM，Digital Imaging and Communications in Medicine）是一组通用的标准协定，在对于医学影像的处理、储存、打印、传输上。它包含了档案格式的定义及网络通信协定。DICOM是以TCP/IP为基础的应用协定，并以TCP/IP联">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/01/24/kZ63bF.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/24/DICOM-医疗数位影像传输协定/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>'DICOM-医疗数位影像传输协定' | 田小默的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion .logo-line-before i { left: initial; }
+    .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh,en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">田小默的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/24/DICOM-医疗数位影像传输协定/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="田小默">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="田小默的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">'DICOM-医疗数位影像传输协定'
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-01-24 14:01:07 / Modified: 14:21:21" itemprop="dateCreated datePublished" datetime="2019-01-24T14:01:07+08:00">2019-01-24</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近有一个医疗图像的比赛，医疗图像以前没有接触过，对于这种格式的数据不甚了解，做了一些调研，记录一下。</p>
+<h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><p>医疗数位影像传输协定（DICOM，Digital Imaging and Communications in Medicine）是一组通用的标准协定，在对于医学影像的处理、储存、打印、传输上。它包含了档案格式的定义及网络通信协定。DICOM是以TCP/IP为基础的应用协定，并以TCP/IP联系各个系统。两个能接受DICOM格式的医疗仪器间，可借由DICOM格式的档案，来接收与交换影像及病人资料。—— <a href="https://zh.wikipedia.org/wiki/DICOM" target="_blank" rel="noopener">维基百科</a></p>
+<p>简言之，DICOM就是一种医疗行业使用的一种数据存储传输标准，广泛应用于各种医疗设备，如:CT、核磁共振、超声等。</p>
+<h1 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h1><p>协议包含编码格式，图像格式、仪器厂商、仪器序列号、数据生成时间、数据采集方式、病人性别、病人年龄等等。下面是使用PYDICOM读取数据打印的结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br></pre></td><td class="code"><pre><span class="line">(0008, 0005) Specific Character Set              CS: &apos;ISO_IR 100&apos;</span><br><span class="line">(0008, 0008) Image Type                          CS: [&apos;ORIGINAL&apos;, &apos;PRIMARY&apos;, &apos;AXIAL&apos;]</span><br><span class="line">(0008, 0012) Instance Creation Date              DA: &apos;20170728&apos;</span><br><span class="line">(0008, 0013) Instance Creation Time              TM: &apos;160113.752&apos;</span><br><span class="line">(0008, 0016) SOP Class UID                       UI: CT Image Storage</span><br><span class="line">(0008, 0018) SOP Instance UID                    UI: *</span><br><span class="line">(0008, 0020) Study Date                          DA: &apos;20170728&apos;</span><br><span class="line">(0008, 0021) Series Date                         DA: &apos;20170728&apos;</span><br><span class="line">(0008, 0022) Acquisition Date                    DA: &apos;20170728&apos;</span><br><span class="line">(0008, 0023) Content Date                        DA: &apos;20170728&apos;</span><br><span class="line">(0008, 002a) Acquisition DateTime                DT: &apos;20170728155419.080&apos;</span><br><span class="line">(0008, 0030) Study Time                          TM: &apos;155226.560&apos;</span><br><span class="line">(0008, 0031) Series Time                         TM: &apos;160052.584&apos;</span><br><span class="line">(0008, 0032) Acquisition Time                    TM: &apos;155419&apos;</span><br><span class="line">(0008, 0033) Content Time                        TM: &apos;155419.410&apos;</span><br><span class="line">(0008, 0050) Accession Number                    SH: &apos;*&apos;</span><br><span class="line">(0008, 0060) Modality                            CS: &apos;CT&apos;</span><br><span class="line">(0008, 0070) Manufacturer                        LO: &apos;Philips&apos;</span><br><span class="line">(0008, 0080) Institution Name                    LO: &apos;*&apos;</span><br><span class="line">(0008, 0081) Institution Address                 ST: &apos;*&apos;</span><br><span class="line">(0008, 0090) Referring Physician&apos;s Name          PN: &apos;*&apos;</span><br><span class="line">(0008, 1010) Station Name                        SH: &apos;*&apos;</span><br><span class="line">(0008, 1030) Study Description                   LO: &apos;CT158424&apos;</span><br><span class="line">(0008, 103e) Series Description                  LO: &apos;iDose (2)&apos;</span><br><span class="line">(0008, 1040) Institutional Department Name       LO: &apos;*&apos;</span><br><span class="line">(0008, 1080) Admitting Diagnoses Description     LO: &apos;&apos;</span><br><span class="line">(0008, 1084)  Admitting Diagnoses Code Sequence   0 item(s) ---- </span><br><span class="line">(0008, 1090) Manufacturer&apos;s Model Name           LO: &apos;*&apos;</span><br><span class="line">(0008, 1111)  Referenced Performed Procedure Step Sequence   1 item(s) ---- </span><br><span class="line">(0008, 1150) Referenced SOP Class UID            UI: Modality Performed Procedure Step SOP Class</span><br><span class="line">(0008, 1155) Referenced SOP Instance UID         UI:1.3.46.670589.33.1.63636853943535791300001.5748714835418010494</span><br><span class="line">   ---------</span><br><span class="line">(0008, 1140)  Referenced Image Sequence   1 item(s) ---- </span><br><span class="line">(0008, 1150) Referenced SOP Class UID            UI: CT Image Storage</span><br><span class="line">(0008, 1155) Referenced SOP Instance UID         UI: 1.3.46.670589.33.1.63636853996983848400001.4836402666508773100</span><br><span class="line">   ---------</span><br><span class="line">(0008, 3010) Irradiation Event UID               UI: 1.3.46.670589.33.1.63636854035098028400003.5509738905066048408</span><br><span class="line">(0010, 0010) Patient&apos;s Name                      PN: &apos;*&apos;</span><br><span class="line">(0010, 0020) Patient ID                          LO: &apos;a8d5f610-bd93-4446-9680-1eeb2d6e606d&apos;</span><br><span class="line">(0010, 0030) Patient&apos;s Birth Date                DA: &apos;*&apos;</span><br><span class="line">(0010, 0040) Patient&apos;s Sex                       CS: &apos;M&apos;</span><br><span class="line">(0010, 1010) Patient&apos;s Age                       AS: &apos;050Y&apos;</span><br><span class="line">(0018, 0015) Body Part Examined                  CS: &apos;ABDOMEN&apos;</span><br><span class="line">(0018, 0022) Scan Options                        CS: &apos;HELIX&apos;</span><br><span class="line">(0018, 0050) Slice Thickness                     DS: &quot;5&quot;</span><br><span class="line">(0018, 0060) KVP                                 DS: &quot;120&quot;</span><br><span class="line">(0018, 0088) Spacing Between Slices              DS: &quot;5&quot;</span><br><span class="line">(0018, 0090) Data Collection Diameter            DS: &quot;500&quot;</span><br><span class="line">(0018, 1000) Device Serial Number                LO: &apos;*&apos;</span><br><span class="line">(0018, 1020) Software Version(s)                 LO: &apos;4.1&apos;</span><br><span class="line">(0018, 1030) Protocol Name                       LO: &apos;Liver C-/CTA/C+ MC /Abdomen&apos;</span><br><span class="line">(0018, 1100) Reconstruction Diameter             DS: &quot;338&quot;</span><br><span class="line">(0018, 1110) Distance Source to Detector         DS: &quot;1040&quot;</span><br><span class="line">(0018, 1111) Distance Source to Patient          DS: &quot;570&quot;</span><br><span class="line">(0018, 1120) Gantry/Detector Tilt                DS: &quot;0&quot;</span><br><span class="line">(0018, 1130) Table Height                        DS: &quot;119.1&quot;</span><br><span class="line">(0018, 1150) Exposure Time                       IS: &quot;470&quot;</span><br><span class="line">(0018, 1151) X-Ray Tube Current                  IS: &quot;534&quot;</span><br><span class="line">(0018, 1152) Exposure                            IS: &quot;251&quot;</span><br><span class="line">(0018, 1160) Filter Type                         SH: &apos;B&apos;</span><br><span class="line">(0018, 1210) Convolution Kernel                  SH: &apos;B&apos;</span><br><span class="line">(0018, 5100) Patient Position                    CS: &apos;HFS&apos;</span><br><span class="line">(0018, 9302) Acquisition Type                    CS: &apos;SPIRAL&apos;</span><br><span class="line">(0018, 9305) Revolution Time                     FD: 0.4</span><br><span class="line">(0018, 9306) Single Collimation Width            FD: 0.625</span><br><span class="line">(0018, 9307) Total Collimation Width             FD: 80.0</span><br><span class="line">(0018, 9309) Table Speed                         FD: 170.4</span><br><span class="line">(0018, 9310) Table Feed per Rotation             FD: 109.056</span><br><span class="line">(0018, 9311) Spiral Pitch Factor                 FD: 0.852</span><br><span class="line">(0018, 9323) Exposure Modulation Type            CS: &apos;3D MODULATION&apos;</span><br><span class="line">(0018, 9324) Estimated Dose Saving               FD: -3.0</span><br><span class="line">(0018, 9345) CTDIvol                             FD: 17.04320987654321</span><br><span class="line">(0020, 000d) Study Instance UID                  UI: adce2399-4540-41b7-8018-ee81ea48655e</span><br><span class="line">(0020, 000e) Series Instance UID                 UI: 2d5c02e9-4a75-4e67-959d-3d705479639c</span><br><span class="line">(0020, 0010) Study ID                            SH: &apos;*&apos;</span><br><span class="line">(0020, 0011) Series Number                       IS: &quot;201&quot;</span><br><span class="line">(0020, 0012) Acquisition Number                  IS: &quot;1&quot;</span><br><span class="line">(0020, 0013) Instance Number                     IS: &quot;1&quot;</span><br><span class="line">(0020, 0032) Image Position (Patient)            DS: [&apos;-161.902&apos;, &apos;-33.1&apos;, &apos;106.18&apos;]</span><br><span class="line">(0020, 0037) Image Orientation (Patient)         DS: [&apos;1&apos;, &apos;0&apos;, &apos;0&apos;, &apos;0&apos;, &apos;1&apos;, &apos;0&apos;]</span><br><span class="line">(0020, 0052) Frame of Reference UID              UI: 1.3.46.670589.33.1.63636853961048793000002.5747101679789372786</span><br><span class="line">(0020, 1040) Position Reference Indicator        LO: &apos;&apos;</span><br><span class="line">(0020, 1041) Slice Location                      DS: &quot;106.18&quot;</span><br><span class="line">(0020, 4000) Image Comments                      LT: &apos;&apos;</span><br><span class="line">(0028, 0002) Samples per Pixel                   US: 1</span><br><span class="line">(0028, 0004) Photometric Interpretation          CS: &apos;MONOCHROME2&apos;</span><br><span class="line">(0028, 0010) Rows                                US: 512</span><br><span class="line">(0028, 0011) Columns                             US: 512</span><br><span class="line">(0028, 0030) Pixel Spacing                       DS: [&apos;0.66015625&apos;, &apos;0.66015625&apos;]</span><br><span class="line">(0028, 0100) Bits Allocated                      US: 16</span><br><span class="line">(0028, 0101) Bits Stored                         US: 12</span><br><span class="line">(0028, 0102) High Bit                            US: 11</span><br><span class="line">(0028, 0103) Pixel Representation                US: 0</span><br><span class="line">(0028, 1050) Window Center                       DS: [&apos;50&apos;, &apos;50&apos;]</span><br><span class="line">(0028, 1051) Window Width                        DS: [&apos;220&apos;, &apos;220&apos;]</span><br><span class="line">(0028, 1052) Rescale Intercept                   DS: &quot;-1024&quot;</span><br><span class="line">(0028, 1053) Rescale Slope                       DS: &quot;1&quot;</span><br><span class="line">(0040, 1001) Requested Procedure ID              SH: &apos;CT158424&apos;</span><br><span class="line">(00e1, 0010) Private Creator                     LO: &apos;ELSCINT1&apos;</span><br><span class="line">(00e1, 1002) Private tag data                    SH: &apos;Adult&apos;</span><br><span class="line">(00e1, 1036) Private tag data                    CS: &apos;YES&apos;</span><br><span class="line">(00e1, 1040) [Image Label]                       SH: &apos;&apos;</span><br><span class="line">(00e1, 1046) Private tag data                    OB: Array of 512 bytes</span><br><span class="line">(00e1, 1050) [Acquisition Duration]              DS: &quot;2.053&quot;</span><br><span class="line">(00e1, 1063) [Patient Language]                  SH: &apos;CHINESE&apos;</span><br><span class="line">(00e1, 10c4) Private tag data                    DS: &quot;1059.67504882813&quot;</span><br><span class="line">(01f1, 0010) Private Creator                     LO: &apos;ELSCINT1&apos;</span><br><span class="line">(01f1, 1001) [Acquisition Type]                  CS: &apos;SPIRAL&apos;</span><br><span class="line">(01f1, 1002) [Unknown]                           CS: &apos;STANDARD&apos;</span><br><span class="line">(01f1, 1004) [Angular Sampling Density]          CS: &apos;NORMAL&apos;</span><br><span class="line">(01f1, 1008) [Acquisition Length]                DS: &quot;215&quot;</span><br><span class="line">(01f1, 100c) [Scanner Relative Center]           DS: [&apos;0&apos;, &apos;-0.021&apos;]</span><br><span class="line">(01f1, 100e) [Unknown]                           FL: 0.0</span><br><span class="line">(01f1, 100f) Private tag data                    CS: &apos;IN&apos;</span><br><span class="line">(01f1, 1026) [Pitch]                             DS: &quot;0.852&quot;</span><br><span class="line">(01f1, 1027) [Rotation Time]                     DS: &quot;0.4&quot;</span><br><span class="line">(01f1, 1032) [Image View Convention]             CS: &apos;RIGHT_ON_LEFT&apos;</span><br><span class="line">(01f1, 1044) [Unknown]                           OW: Array of 644 bytes</span><br><span class="line">(01f1, 1046) [Unknown]                           FL: 0.625</span><br><span class="line">(01f1, 1047) [Unknown]                           SH: &apos;3D&apos;</span><br><span class="line">(01f1, 1049) [Unknown]                           DS: &apos;&apos;</span><br><span class="line">(01f1, 104a) [Unknown]                           SH: &apos;DOM&apos;</span><br><span class="line">(01f1, 104b) [Unknown]                           SH: &apos;128x0.625&apos;</span><br><span class="line">(01f1, 104d) [Unknown]                           SH: &apos;YES&apos;</span><br><span class="line">(01f1, 104e) [Unknown]                           SH: &apos;Abdomen/Pelvis&apos;</span><br><span class="line">(01f1, 1054) Private tag data                    IS: &quot;22&quot;</span><br><span class="line">(01f1, 1056) Private tag data                    LO: &apos;28.204652423757&apos;</span><br><span class="line">(01f7, 0010) Private Creator                     LO: &apos;ELSCINT1&apos;</span><br><span class="line">(01f7, 1014) [Unknown]                           OW: Array of 108 bytes</span><br><span class="line">(01f7, 1019) [Unknown]                           OW: Array of 2160 bytes</span><br><span class="line">(01f7, 1022) [Unknown]                           UI: 1.3.46.670589.33.1.63636854035098028400003.5509738905066048408</span><br><span class="line">(01f7, 1029) [Unknown]                           OW: Array of 440 bytes</span><br><span class="line">(01f7, 1031) [Unknown]                           OW: Array of 124 bytes</span><br><span class="line">(01f7, 1092) Private tag data                    OW: Array of 890 bytes</span><br><span class="line">(01f7, 1095) Private tag data                    OW: Array of 128 bytes</span><br><span class="line">(01f7, 1097) Private tag data                    OW: Array of 256 bytes</span><br><span class="line">(01f7, 1099) Private tag data                    OW: Array of 64 bytes</span><br><span class="line">(01f7, 109b) Private tag data                    IS: &quot;2&quot;</span><br><span class="line">(07a1, 0010) Private Creator                     LO: &apos;ELSCINT1&apos;</span><br><span class="line">(7fe0, 0010) Pixel Data                          OW: Array of 524288 bytes</span><br></pre></td></tr></table></figure>
+<p>具体内容并不关心，只看看那些可能会用到，比如病人性别、年龄。</p>
+<h1 id="读取显示"><a href="#读取显示" class="headerlink" title="读取显示"></a>读取显示</h1><p>使用<a href="https://pydicom.github.io/" target="_blank" rel="noopener">pydicom</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#-*-coding:utf-8-*-</span></span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> numpy</span><br><span class="line"><span class="keyword">import</span> pydicom <span class="keyword">as</span> dicom</span><br><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">data_dir = <span class="string">'demo'</span></span><br><span class="line"></span><br><span class="line">dcm = dicom.read_file(<span class="string">"demo/1.dcm"</span>)</span><br><span class="line">dcm.image = dcm.pixel_array * dcm.RescaleSlope + dcm.RescaleIntercept</span><br><span class="line"></span><br><span class="line">slices = []</span><br><span class="line">slices.append(dcm)</span><br><span class="line">img = slices[ int(len(slices)/<span class="number">2</span>) ].image.copy()</span><br><span class="line">ret,img = cv2.threshold(img, <span class="number">90</span>,<span class="number">3071</span>, cv2.THRESH_BINARY)</span><br><span class="line">img = numpy.uint8(img)</span><br><span class="line"></span><br><span class="line">im2, contours, _ = cv2.findContours(img,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)</span><br><span class="line">mask = numpy.zeros(img.shape, numpy.uint8)</span><br><span class="line"><span class="keyword">for</span> contour <span class="keyword">in</span> contours:</span><br><span class="line">    cv2.fillPoly(mask, [contour], <span class="number">255</span>)</span><br><span class="line">img[(mask &gt; <span class="number">0</span>)] = <span class="number">255</span></span><br><span class="line"></span><br><span class="line">kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(<span class="number">2</span>,<span class="number">2</span>))</span><br><span class="line">img = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)</span><br><span class="line"></span><br><span class="line">img2 = slices[ int(len(slices)/<span class="number">2</span>) ].image.copy()</span><br><span class="line">img2[(img == <span class="number">0</span>)] = <span class="number">-2000</span></span><br><span class="line"></span><br><span class="line">plt.figure(figsize=(<span class="number">12</span>, <span class="number">12</span>))</span><br><span class="line">plt.subplot(<span class="number">131</span>)</span><br><span class="line">plt.imshow(slices[int(len(slices) / <span class="number">2</span>)].image, <span class="string">'gray'</span>)</span><br><span class="line">plt.title(<span class="string">'Original'</span>)</span><br><span class="line">plt.subplot(<span class="number">132</span>)</span><br><span class="line">plt.imshow(img, <span class="string">'gray'</span>)</span><br><span class="line">plt.title(<span class="string">'Mask'</span>)</span><br><span class="line">plt.subplot(<span class="number">133</span>)</span><br><span class="line">plt.imshow(img2, <span class="string">'gray'</span>)</span><br><span class="line">plt.title(<span class="string">'Result'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.ax1x.com/2019/01/24/kZ63bF.png" alt="kZ63bF.png"></p>
+<p><a href="https://blog.csdn.net/zssureqh/article/details/49231303" target="_blank" rel="noopener">参考-1</a><br><a href="https://www.cnblogs.com/assassinx/archive/2013/01/09/dicomViewer.html" target="_blank" rel="noopener">参考-2</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CV/" rel="tag"># CV</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/17/NLP-BLEU评价指标/" rel="next" title="'NLP_BLEU评价指标'">
+                <i class="fa fa-chevron-left"></i> 'NLP_BLEU评价指标'
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="田小默">
+            
+              <p class="site-author-name" itemprop="name">田小默</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">33</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/tianxiaomo" title="GitHub &rarr; https://github.com/tianxiaomo" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/tianxiaoxiaomo" title="Weibo &rarr; https://weibo.com/tianxiaoxiaomo" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.zhihu.com/people/tian-mo-98-60" title="Zhihu &rarr; https://www.zhihu.com/people/tian-mo-98-60" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>Zhihu</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#定义"><span class="nav-number">1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内容"><span class="nav-number">2.</span> <span class="nav-text">内容</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#读取显示"><span class="nav-number">3.</span> <span class="nav-text">读取显示</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">田小默</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.6.0</div>
+
+
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.6.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.6.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+    overflow: auto hidden;
+}
+</style>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+</body>
+</html>

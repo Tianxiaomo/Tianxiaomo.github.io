@@ -327,6 +327,1029 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/24/DICOM-医疗数位影像传输协定/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="田小默">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="田小默的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/01/24/DICOM-医疗数位影像传输协定/" class="post-title-link" itemprop="url">'DICOM-医疗数位影像传输协定'</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-01-24 14:01:07 / Modified: 14:21:21" itemprop="dateCreated datePublished" datetime="2019-01-24T14:01:07+08:00">2019-01-24</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近有一个医疗图像的比赛，医疗图像以前没有接触过，对于这种格式的数据不甚了解，做了一些调研，记录一下。</p>
+<h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><p>医疗数位影像传输协定（DICOM，Digital Imaging and Communications in Medicine）是一组通用的标准协定，在对于医学影像的处理、储存、打印、传输上。它包含了档案格式的定义及网络通信协定。DICOM是以TCP/IP为基础的应用协定，并以TCP/IP联系各个系统。两个能接受DICOM格式的医疗仪器间，可借由DICOM格式的档案，来接收与交换影像及病人资料。—— <a href="https://zh.wikipedia.org/wiki/DICOM" target="_blank" rel="noopener">维基百科</a></p>
+<p>简言之，DICOM就是一种医疗行业使用的一种数据存储传输标准，广泛应用于各种医疗设备，如:CT、核磁共振、超声等。</p>
+<h1 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h1><p>协议包含编码格式，图像格式、仪器厂商、仪器序列号、数据生成时间、数据采集方式、病人性别、病人年龄等等。下面是使用PYDICOM读取数据打印的结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br></pre></td><td class="code"><pre><span class="line">(0008, 0005) Specific Character Set              CS: &apos;ISO_IR 100&apos;</span><br><span class="line">(0008, 0008) Image Type                          CS: [&apos;ORIGINAL&apos;, &apos;PRIMARY&apos;, &apos;AXIAL&apos;]</span><br><span class="line">(0008, 0012) Instance Creation Date              DA: &apos;20170728&apos;</span><br><span class="line">(0008, 0013) Instance Creation Time              TM: &apos;160113.752&apos;</span><br><span class="line">(0008, 0016) SOP Class UID                       UI: CT Image Storage</span><br><span class="line">(0008, 0018) SOP Instance UID                    UI: *</span><br><span class="line">(0008, 0020) Study Date                          DA: &apos;20170728&apos;</span><br><span class="line">(0008, 0021) Series Date                         DA: &apos;20170728&apos;</span><br><span class="line">(0008, 0022) Acquisition Date                    DA: &apos;20170728&apos;</span><br><span class="line">(0008, 0023) Content Date                        DA: &apos;20170728&apos;</span><br><span class="line">(0008, 002a) Acquisition DateTime                DT: &apos;20170728155419.080&apos;</span><br><span class="line">(0008, 0030) Study Time                          TM: &apos;155226.560&apos;</span><br><span class="line">(0008, 0031) Series Time                         TM: &apos;160052.584&apos;</span><br><span class="line">(0008, 0032) Acquisition Time                    TM: &apos;155419&apos;</span><br><span class="line">(0008, 0033) Content Time                        TM: &apos;155419.410&apos;</span><br><span class="line">(0008, 0050) Accession Number                    SH: &apos;*&apos;</span><br><span class="line">(0008, 0060) Modality                            CS: &apos;CT&apos;</span><br><span class="line">(0008, 0070) Manufacturer                        LO: &apos;Philips&apos;</span><br><span class="line">(0008, 0080) Institution Name                    LO: &apos;*&apos;</span><br><span class="line">(0008, 0081) Institution Address                 ST: &apos;*&apos;</span><br><span class="line">(0008, 0090) Referring Physician&apos;s Name          PN: &apos;*&apos;</span><br><span class="line">(0008, 1010) Station Name                        SH: &apos;*&apos;</span><br><span class="line">(0008, 1030) Study Description                   LO: &apos;CT158424&apos;</span><br><span class="line">(0008, 103e) Series Description                  LO: &apos;iDose (2)&apos;</span><br><span class="line">(0008, 1040) Institutional Department Name       LO: &apos;*&apos;</span><br><span class="line">(0008, 1080) Admitting Diagnoses Description     LO: &apos;&apos;</span><br><span class="line">(0008, 1084)  Admitting Diagnoses Code Sequence   0 item(s) ---- </span><br><span class="line">(0008, 1090) Manufacturer&apos;s Model Name           LO: &apos;*&apos;</span><br><span class="line">(0008, 1111)  Referenced Performed Procedure Step Sequence   1 item(s) ---- </span><br><span class="line">(0008, 1150) Referenced SOP Class UID            UI: Modality Performed Procedure Step SOP Class</span><br><span class="line">(0008, 1155) Referenced SOP Instance UID         UI:1.3.46.670589.33.1.63636853943535791300001.5748714835418010494</span><br><span class="line">   ---------</span><br><span class="line">(0008, 1140)  Referenced Image Sequence   1 item(s) ---- </span><br><span class="line">(0008, 1150) Referenced SOP Class UID            UI: CT Image Storage</span><br><span class="line">(0008, 1155) Referenced SOP Instance UID         UI: 1.3.46.670589.33.1.63636853996983848400001.4836402666508773100</span><br><span class="line">   ---------</span><br><span class="line">(0008, 3010) Irradiation Event UID               UI: 1.3.46.670589.33.1.63636854035098028400003.5509738905066048408</span><br><span class="line">(0010, 0010) Patient&apos;s Name                      PN: &apos;*&apos;</span><br><span class="line">(0010, 0020) Patient ID                          LO: &apos;a8d5f610-bd93-4446-9680-1eeb2d6e606d&apos;</span><br><span class="line">(0010, 0030) Patient&apos;s Birth Date                DA: &apos;*&apos;</span><br><span class="line">(0010, 0040) Patient&apos;s Sex                       CS: &apos;M&apos;</span><br><span class="line">(0010, 1010) Patient&apos;s Age                       AS: &apos;050Y&apos;</span><br><span class="line">(0018, 0015) Body Part Examined                  CS: &apos;ABDOMEN&apos;</span><br><span class="line">(0018, 0022) Scan Options                        CS: &apos;HELIX&apos;</span><br><span class="line">(0018, 0050) Slice Thickness                     DS: &quot;5&quot;</span><br><span class="line">(0018, 0060) KVP                                 DS: &quot;120&quot;</span><br><span class="line">(0018, 0088) Spacing Between Slices              DS: &quot;5&quot;</span><br><span class="line">(0018, 0090) Data Collection Diameter            DS: &quot;500&quot;</span><br><span class="line">(0018, 1000) Device Serial Number                LO: &apos;*&apos;</span><br><span class="line">(0018, 1020) Software Version(s)                 LO: &apos;4.1&apos;</span><br><span class="line">(0018, 1030) Protocol Name                       LO: &apos;Liver C-/CTA/C+ MC /Abdomen&apos;</span><br><span class="line">(0018, 1100) Reconstruction Diameter             DS: &quot;338&quot;</span><br><span class="line">(0018, 1110) Distance Source to Detector         DS: &quot;1040&quot;</span><br><span class="line">(0018, 1111) Distance Source to Patient          DS: &quot;570&quot;</span><br><span class="line">(0018, 1120) Gantry/Detector Tilt                DS: &quot;0&quot;</span><br><span class="line">(0018, 1130) Table Height                        DS: &quot;119.1&quot;</span><br><span class="line">(0018, 1150) Exposure Time                       IS: &quot;470&quot;</span><br><span class="line">(0018, 1151) X-Ray Tube Current                  IS: &quot;534&quot;</span><br><span class="line">(0018, 1152) Exposure                            IS: &quot;251&quot;</span><br><span class="line">(0018, 1160) Filter Type                         SH: &apos;B&apos;</span><br><span class="line">(0018, 1210) Convolution Kernel                  SH: &apos;B&apos;</span><br><span class="line">(0018, 5100) Patient Position                    CS: &apos;HFS&apos;</span><br><span class="line">(0018, 9302) Acquisition Type                    CS: &apos;SPIRAL&apos;</span><br><span class="line">(0018, 9305) Revolution Time                     FD: 0.4</span><br><span class="line">(0018, 9306) Single Collimation Width            FD: 0.625</span><br><span class="line">(0018, 9307) Total Collimation Width             FD: 80.0</span><br><span class="line">(0018, 9309) Table Speed                         FD: 170.4</span><br><span class="line">(0018, 9310) Table Feed per Rotation             FD: 109.056</span><br><span class="line">(0018, 9311) Spiral Pitch Factor                 FD: 0.852</span><br><span class="line">(0018, 9323) Exposure Modulation Type            CS: &apos;3D MODULATION&apos;</span><br><span class="line">(0018, 9324) Estimated Dose Saving               FD: -3.0</span><br><span class="line">(0018, 9345) CTDIvol                             FD: 17.04320987654321</span><br><span class="line">(0020, 000d) Study Instance UID                  UI: adce2399-4540-41b7-8018-ee81ea48655e</span><br><span class="line">(0020, 000e) Series Instance UID                 UI: 2d5c02e9-4a75-4e67-959d-3d705479639c</span><br><span class="line">(0020, 0010) Study ID                            SH: &apos;*&apos;</span><br><span class="line">(0020, 0011) Series Number                       IS: &quot;201&quot;</span><br><span class="line">(0020, 0012) Acquisition Number                  IS: &quot;1&quot;</span><br><span class="line">(0020, 0013) Instance Number                     IS: &quot;1&quot;</span><br><span class="line">(0020, 0032) Image Position (Patient)            DS: [&apos;-161.902&apos;, &apos;-33.1&apos;, &apos;106.18&apos;]</span><br><span class="line">(0020, 0037) Image Orientation (Patient)         DS: [&apos;1&apos;, &apos;0&apos;, &apos;0&apos;, &apos;0&apos;, &apos;1&apos;, &apos;0&apos;]</span><br><span class="line">(0020, 0052) Frame of Reference UID              UI: 1.3.46.670589.33.1.63636853961048793000002.5747101679789372786</span><br><span class="line">(0020, 1040) Position Reference Indicator        LO: &apos;&apos;</span><br><span class="line">(0020, 1041) Slice Location                      DS: &quot;106.18&quot;</span><br><span class="line">(0020, 4000) Image Comments                      LT: &apos;&apos;</span><br><span class="line">(0028, 0002) Samples per Pixel                   US: 1</span><br><span class="line">(0028, 0004) Photometric Interpretation          CS: &apos;MONOCHROME2&apos;</span><br><span class="line">(0028, 0010) Rows                                US: 512</span><br><span class="line">(0028, 0011) Columns                             US: 512</span><br><span class="line">(0028, 0030) Pixel Spacing                       DS: [&apos;0.66015625&apos;, &apos;0.66015625&apos;]</span><br><span class="line">(0028, 0100) Bits Allocated                      US: 16</span><br><span class="line">(0028, 0101) Bits Stored                         US: 12</span><br><span class="line">(0028, 0102) High Bit                            US: 11</span><br><span class="line">(0028, 0103) Pixel Representation                US: 0</span><br><span class="line">(0028, 1050) Window Center                       DS: [&apos;50&apos;, &apos;50&apos;]</span><br><span class="line">(0028, 1051) Window Width                        DS: [&apos;220&apos;, &apos;220&apos;]</span><br><span class="line">(0028, 1052) Rescale Intercept                   DS: &quot;-1024&quot;</span><br><span class="line">(0028, 1053) Rescale Slope                       DS: &quot;1&quot;</span><br><span class="line">(0040, 1001) Requested Procedure ID              SH: &apos;CT158424&apos;</span><br><span class="line">(00e1, 0010) Private Creator                     LO: &apos;ELSCINT1&apos;</span><br><span class="line">(00e1, 1002) Private tag data                    SH: &apos;Adult&apos;</span><br><span class="line">(00e1, 1036) Private tag data                    CS: &apos;YES&apos;</span><br><span class="line">(00e1, 1040) [Image Label]                       SH: &apos;&apos;</span><br><span class="line">(00e1, 1046) Private tag data                    OB: Array of 512 bytes</span><br><span class="line">(00e1, 1050) [Acquisition Duration]              DS: &quot;2.053&quot;</span><br><span class="line">(00e1, 1063) [Patient Language]                  SH: &apos;CHINESE&apos;</span><br><span class="line">(00e1, 10c4) Private tag data                    DS: &quot;1059.67504882813&quot;</span><br><span class="line">(01f1, 0010) Private Creator                     LO: &apos;ELSCINT1&apos;</span><br><span class="line">(01f1, 1001) [Acquisition Type]                  CS: &apos;SPIRAL&apos;</span><br><span class="line">(01f1, 1002) [Unknown]                           CS: &apos;STANDARD&apos;</span><br><span class="line">(01f1, 1004) [Angular Sampling Density]          CS: &apos;NORMAL&apos;</span><br><span class="line">(01f1, 1008) [Acquisition Length]                DS: &quot;215&quot;</span><br><span class="line">(01f1, 100c) [Scanner Relative Center]           DS: [&apos;0&apos;, &apos;-0.021&apos;]</span><br><span class="line">(01f1, 100e) [Unknown]                           FL: 0.0</span><br><span class="line">(01f1, 100f) Private tag data                    CS: &apos;IN&apos;</span><br><span class="line">(01f1, 1026) [Pitch]                             DS: &quot;0.852&quot;</span><br><span class="line">(01f1, 1027) [Rotation Time]                     DS: &quot;0.4&quot;</span><br><span class="line">(01f1, 1032) [Image View Convention]             CS: &apos;RIGHT_ON_LEFT&apos;</span><br><span class="line">(01f1, 1044) [Unknown]                           OW: Array of 644 bytes</span><br><span class="line">(01f1, 1046) [Unknown]                           FL: 0.625</span><br><span class="line">(01f1, 1047) [Unknown]                           SH: &apos;3D&apos;</span><br><span class="line">(01f1, 1049) [Unknown]                           DS: &apos;&apos;</span><br><span class="line">(01f1, 104a) [Unknown]                           SH: &apos;DOM&apos;</span><br><span class="line">(01f1, 104b) [Unknown]                           SH: &apos;128x0.625&apos;</span><br><span class="line">(01f1, 104d) [Unknown]                           SH: &apos;YES&apos;</span><br><span class="line">(01f1, 104e) [Unknown]                           SH: &apos;Abdomen/Pelvis&apos;</span><br><span class="line">(01f1, 1054) Private tag data                    IS: &quot;22&quot;</span><br><span class="line">(01f1, 1056) Private tag data                    LO: &apos;28.204652423757&apos;</span><br><span class="line">(01f7, 0010) Private Creator                     LO: &apos;ELSCINT1&apos;</span><br><span class="line">(01f7, 1014) [Unknown]                           OW: Array of 108 bytes</span><br><span class="line">(01f7, 1019) [Unknown]                           OW: Array of 2160 bytes</span><br><span class="line">(01f7, 1022) [Unknown]                           UI: 1.3.46.670589.33.1.63636854035098028400003.5509738905066048408</span><br><span class="line">(01f7, 1029) [Unknown]                           OW: Array of 440 bytes</span><br><span class="line">(01f7, 1031) [Unknown]                           OW: Array of 124 bytes</span><br><span class="line">(01f7, 1092) Private tag data                    OW: Array of 890 bytes</span><br><span class="line">(01f7, 1095) Private tag data                    OW: Array of 128 bytes</span><br><span class="line">(01f7, 1097) Private tag data                    OW: Array of 256 bytes</span><br><span class="line">(01f7, 1099) Private tag data                    OW: Array of 64 bytes</span><br><span class="line">(01f7, 109b) Private tag data                    IS: &quot;2&quot;</span><br><span class="line">(07a1, 0010) Private Creator                     LO: &apos;ELSCINT1&apos;</span><br><span class="line">(7fe0, 0010) Pixel Data                          OW: Array of 524288 bytes</span><br></pre></td></tr></table></figure>
+<p>具体内容并不关心，只看看那些可能会用到，比如病人性别、年龄。</p>
+<h1 id="读取显示"><a href="#读取显示" class="headerlink" title="读取显示"></a>读取显示</h1><p>使用<a href="https://pydicom.github.io/" target="_blank" rel="noopener">pydicom</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#-*-coding:utf-8-*-</span></span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> numpy</span><br><span class="line"><span class="keyword">import</span> pydicom <span class="keyword">as</span> dicom</span><br><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line">data_dir = <span class="string">'demo'</span></span><br><span class="line"></span><br><span class="line">dcm = dicom.read_file(<span class="string">"demo/1.dcm"</span>)</span><br><span class="line">dcm.image = dcm.pixel_array * dcm.RescaleSlope + dcm.RescaleIntercept</span><br><span class="line"></span><br><span class="line">slices = []</span><br><span class="line">slices.append(dcm)</span><br><span class="line">img = slices[ int(len(slices)/<span class="number">2</span>) ].image.copy()</span><br><span class="line">ret,img = cv2.threshold(img, <span class="number">90</span>,<span class="number">3071</span>, cv2.THRESH_BINARY)</span><br><span class="line">img = numpy.uint8(img)</span><br><span class="line"></span><br><span class="line">im2, contours, _ = cv2.findContours(img,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)</span><br><span class="line">mask = numpy.zeros(img.shape, numpy.uint8)</span><br><span class="line"><span class="keyword">for</span> contour <span class="keyword">in</span> contours:</span><br><span class="line">    cv2.fillPoly(mask, [contour], <span class="number">255</span>)</span><br><span class="line">img[(mask &gt; <span class="number">0</span>)] = <span class="number">255</span></span><br><span class="line"></span><br><span class="line">kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(<span class="number">2</span>,<span class="number">2</span>))</span><br><span class="line">img = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)</span><br><span class="line"></span><br><span class="line">img2 = slices[ int(len(slices)/<span class="number">2</span>) ].image.copy()</span><br><span class="line">img2[(img == <span class="number">0</span>)] = <span class="number">-2000</span></span><br><span class="line"></span><br><span class="line">plt.figure(figsize=(<span class="number">12</span>, <span class="number">12</span>))</span><br><span class="line">plt.subplot(<span class="number">131</span>)</span><br><span class="line">plt.imshow(slices[int(len(slices) / <span class="number">2</span>)].image, <span class="string">'gray'</span>)</span><br><span class="line">plt.title(<span class="string">'Original'</span>)</span><br><span class="line">plt.subplot(<span class="number">132</span>)</span><br><span class="line">plt.imshow(img, <span class="string">'gray'</span>)</span><br><span class="line">plt.title(<span class="string">'Mask'</span>)</span><br><span class="line">plt.subplot(<span class="number">133</span>)</span><br><span class="line">plt.imshow(img2, <span class="string">'gray'</span>)</span><br><span class="line">plt.title(<span class="string">'Result'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="https://s2.ax1x.com/2019/01/24/kZ63bF.png" alt="kZ63bF.png"></p>
+<p><a href="https://blog.csdn.net/zssureqh/article/details/49231303" target="_blank" rel="noopener">参考-1</a><br><a href="https://www.cnblogs.com/assassinx/archive/2013/01/09/dicomViewer.html" target="_blank" rel="noopener">参考-2</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/17/NLP-BLEU评价指标/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="田小默">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="田小默的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/01/17/NLP-BLEU评价指标/" class="post-title-link" itemprop="url">'NLP_BLEU评价指标'</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-01-17 15:05:25" itemprop="dateCreated datePublished" datetime="2019-01-17T15:05:25+08:00">2019-01-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-01-24 13:59:12" itemprop="dateModified" datetime="2019-01-24T13:59:12+08:00">2019-01-24</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="BLEU"><a href="#BLEU" class="headerlink" title="BLEU"></a>BLEU</h1><p>一种机器翻译评价方法，虽然是为机器翻译提出，但后来也广泛用于NLP其他领域。</p>
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>语言的评价是很困难的，这不是简单的分类，涉及句子的流畅性、充分性和准确性等。然而人工去做这件事很显然是不现实的，还有就是个人会掺杂一些主观因素。</p>
+<h2 id="BLEU：bilingual-evaluation-understudy"><a href="#BLEU：bilingual-evaluation-understudy" class="headerlink" title="BLEU：bilingual evaluation understudy"></a>BLEU：bilingual evaluation understudy</h2><h2 id="N-Grem"><a href="#N-Grem" class="headerlink" title="N_Grem"></a>N_Grem</h2><p>指文本中连续出现的n个语词。n元语法模型是基于(n-1)阶马尔可夫链的一种概率语言模型，通过n个语词出现的概率来推断语句的结构。</p>
+<ul>
+<li>例子</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">原文： 猫坐在垫子上</span><br><span class="line">机器翻译：The cat sat on the mat.</span><br><span class="line">人工翻译：The cat is on the mat.</span><br></pre></td></tr></table></figure>
+<ol>
+<li>1_grem</li>
+</ol>
+<p><img src="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/19-1-17/5188741.jpg" style="zoom:50%"></p>
+<pre><code>匹配度是5/6
+</code></pre><ol start="2">
+<li>2_grem</li>
+</ol>
+<p><img src="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/19-1-17/69885474.jpg" style="zoom:50%"></p>
+<pre><code>匹配度是3/5
+</code></pre><ol start="3">
+<li>3_grem</li>
+</ol>
+<p><img src="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/19-1-17/38160354.jpg" style="zoom:50%"></p>
+<pre><code>匹配度是1/4
+</code></pre><ol start="4">
+<li>4_grem</li>
+</ol>
+<p><img src="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/19-1-17/99088974.jpg" style="zoom:50%"></p>
+<pre><code>匹配度是0
+</code></pre><p>1_grem表示有多少个独立的词被翻译出来了，n&gt;=2_grem反应翻译的流畅程度。</p>
+<h2 id="改进的N-grem"><a href="#改进的N-grem" class="headerlink" title="改进的N_grem"></a>改进的N_grem</h2><p>如果是这种情况</p>
+<p><img src="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/19-1-17/94269799.jpg" style="zoom:50%"></p>
+<p>计算1_grem是6/6.很明显是不合理的，所以取分子部分为机器翻译和参考翻译词出现次数的最小值。</p>
+<p>Count_clip = min(Count,Max_Ref_Count)</p>
+<p>各阶N_grem计算公式：</p>
+<p>$p_n=\frac{\sum_{C\in{Candidates}}\sum _ { n - g r a m \in C }Count_ { c l i p } ( n - g r a m )}{\sum_{C ^ { \prime } \in {Candidates}}\sum _ { n - g r a m ^{\prime} \in C ^{\prime}}Count_ { c l i p } ( n - g r a m ^ {\prime})}$</p>
+<p>分子部分表示N_grem翻译和参考译文中的出现次数</p>
+<p>以上边的句子为例，计算到4_grem</p>
+<p>分子 = 5/6 + 3/5 + 1/4 = 202/120</p>
+<p>分母表示N_grem在翻译译文中的出现次数:</p>
+<p>分母 = 5/6 + 5/5 + 4/4 + 3/3 = 460/120</p>
+<p>pn = 202/460</p>
+<p>当句子较短时</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Candidate</td>
+<td>the</td>
+<td>cat</td>
+</tr>
+<tr>
+<td>Reference1</td>
+<td>the</td>
+<td>cat</td>
+<td>is</td>
+<td>on</td>
+<td>the</td>
+<td>mat</td>
+</tr>
+<tr>
+<td>Reference2</td>
+<td>there</td>
+<td>is</td>
+<td>a</td>
+<td>cat</td>
+<td>on</td>
+<td>the</td>
+<td>mat</td>
+</tr>
+</tbody>
+</table>
+<p>很明显，分母（等于2）部分会很小，导致pn很大，所以要加入短句惩罚项。</p>
+<p><img src="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/19-1-17/11964252.jpg" alt="image"></p>
+<p>当翻译句长大于参考句长时，BP为1，当小于时，BP为上公式计算得出</p>
+<p>为了使n_grem权重平均，使用了几何加权平均</p>
+<p>最后BLEU公式如下</p>
+<p>$\mathrm { BLEU } = \mathrm { BP } \cdot \exp \left( \sum _ { n = 1 } ^ { N } w _ { n } \log p _ { n } \right)$</p>
+<p>使用对数形式使公式更加简洁</p>
+<p>$\log \mathrm { BLEU } = \min \left( 1 - \frac { r } { c } , 0 \right) + \sum _ { n = 1 } ^ { N } w _ { n } \log p _ { n }$</p>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ul>
+<li><p>优点</p>
+<ul>
+<li>它的计算速度快，容易，特别是与人工翻译速率模型输出相比。</li>
+<li>它无处不在。这使您可以轻松地将模型与同一任务的基准进行比较。</li>
+<li>不幸的是，这种非常便利导致人们过度使用它，即使对于那些不是最佳度量选择的任务也是如此。</li>
+</ul>
+</li>
+<li><p>缺点</p>
+<ul>
+<li>它没有考虑句子意义</li>
+<li>它不直接考虑句子结构</li>
+<li>它不能很好地处理形态丰富的语言</li>
+<li>它不能很好地映射到人类的判断</li>
+</ul>
+</li>
+</ul>
+<p>BLEU在一定程度上解决了NLP的评价问题，但是还存在诸多缺陷，下面是大佬的一篇文章<br><a href="https://medium.com/@rtatman/evaluating-text-output-in-nlp-bleu-at-your-own-risk-e8609665a213" target="_blank" rel="noopener">https://medium.com/@rtatman/evaluating-text-output-in-nlp-bleu-at-your-own-risk-e8609665a213</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/14/Topological-structural-analysis-of-digitized-binary-images-by-border-following-论文方法分析及c-实现/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="田小默">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="田小默的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/01/14/Topological-structural-analysis-of-digitized-binary-images-by-border-following-论文方法分析及c-实现/" class="post-title-link" itemprop="url">'Topological_structural_analysis_of_digitized_binary_images_by_border_following_论文方法分析及c++实现'</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-01-14 15:06:02" itemprop="dateCreated datePublished" datetime="2019-01-14T15:06:02+08:00">2019-01-14</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-01-15 22:35:55" itemprop="dateModified" datetime="2019-01-15T22:35:55+08:00">2019-01-15</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>（1）框架：框架就是指图片的第一列、最后一列、第一行、最后一行像素，这四个长条组成的一个矩形框框，我们这些点是黑点，也就是0。</p>
+<p>（2）背景：除了框架之外，和框架属于同一层级的像素点，这些点也是黑点，也就是0。</p>
+<p>（3）外轮廓：外轮廓就是指包裹了一堆白点的最外围的白点。</p>
+<p>（4）内轮廓：内轮廓是指在包裹了一堆白点的最内部的白点。</p>
+<p>用一张图片表示会很清晰：</p>
+<p>在这张图片中，S1是背景，也是框架层。S2是包裹的一堆白点，这堆白点的最外层和框架层紧密相连，B1就是S2的外轮廓，B2就是S2的内轮廓。</p>
+<p>那么我们怎么用计算机判断一张图片上的点是外轮廓还是内轮廓呢？</p>
+<p>那么就得进行如下的步骤：</p>
+<p>（1）首先，我们设定外部框架的边界值NBD为1。</p>
+<p>（2）接着忽略最外层的框架，然后从图片的第二行的最左侧开始，判断：</p>
+<p>如果这个数字是1，并且它的左侧的像素是0，那么我们令(i,j)为这个像素，然后令(i2,j2)=(i,j-1)为它左侧的像素（如果是第一次运算，那么坐标就是(2,2)，它要是1，(2,1)是0，那么(i,j)=(2,2)、(i2,j2)=(i,j-1)=（2,1））。然后我们令NBD=NBD+1，并且认为这个点是外轮廓点。</p>
+<p>如果这个数字是大于等于1的，并且它的右侧像素是0，那么我们令(i,j)为这个像素，然后令(i2,j2)=(i,j+1)为它右侧的像素。（如果是第一次运算，那么坐标就是(2,2)，它要是1，(2,3)是0，那么那么(i,j)=(2,2)、(i2,j2)=(i,j+1)=（2,3）），并且认为这个点是内轮廓点。</p>
+<p>如果是其它的情况，那么，令直接跳到最后一步。</p>
+<p>（3）下一步是判断这个点到底是内轮廓还是外轮廓，我们用这个表格来判断：</p>
+<p><img src="http://www.itdaan.com/imgs/4/5/3/7/43/69cf069044ae9b7be5240da6393ef557.jpe" alt="image"></p>
+<p>这里面B’表示的是上一个按照我们这个步骤走的点是什么轮廓。B表示我们当前的点是什么轮廓。如果这是第一次，没有上一次的点，那么直接认为是外轮廓就好了。</p>
+<p>（4）从点(i,j)开始，它的邻近地方有8个点（3*3）的格子之内，然后我们以(i2,j2)点为起始点，然后顺时针的沿着这8个点移动，一直走走走走，唉，发现了一个不为0的像素点，并且令这个点为(i1,j1)。如果这8个点都为0的话，令中心点(i,j)为-NBD，然后直接跳到最后一步。</p>
+<p>（5）如果(i1,j1)存在的话，那么我们令(i2,j2)=(i1,j1)，(i3,j3)=(i,j)。</p>
+<p>（6）然后我们从点(i3,j3)开始，以(i2,j2)为起始点，然后逆时针移动遍历(i,j)邻近地方的8个点。找到第一个不为0的点（(i2,j2)这个点不算）。然后令它为(i4,j4)。注意这里肯定不会存在没有不为0点的情况，因为(i3,j3)=(i,j)，上一次循环都循环一次了，没有早退出了。</p>
+<p>（7）然后我们判断：如果(i3,j3)前面的点(i3,j3+1)为0的话，那么我们把(i3,j3)这个点的像素值赋予-NBD。</p>
+<p>如果(i3,j3)点前面的点不为0，且(i3,j3)这个点的像素为1的话，那么把(i3,j3)的像素值赋予NBD。</p>
+<p>如果是其它情况的话，这个值保持不变。</p>
+<p>（8）判断，如果(i4,j4)=(i,j)也就是我们最开始的那个值，且(i3,j3)=(i1,j1)，那么我们跳到最后一步。如果要不符合条件，我们返回到（6）继续计算直到满足条件。</p>
+<p>（9）我们回到我们最开始选择的那个点，也就是(i,j)然后我们往右边移动一格，如果已经到达末尾了，换到下一行的左边。如果我们于(i,j)那点的像素不为1的话，我们令LNBD等于(i,j)那点的像素的绝对值。</p>
+<p>这九步，我们就把轮廓计算完毕了。在铃木桑的论文中，它举了一个例子来说明这个算法，如下所示：</p>
+<p>这个是它最后得到的结果，但是我有点不信，下面我按照它同样的算法，自己手算了一遍：</p>
+<p>我的最后结果是分为4部分，4个外轮廓，没有内轮廓，而铃木的是5部分，有一个内轮廓。我认为我的里面那个-3不是内轮廓，因为内轮廓应该是八方向都封闭起来的，而这两个-3只有2个方向是封闭，两个方向直接和背景连接。所以我认为是外轮廓。</p>
+<p>谁对谁错我不好说，你们自己分析，然后对这两个人的案例对错评论一下，告诉我哈！</p>
+<p>这样，我们的轮廓就检测完毕了。我们用OPENCV检测也非常的简单：</p>
+<p>（1）首先我们导入一张图片。</p>
+<p>（2）将图片二值化变成黑白图像</p>
+<p>（3）运用轮廓搜索算法找出轮廓</p>
+<p>（4）显示轮廓。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/10/终端调试工具-pudb/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="田小默">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="田小默的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/01/10/终端调试工具-pudb/" class="post-title-link" itemprop="url">终端调试工具--pudb'</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-01-10 10:53:45 / Modified: 11:19:26" itemprop="dateCreated datePublished" datetime="2019-01-10T10:53:45+08:00">2019-01-10</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在终端常用的python调试工具有pdb和ipdb，他们都是很好的调试工具，但是平时使用pycharm进行调试，使用pdb和ipdb还是感觉不好用，对于程序运行情况不能直观的看到，这个pudb很好的解决了这个问题。可以实时看到程序运行的位置，观察变量和堆栈的变换，还带有命令行窗口，可以更好的查看一些参数。</p>
+<p><img src="http://tuku-image-mo.oss-cn-beijing.aliyuncs.com/19-1-10/17575318.jpg" alt="image"></p>
+<p><a href="https://documen.tician.de/pudb/" target="_blank" rel="noopener">https://documen.tician.de/pudb/</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/07/Recognition/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="田小默">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="田小默的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/01/07/Recognition/" class="post-title-link" itemprop="url">Recognition'</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-01-07 15:30:07" itemprop="dateCreated datePublished" datetime="2019-01-07T15:30:07+08:00">2019-01-07</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/26/读过的书/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="田小默">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="田小默的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/12/26/读过的书/" class="post-title-link" itemprop="url">读过的书</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-12-26 16:40:10 / Modified: 17:09:50" itemprop="dateCreated datePublished" datetime="2018-12-26T16:40:10+08:00">2018-12-26</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>&emsp;幼时的我并不是一个爱读书的孩子，但是一个爱听故事的孩子，也许那个年纪的孩子都是这样。</p>
+<p>&emsp;记得我读完的第一本书是表哥的《木偶奇遇记》，故事对于一个上四五年级的小学来说足够精彩，但是这并没有为我打开大门。小学时候和初中的老师总是会推荐一些课外读物，现在觉得那个时候看一些小说还是不错的，但是一些深奥的东西还是看不懂的，毕竟自己看书不想老师将课文一样可以理解到位，大部分还是似懂非懂的。</p>
+<p>&emsp;后来有看了一本杰克.伦敦的《热爱生命》，还是表哥的书(像是好多都是表哥的一样…)，可是看到最后高潮的地方发现有两张空白，感觉所有的精彩都错过了。</p>
+<p>&emsp;后来上高一的时候不知怎么的看一本《藏地密码》,这个对于一个一个字看书的我简直是无法描述的长啊，途中中断过好几次，最后断断续续的总算看完了。</p>
+<p>&emsp;高三的时候看的书倒是挺多的，虽说那个时候学习最为紧张，但还是想看课外书，可能那是看课外书是唯一的娱乐方式了。那时候看了《平凡的世界》、《狼图腾》、《撒哈拉的故事》、《草房子》、《我与地坛》、《天行者》、《一句顶一万句》、《龙族》、《1988，我想和这个世界谈谈》、《你若安好便是晴天：林徽因传》、《卑鄙的圣人》等。好多想不起了，好多内容也像不起了，不过慢慢发现了读书乐趣，也许因为看的都是小说类的吧。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/25/PVANET/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -944,1217 +1967,11 @@ Kickstarted 03:15 15-Nov-2018
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/16/DEEP-COMPLEX-NETWORKS-复数网络/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="田小默">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="田小默的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/12/16/DEEP-COMPLEX-NETWORKS-复数网络/" class="post-title-link" itemprop="url">DEEP COMPLEX NETWORKS(复数网络)</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-12-16 20:18:15" itemprop="dateCreated datePublished" datetime="2018-12-16T20:18:15+08:00">2018-12-16</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2018-12-25 20:23:13" itemprop="dateModified" datetime="2018-12-25T20:23:13+08:00">2018-12-25</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ul>
-<li><a href="https://arxiv.org/abs/1705.09792" target="_blank" rel="noopener">论文地址</a></li>
-<li><a href="https://github.com/ChihebTrabelsi/deep_complex_networks" target="_blank" rel="noopener">代码地址</a></li>
-</ul>
-<h1 id="各个基础组件"><a href="#各个基础组件" class="headerlink" title="各个基础组件"></a>各个基础组件</h1><h2 id="Complex-Convolution-复数卷积"><a href="#Complex-Convolution-复数卷积" class="headerlink" title="Complex Convolution (复数卷积)"></a>Complex Convolution (复数卷积)</h2><h2 id="Activation-激活"><a href="#Activation-激活" class="headerlink" title="Activation (激活)"></a>Activation (激活)</h2><h2 id="BatchNormalization-批量标准化"><a href="#BatchNormalization-批量标准化" class="headerlink" title="BatchNormalization (批量标准化)"></a>BatchNormalization (批量标准化)</h2><ol>
-<li>实数的批量标准化</li>
-</ol>
-<p>$<br>x = \frac{x - E(x)}{x.std()}<br>$</p>
-<ol start="2">
-<li>复数Batch Normalization</li>
-</ol>
-<p>如果分别对实部和虚部进行标准化会导致分布为一个圆形，可能是一个椭圆，但是将此看作一个白化2d矢量，每一部分将按方差平方根进行缩放。通过x-E(x),然后乘一个2 X 2的协方差矩阵完成。</p>
-<p>$<br>x = \frac{x - E(x)}{\sqrt{V} }<br>$</p>
-<ul>
-<li>E(x):x的均值</li>
-<li>V = 协方差矩阵</li>
-</ul>
-<p>$\boldsymbol { V } = \left( \begin{array} { c c } { V _ { r r } } &amp; { V _ { r i } } \\ { V _ { i r } } &amp; { V _ { i i } } \end{array} \right) = \left( \begin{array} { c c } { \operatorname { Cov } ( \Re { x } , \Re { x } ) } &amp; { \operatorname { Cov } ( \Re { x } , \Im { x } ) } \\ { \operatorname { Cov } ( \Im { x } , \Re { x } ) } &amp; { \operatorname { Cov } ( \Im { x } , \Im { x } ) } \end{array} \right)<br>$</p>
-<ul>
-<li>Cov:协方差</li>
-</ul>
-<p><strong><em>根号V分之一的计算方法：</em></strong></p>
-<p>对于2*2矩阵A</p>
-<p>$A = \left[ \begin{array} { l l } { a } &amp; { b } \\ { c } &amp; { d } \end{array} \right]$</p>
-<p>1/A公式：</p>
-<p>$\begin{aligned} \frac{1}{A}  &amp; = \frac { 1 } { | A | } \left[ \begin{array} { c c } { d } &amp; { - b } \\ { - c } &amp; { a } \end{array} \right] \\ &amp; = \frac { 1 } { a d - b c } \left[ \begin{array} { c c } { d } &amp; { - b } \\ { - c } &amp; { a } \end{array} \right] \end{aligned}$</p>
-<p>sqrt(A)公式：</p>
-<p>$\sqrt{A} = \pm \frac { 1 } { \sqrt { \tau + 2 \delta } } \left( A + \delta I _ { 2 } \right) = \pm \frac { 1 } { \sqrt { \tau + 2 \delta } } \left[ \begin{array} { c c } { a + \delta } &amp; { b } \\ { c } &amp; { d + \delta } \end{array} \right]$</p>
-<p>$\tau = \operatorname { trace } A = a + d$</p>
-<p>$\delta = \pm \sqrt { \operatorname { det } A } = \pm \sqrt { a d - b c }$</p>
-<p>所以，</p>
-<p>$$\frac{1}{\sqrt(A)} = \frac{1}{\delta * \sqrt{\tau} - 2\delta}<br>\left[<br>\begin{array} { c c }<br>    { d + \delta } &amp; { -b } \\<br>    { -c } &amp; { a + \delta }<br>\end{array}<br>\right]$$</p>
-<p>$$x=\frac{x-E(x)}<br>{\sqrt{V}} = \frac{1}<br>{ \delta * \sqrt { \tau } - 2 \delta }<br>\left[ \begin {array} { c c }<br>    { V _ { i i } + \delta } &amp; { -V _ { ri } } \\<br>    { -V_{ ir } }&amp;{ V_ { rr } + \delta }<br>\end{array}<br>\right]<br>(x-E(x))<br>$$</p>
-<p>$$=\frac{1}<br>{\delta * \sqrt{\tau}-2\delta}<br>\left[\begin{array}{cc}<br>    {V_{ii}+\delta}&amp;{-V_{ri}}\\<br>    {-V_{ir}}&amp;{V_{rr}+\delta}<br>\end{array}\right] \left[\begin{array}{l}{x_{real}}\\{x_{image}}\end{array}\right]$$</p>
-<p>参考：</p>
-<p><a href="https://en.wikipedia.org/wiki/Square_root_of_a_2_by_2_matrix" target="_blank" rel="noopener">Square root of a 2 by 2 matrix</a></p>
-<p><a href="http://mathworld.wolfram.com/MatrixInverse.html" target="_blank" rel="noopener">Matrix Inverse</a></p>
-<p><a href="https://ccjou.wordpress.com/2016/04/20/%E4%BA%8C%E9%9A%8E%E6%96%B9%E9%99%A3%E7%9A%84%E5%B9%B3%E6%96%B9%E6%A0%B9/" target="_blank" rel="noopener">线代启示录</a></p>
-<h3 id="Initialization-初始化"><a href="#Initialization-初始化" class="headerlink" title="Initialization (初始化)"></a>Initialization (初始化)</h3>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/19/SR超分辨率/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="田小默">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="田小默的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/11/19/SR超分辨率/" class="post-title-link" itemprop="url">'SR超分辨率'</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-11-19 12:49:54" itemprop="dateCreated datePublished" datetime="2018-11-19T12:49:54+08:00">2018-11-19</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2018-12-24 13:09:54" itemprop="dateModified" datetime="2018-12-24T13:09:54+08:00">2018-12-24</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>超分辨率技术(Super Resolution,SR)是从观测到的低分辨率图像重建出相应的高分辨率图像。应用可以从两个方面看待，一是提升设备的测量精度，力求恢复真实可靠的细节部分，如医学图像上超分辨率重建，卫星图像重建和监控设备人脸重建等；二是追求整体的视觉效果，细节要求不高，如低分辨率视频恢复，模糊相片恢复等.</p>
-<h1 id="DL之前的SR"><a href="#DL之前的SR" class="headerlink" title="DL之前的SR"></a>DL之前的SR</h1><p>从信号处理角度看，低分辨率(Low Resolution)图像是无法恢复成高分辨率(High Resolution)图像，由香农采样定理可知，主要因为丢失了图像的高频信息。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">香农采样定理，又称奈奎斯特采样定理，是信息论，特别是通讯与信号处理学科中的一个重要基本结论。1924年奈奎斯特(Nyquist)就推导出在理想低通信道的最高大码元传输速率的公式：理想低通信道的最高大码元传输速率=2W*log2N 。（其中W是理想低通信道的带宽，N是电平强度）</span><br></pre></td></tr></table></figure>
-<p>最简单的方法是梯度锐化和拉普拉斯锐化，但效果聊胜于无。</p>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdb8eowovj30m407ldmq.jpg" alt="image"></p>
-<p>这里说两种典型的SR算法，左图，找到图片中相似的大尺寸区域，然后利用进行SR,下面这个动图就是这样，这种方法缺点很明显。</p>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdb4v9ygjg306y04cjso.jpg" alt="image"></p>
-<p>右图，对各种边缘信息建立数据库，然后匹配，这个方法也很明显，鲁棒性不够。</p>
-<h1 id="DL时代的SR"><a href="#DL时代的SR" class="headerlink" title="DL时代的SR"></a>DL时代的SR</h1><p>随着硬件计算性能的提升，人工智能进入了DL时代，SR也相应出现了新的使用DL的方法。</p>
-<h2 id="标准介绍"><a href="#标准介绍" class="headerlink" title="标准介绍"></a>标准介绍</h2><ul>
-<li>PSNR（Peak Signal to Noise Ratio，峰值信噪比）</li>
-</ul>
-<p>$MSE=\frac{1}{H * W}\sum_{i=1}^h\sum_{j=1}^w(X(i,j)-Y(i,j))^2$</p>
-<p>$PSNR=10log_{10}(\frac{(2^n-1)^2}{MSE})$</p>
-<p>MSE表示当前图像X和参考图像Y的均方误差（Mean Square Error），H、W分别为图像的高度和宽度；n为每像素的比特数，一般取8，即像素灰阶数为256. PSNR的单位是dB，数值越大表示失真越小。虽然PSNR和人眼的视觉特性并不完全一致，但是一般认为PSNR在38以上的时候，人眼就无法区分两幅图片了。</p>
-<p>SSIM（structural similarity， 结构相似性），也是一种全参考的图像质量评价指标，它分别从亮度、对比度、结构三方面度量图像相似性。</p>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdcef42unj30w00cqq4z.jpg" alt="image"></p>
-<h2 id="SRCNN"><a href="#SRCNN" class="headerlink" title="SRCNN"></a>SRCNN</h2><ul>
-<li>论文，<a href="http://101.96.10.63/personal.ie.cuhk.edu.hk/~ccloy/files/eccv_2014_deepresolution.pdf" target="_blank" rel="noopener">Learning a Deep Convolutional Network for Image Super-Resolution</a>, ECCV2014</li>
-<li><a href="https://github.com/Edwardlzy/SRCNN" target="_blank" rel="noopener">代码</a></li>
-</ul>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdbjr3uknj30u50jhaok.jpg" alt="image"></p>
-<p>先使用双三次(bicubic)插值放大到目标大小，然后三层卷积做非线性映射，输出结果。三层卷积核大小分别为9*9，1*1，5*5，输出channel分别是64，32，3.</p>
-<pre><code>SC is outperforms the sparse-coding-based method,是[Image Super-Resolution via Sparse Representation](http://101.96.10.64/www.columbia.edu/~jw2966/papers/YWHM10-TIP.pdf)这篇论文是黄煦涛和马毅小组的Jianchao Yang的作品。这篇论文提出的算法，在形式上和后文这些DL算法已经非常类似了，也是基于HR和LR配对的有监督训练。区别只在于这篇论文使用矩阵的稀疏表示来拟合SR函数，而DL算法使用神经网络拟合SR函数。前者是线性变换，而后者是非线性变换。
-</code></pre><h2 id="FSRCNN"><a href="#FSRCNN" class="headerlink" title="FSRCNN"></a>FSRCNN</h2><ul>
-<li>论文 <a href="https://arxiv.org/pdf/1608.00367.pdf" target="_blank" rel="noopener">Accelerating the Super-Resolution Convolutional Neural Network</a>,ECCV2016</li>
-<li><a href="http://mmlab.ie.cuhk.edu.hk/projects/FSRCNN.html" target="_blank" rel="noopener">代码</a></li>
-</ul>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdcu5mzwvj31400fttj8.jpg" alt="image"></p>
-<p><strong>SRCNN加速版本，主要改进有三点</strong>：</p>
-<ol>
-<li>最后一层使用反卷积放大图片，不用bicubic</li>
-<li>改变特征维数，使用更小的卷积核更多的卷积层</li>
-<li>共享卷积层，放大不同的倍数只需改变反卷积层fine-tuning最后的反卷积层</li>
-</ol>
-<h2 id="FSPCN"><a href="#FSPCN" class="headerlink" title="FSPCN"></a>FSPCN</h2><ul>
-<li>论文<a href="https://arxiv.org/abs/1609.05158" target="_blank" rel="noopener">Real-Time Single Image and Video Super-Resolution Using an Efficient Sub-Pixel Convolutional Neural Network</a></li>
-<li>代码</li>
-</ul>
-<ol>
-<li><a href="https://github.com/drakelevy/ESPCN-TensorFlow" target="_blank" rel="noopener">tensorflow版本</a></li>
-<li><a href="https://github.com/leftthomas/ESPCN" target="_blank" rel="noopener">pytorch版本</a></li>
-<li><a href="https://github.com/wangxuewen99/Super-Resolution/tree/master/ESPCN" target="_blank" rel="noopener">caffe版本</a></li>
-</ol>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdh9z295wj30tm093442.jpg" alt="image"></p>
-<p>也是基于SRCNN,和FSRCNN不同的是在最后层不是反卷积来放大，而是使用多个通道融合，R^2个channel，每个feature map和原图大小一样，然后在R^2个channel相同位置合并成一个R*R的子区域，这样放大为 H*R X H*R</p>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdhf6sj2yj30sr0n2q7o.jpg" alt="image"><br><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdhgvl1ecj30vk05ndhm.jpg" alt="image"></p>
-<h2 id="VDSR"><a href="#VDSR" class="headerlink" title="VDSR"></a>VDSR</h2><ul>
-<li>论文<a href="https://arxiv.org/abs/1511.04587" target="_blank" rel="noopener">Accurate Image Super-Resolution Using Very Deep Convolutional Networks</a></li>
-<li>代码</li>
-</ul>
-<ol>
-<li><a href="https://cv.snu.ac.kr/research/VDSR/" target="_blank" rel="noopener">code</a></li>
-<li><a href="https://github.com/huangzehao/caffe-vdsr" target="_blank" rel="noopener">caffe</a></li>
-<li><a href="https://github.com/Jongchan/tensorflow-vdsr" target="_blank" rel="noopener">tensorflow</a></li>
-<li><a href="https://github.com/twtygqyy/pytorch-vdsr" target="_blank" rel="noopener">pytorch</a></li>
-</ol>
-<p>作者认为输入的低分辨率图像和输出的高分辨率图像在很大程度上是相似的，也就是指低分辨率图像携带的低频信息与高分辨率图像的低频信息相近，训练时带上这部分会多花费大量的时间，实际上我们只需要学习高分辨率图像和低分辨率图像之间的高频部分残差即可。残差网络结构的思想特别适合用来解决超分辨率问题，可以说影响了之后的深度学习超分辨率方法。</p>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdhut5i63j30vy0hodpw.jpg" alt="image"></p>
-<p><strong>改进个人认为有两点点</strong>：</p>
-<ol>
-<li>使用了ResNet的残差结构，使得网络可以比较深(20层)</li>
-<li>将不同倍数的图像放到一起训练，使得鲁棒性能比较好</li>
-</ol>
-<p>文中使用了自适应梯度裁剪，使得训练收敛加快</p>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdhq6jlahj30oj0gcact.jpg" alt="image"></p>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdhxjziz9j30ls0l379l.jpg" alt="image"></p>
-<p>看起来提升还是比较明显的,收敛速度提升也很明显</p>
-<h2 id="DRCN"><a href="#DRCN" class="headerlink" title="DRCN"></a>DRCN</h2><ul>
-<li>论文<a href="https://arxiv.org/abs/1511.04491" target="_blank" rel="noopener">Deeply-Recursive Convolutional Network for Image Super-Resolution</a>, CVPR2016</li>
-<li>代码<ol>
-<li><a href="https://cv.snu.ac.kr/research/DRCN/" target="_blank" rel="noopener">code</a></li>
-<li><a href="https://github.com/jiny2001/deeply-recursive-cnn-tf" target="_blank" rel="noopener">tensorflow</a></li>
-</ol>
-</li>
-</ul>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdntn3chqj31160dmmzt.jpg" alt="image"></p>
-<p>主要想法是RNN和Skip connection，原始图像插值输出后进入Embedding network，相当于提取特征，然后进入RNN，每一层都输出，最后合并输出。</p>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdohzb91hj311o0q5wkp.jpg" alt="image"><br>可以看出Skip connection类似残差</p>
-<h2 id="RED"><a href="#RED" class="headerlink" title="RED"></a>RED</h2><ul>
-<li>论文<a href="https://arxiv.org/abs/1606.08921" target="_blank" rel="noopener">Image Restoration Using Convolutional Auto-encoders with Symmetric Skip Connections</a>, NIPS2016</li>
-</ul>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdp28ykyzj312i0e0tei.jpg" alt="image"></p>
-<p>分为encoder和decoder，感觉像Unet</p>
-<h2 id="DRRN"><a href="#DRRN" class="headerlink" title="DRRN"></a>DRRN</h2><ul>
-<li>论文<a href="http://openaccess.thecvf.com/content_cvpr_2017/papers/Tai_Image_Super-Resolution_via_CVPR_2017_paper.pdf" target="_blank" rel="noopener">Image Super-Resolution via Deep Recursive Residual Network</a>, CVPR2017</li>
-<li>代码<ol>
-<li><a href="tyshiwo/DRRN_CVPR17">caffe</a></li>
-<li><a href="https://github.com/jt827859032/DRRN-pytorch" target="_blank" rel="noopener">pytorch</a></li>
-</ol>
-</li>
-</ul>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxdphfkig7j31an0o37bk.jpg" alt="image"><br>这个是结合了之前的结构，感觉好像 Unet…</p>
-<h2 id="LapSRN"><a href="#LapSRN" class="headerlink" title="LapSRN"></a>LapSRN</h2><ul>
-<li>论文<a href="https://arxiv.org/abs/1704.03915" target="_blank" rel="noopener">Deep Laplacian Pyramid Networks for Fast and Accurate Super-Resolution</a>, CVPR2017</li>
-<li>代码<ol>
-<li><a href="https://github.com/phoenix104104/LapSRN" target="_blank" rel="noopener">matconvnet</a></li>
-<li><a href="https://github.com/twtygqyy/pytorch-LapSRN" target="_blank" rel="noopener">pytorch</a></li>
-<li><a href="https://github.com/zjuela/LapSRN-tensorflow" target="_blank" rel="noopener">tensorflow</a></li>
-</ol>
-</li>
-</ul>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfo2pofzrj30vt085tb2.jpg" alt="iamge"></p>
-<p>本文的主要思想是一点一点的放大，不要一口吃成个胖子，可能撑死，细嚼慢咽。细数前面的集中方法，无论先放大，还是最后放大，都存在一个问题，就是一步到位。具体作者提出存在的三个问题：</p>
-<ol>
-<li>先上采样的存在计算开销浪费，反卷积和亚像素存在性能较差的问题</li>
-<li>使用 l2 loss，导致预测模糊</li>
-<li>一步到位的放大，对不同的放大倍数不能很好的适应</li>
-</ol>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxemkkdqgdj31080e4q9n.jpg" alt="image"></p>
-<p>LapSRN通过逐步上采样，一级一级预测残差的方式，在做高倍上采样时，也能得到中间低倍上采样结果的输出。由于尺寸是逐步放大，不是所有的操作都在大尺寸特征上进行，因此速度比较快。LapSRN设计了损失函数来训练网络，对每一级的结果都进行监督，因此取得了不错的结果。</p>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfo4udc54j30rm0hpn0r.jpg" alt="iamge"><br><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfo903bhuj30qa0gpjup.jpg" alt="image"></p>
-<h2 id="SRDenseNet"><a href="#SRDenseNet" class="headerlink" title="SRDenseNet"></a>SRDenseNet</h2><ul>
-<li>论文<a href="http://openaccess.thecvf.com/content_ICCV_2017/papers/Tong_Image_Super-Resolution_Using_ICCV_2017_paper.pdf" target="_blank" rel="noopener">Image Super-Resolution Using Dense Skip Connections</a>, ICCV2017</li>
-<li>代码<ol>
-<li><a href="https://github.com/twtygqyy/pytorch-SRDenseNet" target="_blank" rel="noopener">pytorch_1</a></li>
-<li><a href="https://github.com/wxywhu/SRDenseNet-pytorch" target="_blank" rel="noopener">pytorch_2</a></li>
-<li><a href="https://github.com/ppooiiuuyh/SR_SRDenseNet_tensorflow" target="_blank" rel="noopener">tensorflow</a></li>
-</ol>
-</li>
-</ul>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfojrj148j30uc0no45l.jpg" alt="image"></p>
-<p>这个听名字看上图的模型可以看出来，这就是DenseNet版本的SR啊。作者在三种情况下做了对比，结果猜都可以猜出来</p>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfontf3tnj312y0820va.jpg" alt="image"></p>
-<p>不同模型对比，不知道放大多少倍…</p>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfoowrh19j319o0arjvw.jpg" alt="image"></p>
-<h2 id="SRGAN"><a href="#SRGAN" class="headerlink" title="SRGAN"></a>SRGAN</h2><ul>
-<li>论文[Photo-Realistic Single Image Super-Resolution Using a Generative Adversarial Network], CVPR2017</li>
-<li>代码<ol>
-<li><a href="https://github.com/zsdonghao/SRGAN" target="_blank" rel="noopener">tensorflow_1</a></li>
-<li><a href="https://github.com/buriburisuri/SRGAN" target="_blank" rel="noopener">tensorflow_2</a></li>
-<li><a href="https://github.com/brade31919/SRGAN-tensorflow" target="_blank" rel="noopener">tensorflow_3</a></li>
-<li><a href="https://github.com/junhocho/SRGAN" target="_blank" rel="noopener">torch</a></li>
-<li><a href="https://github.com/ShenghaiRong/caffe_srgan" target="_blank" rel="noopener">caffe</a></li>
-<li><a href="https://github.com/titu1994/Super-Resolution-using-Generative-Adversarial-Networks" target="_blank" rel="noopener">keras</a></li>
-<li><a href="ai-tor/PyTorch-SRGAN">pytorch</a></li>
-</ol>
-</li>
-</ul>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfp3is84nj30z30jxk66.jpg" alt="image"></p>
-<p>利用GAN做SR,一个生成网络，一个测试网络。只是这里的Loss有点不一样，作者说使用普通的均方差loss虽然峰值信噪比不错，但是感官上并不好，作者了其它的loss，感官效果提升，但是细节有些会丢失。</p>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfp2hn9xqj311a0hj1kx.jpg" alt="image"></p>
-<h2 id="EDSR"><a href="#EDSR" class="headerlink" title="EDSR"></a>EDSR</h2><ul>
-<li>论文<a href="https://arxiv.org/abs/1707.02921" target="_blank" rel="noopener">Enhanced Deep Residual Networks for Single Image Super-Resolution</a>, CVPRW2017</li>
-<li>代码<ol>
-<li><a href="https://github.com/LimBee/NTIRE2017" target="_blank" rel="noopener">torch</a></li>
-<li><a href="https://github.com/jmiller656/EDSR-Tensorflow" target="_blank" rel="noopener">tensorflow</a></li>
-<li><a href="https://github.com/thstkdgus35/EDSR-PyTorch" target="_blank" rel="noopener">pytorch</a></li>
-</ol>
-</li>
-</ul>
-<p>EDSR是NTIRE2017超分辨率挑战赛上获得冠军的方案。</p>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfpi4e1sfj30h60e5wfy.jpg" alt="image"></p>
-<p>作者认为在SR任务中使用Resnet结构的话，不需要使用BN层。作者文章中说，原始的ResNet最一开始是被提出来解决高层的计算机视觉问题，比如分类和检测，直接把ResNet的结构应用到像超分辨率这样的低层计算机视觉问题，显然不是最优的。去掉BN后，节省了内存资源。</p>
-<ul>
-<li>EDSR</li>
-</ul>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfploxg11j30i50eiabj.jpg" alt="image"></p>
-<ul>
-<li>MDSR</li>
-</ul>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfpn355hrj30ij0dejsq.jpg" alt="image"></p>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfppsa3syj314l0iun5b.jpg" alt="image"></p>
-<h2 id="DBSR"><a href="#DBSR" class="headerlink" title="DBSR"></a>DBSR</h2><ul>
-<li>论文<a href="https://arxiv.org/pdf/1803.02735.pdf" target="_blank" rel="noopener">Deep Back-Projection Networks For Super-Resolution</a>,CVPR2018</li>
-<li>代码<ol>
-<li><a href="https://github.com/alterzero/DBPN-Pytorch" target="_blank" rel="noopener">pytorch</a></li>
-<li><a href="https://github.com/alterzero/DBPN-caffe" target="_blank" rel="noopener">caffe</a></li>
-</ol>
-</li>
-</ul>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfw9kdrkyj31a90kln8f.jpg" alt="image"></p>
-<p>Winner (1st) of NTIRE2018 Competition (Track: x8 Bicubic Downsampling).从上图可以看出来是怎么搞得，不断的上采样，再卷积下采样，然后这样重复来回搞。想想参数应该不少。</p>
-<p>作者把深度学习在超分辨率中分四种类型：</p>
-<pre><code>1）Predefined upsampling：这种方法通常是先在网络之外将原始的LR（Low Resolution）的图像通过插值法扩大到MR级别的图像，再将MR图像输入网络。这种方法是深度学习方法在超分辨率领域的开山之作SRCNN所采用的，SRCNN先将图像插值扩大，在通过三个简单的卷积层将其映射到HR图像上。之后使用同样方法的网络通常是通过残差结构（VDSR、DRCN）或者递归结构（DRCN）来获得更好的非线性映射的。然而，这种方法有一个问题，就是有可能在插值过程中向图像中加入新的噪声。
-
-2）Single upsampling：FSRCNN和ESPCN都属于这个类型，输入他们的都是原始的LR图像，通过非线性映射之后，在网络的最后再重组成为HR图像（FSRCNN是反卷积，ESPCN是亚像素卷积层）。这种方法在实践中非常的快，但是因为网络容量有限，这两个网络都不能学习到太过复杂的映射。NTIRE2017的冠军EDSR也是这样的方法，但是因为其参数过多，需要过长的训练时间，所以为后续实现更少参数的网络留下了空间。
-
-3）Progressive upsampling：代表就是LapSRN，这种方法在一个前向传播的网络中逐步的放大图像的分辨率，我们可以将其简化成为是几个stack在一起的升采样网络，因为这种方法仅仅依赖于有限的低分辨率信息，所以很轻易的就被深度较浅的DBPN打败了。
-
-4）Iterative up and downsampling：也就是这篇文章所提出的方法，作者关注在不同的深度提高SR的采样率，并且将重建的损失分布到各个阶段去，这种方法通过学习多个升降采样算子来使得网络能在生成更深的特征的时候保留更多的HR信息。
-</code></pre><p>作者称以前的方法没有充分的学习到图片中的信息，这样来回上采样下采样可以充分学习。</p>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfwd6argij30ce05wt98.jpg" alt="image"></p>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfwdguk61j30of0eq0w7.jpg" alt="image"></p>
-<p>当让网络也用到了DenseNet的结构</p>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfwehabgij315i0ek7b5.jpg" alt="image"></p>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfwh4ihauj30s30fbgol.jpg" alt="image"></p>
-<p>看来参数量还好</p>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfwi3mtgrj30qh0dx75t.jpg" alt="image"></p>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfwjcugvmj30rg0hhtp6.jpg" alt="image"></p>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fxfwkem4y0j310c0lytif.jpg" alt="image"></p>
-<p>看起来很厉害的样子</p>
-<p><strong>参考</strong>:</p>
-<ol>
-<li><a href="https://antkillerfarm.github.io/dl/2017/10/18/Deep_Learning_21.html" target="_blank" rel="noopener">深度学习（二十一）——图像超分辨率, SRCNN, DRCN</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/31664818" target="_blank" rel="noopener">从SRCNN到EDSR，总结深度学习端到端超分辨率方法发展历程</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/39930043?utm_source=qq&amp;utm_medium=social&amp;utm_oi=814782158542630912" target="_blank" rel="noopener">NTIRE 2018 超分辨率 CVPR Workshop</a></li>
-<li><a href="https://www.zhihu.com/question/268488873" target="_blank" rel="noopener">如何评价CVPR2018论文Deep Back-Projection Networks For SR？</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/34400207" target="_blank" rel="noopener">深度反向投影网络（DBPN）–通过Back-Projection来超分辨率的新方法</a></li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/14/General-Language-Understanding-Evaluation-benchmark/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="田小默">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="田小默的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/11/14/General-Language-Understanding-Evaluation-benchmark/" class="post-title-link" itemprop="url">General_Language_Understanding_Evaluation_benchmark</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-11-14 10:50:42 / Modified: 11:12:18" itemprop="dateCreated datePublished" datetime="2018-11-14T10:50:42+08:00">2018-11-14</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>parpe:<a href="https://www.nyu.edu/projects/bowman/glue.pdf" target="_blank" rel="noopener">glue</a></p>
-<p><a href="https://gluebenchmark.com/" target="_blank" rel="noopener">一个用于通用语言理解评估的基准，用来训练，预测和分析自然语言理解系统的资源整合</a></p>
-<p>包括：</p>
-<ul>
-<li><p>基于现有数据集构建九个句子或句对语言理解任务的基准，并使用各种大小，不同难度，不同文本类型的数据集，</p>
-</li>
-<li><p>一种诊断数据集，旨在评估和分析自然语言中发现的各种语言现象的模型性能</p>
-</li>
-<li><p>用于跟踪基准测试性能的公共排行榜和用于可视化诊断集上模型性能</p>
-</li>
-</ul>
-<p>GLUE基准与模型无关，因此任何能够处理句子和句子对并产生相应预测的系统都有资格参与。选择基准测试任务以便使用参数共享或其他传输学习技术来支持跨任务共享信息的模型。GLUE的最终目标是推动研究开发通用和强大的自然语言理解系统。</p>
-<h2 id="11个任务"><a href="#11个任务" class="headerlink" title="11个任务"></a>11个任务</h2><p>可以看到包括情感分析，语义分析，相似度评价，问答，文本识别等常见NLP任务</p>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fx7ewxua0rj30va0jjq4e.jpg" alt=""></p>
-<h2 id="Leaderboard"><a href="#Leaderboard" class="headerlink" title="Leaderboard"></a>Leaderboard</h2><p>看看排行榜，是不是好多熟悉身影，Bert稳居第一</p>
-<p><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fx7eymjegpj316a0p577a.jpg" alt=""></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/14/Bert/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="田小默">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="田小默的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/11/14/Bert/" class="post-title-link" itemprop="url">Bert</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-11-14 10:36:38" itemprop="dateCreated datePublished" datetime="2018-11-14T10:36:38+08:00">2018-11-14</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2018-11-15 11:23:51" itemprop="dateModified" datetime="2018-11-15T11:23:51+08:00">2018-11-15</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>BERT is designed to pre-train deep bidirectional representations by jointly conditioning on both left and right context in all layers. As a result, the pre-trained BERT representations can be ﬁne-tuned with just one additional output layer to create state-of-theart models for a wide range of tasks。</strong></p>
-<p><a href="https://arxiv.org/abs/1810.04805" target="_blank" rel="noopener">论文</a><br><a href="https://github.com/google-research/bert" target="_blank" rel="noopener">代码</a></p>
-<p>它在11项自然语言处理任务中获得了最新的最新成果，包括将GLUE基准推至80.4％（绝对改进率7.6％），MultiNLI精度达到86.7％（绝对改进5.6％）和SQuAD v1.1问题回答测试F1到93.2（1.5绝对改进），超过人类表现2.0。</p>
-<p>GLUE(<a href="https://gluebenchmark.com/" target="_blank" rel="noopener">通用语言理解评价标准</a>):80.4%</p>
-<p>MultiNLI :86.7%</p>
-<p>SQuAD:93.3%</p>
-<h2 id="原来将语言表示应用于下游任务有两种策略"><a href="#原来将语言表示应用于下游任务有两种策略" class="headerlink" title="原来将语言表示应用于下游任务有两种策略"></a>原来将语言表示应用于下游任务有两种策略</h2><ol>
-<li><p>feature-base</p>
-<p> 如 ELMO,用于下游任务时，使用特定的结构，加上与训练好的representation作为补充的特征</p>
-</li>
-<li><p>fine-tuning</p>
-<p> 如 GPT,用于下游任务通过fine_tuning模型</p>
-</li>
-</ol>
-<p>但是他们都是单向的…</p>
-<p>作者认为这种单向的结构限制了模型的表示能力，虽然OpenAI GPT使用了left-to-right的结构，但只能在self-attention层之前的token.这种方法对于sentencelevel 的任务还好，对于token-level任务可能就不那么好了。</p>
-<p>BERT,1.使用双向编码器，2.使用了 masked languge model(MLM),3.还有句子预测任务(next sentence prediction)</p>
-<h2 id="BERT-ELMO-GPT"><a href="#BERT-ELMO-GPT" class="headerlink" title="BERT\ELMO\GPT"></a>BERT\ELMO\GPT</h2><p>一张图看出区别，可以看出只有BERT依赖于左右上下文<br><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fx8kiusx84j31y00g7qfc.jpg" alt=""></p>
-<p>模型架构使用了tensor2tensor,有大小两种模型。</p>
-<p>这里输入比较有想法，token embedding + segment embedding + position embedding,这样可以用在不同任务<br><img src="https://ws1.sinaimg.cn/large/005PF9Rqgy1fx8kqyirisj31pq0i6aji.jpg" alt=""></p>
-<p>与训练任务</p>
-<ol>
-<li>完形填空(Masked)</li>
-<li>下一句话预测</li>
-</ol>
-<p>实验结果看[论文]</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/11/hello-world/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="田小默">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="田小默的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/11/11/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-11-11 14:08:41" itemprop="dateCreated datePublished" datetime="2018-11-11T14:08:41+08:00">2018-11-11</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2018-04-27 19:16:40" itemprop="dateModified" datetime="2018-04-27T19:16:40+08:00">2018-04-27</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/11/linux查看系统信息/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="田小默">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="田小默的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/09/11/linux查看系统信息/" class="post-title-link" itemprop="url">linux查看系统信息</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-09-11 15:52:19" itemprop="dateCreated datePublished" datetime="2018-09-11T15:52:19+08:00">2018-09-11</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2018-11-11 14:33:19" itemprop="dateModified" datetime="2018-11-11T14:33:19+08:00">2018-11-11</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>linux系统常用查看系统信息命令</p>
-<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"># uname -a # 查看内核/操作系统/CPU信息</span><br><span class="line"></span><br><span class="line"># head -n 1 /etc/issue # 查看操作系统版本</span><br><span class="line"></span><br><span class="line"># cat /proc/cpuinfo # 查看CPU信息</span><br><span class="line"></span><br><span class="line"># hostname # 查看计算机名</span><br><span class="line"></span><br><span class="line"># lspci -tv # 列出所有PCI设备</span><br><span class="line"></span><br><span class="line"># lsusb -tv # 列出所有USB设备</span><br><span class="line"></span><br><span class="line"># lsmod # 列出加载的内核模块</span><br><span class="line"></span><br><span class="line"># env # 查看环境变量资源</span><br><span class="line"></span><br><span class="line"># free -m # 查看内存使用量和交换区使用量</span><br><span class="line"></span><br><span class="line"># df -h # 查看各分区使用情况</span><br><span class="line"></span><br><span class="line"># du -sh &lt;目录名&gt; # 查看指定目录的大小</span><br><span class="line"></span><br><span class="line"># grep MemTotal /proc/meminfo # 查看内存总量</span><br><span class="line"></span><br><span class="line"># grep MemFree /proc/meminfo # 查看空闲内存量</span><br><span class="line"></span><br><span class="line"># uptime # 查看系统运行时间、用户数、负载</span><br><span class="line"></span><br><span class="line"># cat /proc/loadavg # 查看系统负载磁盘和分区</span><br><span class="line"></span><br><span class="line"># mount | column -t # 查看挂接的分区状态</span><br><span class="line"></span><br><span class="line"># fdisk -l # 查看所有分区</span><br><span class="line"></span><br><span class="line"># swapon -s # 查看所有交换分区</span><br><span class="line"></span><br><span class="line"># hdparm -i /dev/hda # 查看磁盘参数(仅适用于IDE设备)</span><br><span class="line"></span><br><span class="line"># dmesg | grep IDE # 查看启动时IDE设备检测状况网络</span><br><span class="line"></span><br><span class="line"># ifconfig # 查看所有网络接口的属性</span><br><span class="line"></span><br><span class="line"># iptables -L # 查看防火墙设置</span><br><span class="line"></span><br><span class="line"># route -n # 查看路由表</span><br><span class="line"></span><br><span class="line"># netstat -lntp # 查看所有监听端口</span><br><span class="line"></span><br><span class="line"># netstat -antp # 查看所有已经建立的连接</span><br><span class="line"></span><br><span class="line"># netstat -s # 查看网络统计信息进程</span><br><span class="line"></span><br><span class="line"># ps -ef # 查看所有进程</span><br><span class="line"></span><br><span class="line"># top # 实时显示进程状态用户</span><br><span class="line"></span><br><span class="line"># w # 查看活动用户</span><br><span class="line"></span><br><span class="line"># id &lt;用户名&gt; # 查看指定用户信息</span><br><span class="line"></span><br><span class="line"># last # 查看用户登录日志</span><br><span class="line"></span><br><span class="line"># cut -d: -f1 /etc/passwd # 查看系统所有用户</span><br><span class="line"></span><br><span class="line"># cut -d: -f1 /etc/group # 查看系统所有组</span><br><span class="line"></span><br><span class="line"># crontab -l # 查看当前用户的计划任务服务</span><br><span class="line"></span><br><span class="line"># chkconfig –list # 列出所有系统服务</span><br><span class="line"></span><br><span class="line"># chkconfig –list | grep on # 列出所有启动的系统服务程序</span><br><span class="line"></span><br><span class="line"># rpm -qa # 查看所有安装的软件包</span><br></pre></td></tr></table></figure>
-<h2 id="系统"><a href="#系统" class="headerlink" title="系统"></a>系统</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># uname -a # 查看内核/操作系统/CPU信息</span><br><span class="line"># head -n 1 /etc/issue # 查看操作系统版本</span><br><span class="line"># cat /proc/cpuinfo # 查看CPU信息</span><br><span class="line"># hostname # 查看计算机名</span><br><span class="line"># lspci -tv # 列出所有PCI设备</span><br><span class="line"># lsusb -tv # 列出所有USB设备</span><br><span class="line"># lsmod # 列出加载的内核模块</span><br><span class="line"># env # 查看环境变量</span><br></pre></td></tr></table></figure>
-<h2 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># free -m # 查看内存使用量和交换区使用量</span><br><span class="line"># df -h # 查看各分区使用情况</span><br><span class="line"># du -sh &lt;目录名&gt; # 查看指定目录的大小</span><br><span class="line"># grep MemTotal /proc/meminfo # 查看内存总量</span><br><span class="line"># grep MemFree /proc/meminfo # 查看空闲内存量</span><br><span class="line"># uptime # 查看系统运行时间、用户数、负载</span><br><span class="line"># cat /proc/loadavg # 查看系统负载</span><br></pre></td></tr></table></figure>
-<h2 id="磁盘和分区"><a href="#磁盘和分区" class="headerlink" title="磁盘和分区"></a>磁盘和分区</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># mount | column -t # 查看挂接的分区状态</span><br><span class="line"># fdisk -l # 查看所有分区</span><br><span class="line"># swapon -s # 查看所有交换分区</span><br><span class="line"># hdparm -i /dev/hda # 查看磁盘参数(仅适用于IDE设备)</span><br><span class="line"># dmesg | grep IDE # 查看启动时IDE设备检测状况</span><br></pre></td></tr></table></figure>
-<h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># ifconfig # 查看所有网络接口的属性</span><br><span class="line"># iptables -L # 查看防火墙设置</span><br><span class="line"># route -n # 查看路由表</span><br><span class="line"># netstat -lntp # 查看所有监听端口</span><br><span class="line"># netstat -antp # 查看所有已经建立的连接</span><br><span class="line"># netstat -s # 查看网络统计信息</span><br></pre></td></tr></table></figure>
-<h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># ps -ef # 查看所有进程</span><br><span class="line"># top # 实时显示进程状态</span><br></pre></td></tr></table></figure>
-<h2 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># w # 查看活动用户</span><br><span class="line"># id &lt;用户名&gt; # 查看指定用户信息</span><br><span class="line"># last # 查看用户登录日志</span><br><span class="line"># cut -d: -f1 /etc/passwd # 查看系统所有用户</span><br><span class="line"># cut -d: -f1 /etc/group # 查看系统所有组</span><br><span class="line"># crontab -l # 查看当前用户的计划任务</span><br></pre></td></tr></table></figure>
-<h2 id="服务"><a href="#服务" class="headerlink" title="服务"></a>服务</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># chkconfig --list # 列出所有系统服务</span><br><span class="line"># chkconfig --list | grep on # 列出所有启动的系统服务</span><br></pre></td></tr></table></figure>
-<h2 id="程序"><a href="#程序" class="headerlink" title="程序"></a>程序</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># rpm -qa # 查看所有安装的软件包</span><br></pre></td></tr></table></figure>
-<h2 id="查看Linux内核版本命令（两种方法）："><a href="#查看Linux内核版本命令（两种方法）：" class="headerlink" title="查看Linux内核版本命令（两种方法）："></a>查看Linux内核版本命令（两种方法）：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1、cat /proc/version</span><br><span class="line">[root@localhost ~]# cat /proc/version</span><br><span class="line">Linux version 2.6.18-194.8.1.el5.centos.plus</span><br><span class="line">(mockbuild@builder17.centos.org) (gcc version 4.1.220080704</span><br><span class="line">(Red Hat 4.1.2-48)) #1 SMP Wed Jul 7 11:50:45 EDT 2010</span><br><span class="line">2、uname -a</span><br><span class="line">[root@localhost ~]# uname -a</span><br><span class="line">Linux localhost.localdomain 2.6.18-194.8.1.el5.centos.plus </span><br><span class="line">#1 SMP Wed Jul 7 11:50:45 EDT 2010 i686 i686 i386 GNU/Linux</span><br></pre></td></tr></table></figure>
-<h2 id="查看Linux系统版本的命令（3种方法）"><a href="#查看Linux系统版本的命令（3种方法）" class="headerlink" title="查看Linux系统版本的命令（3种方法）:"></a>查看Linux系统版本的命令（3种方法）:</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">1、lsb_release -a，即可列出所有版本信息：</span><br><span class="line">[root@localhost ~]# lsb_release -a</span><br><span class="line">LSB Version: :core-3.1-ia32:core-3.1-noarch:graphics-3.1-ia32:graphics-3.1-noarch</span><br><span class="line">Distributor ID: CentOS</span><br><span class="line">Description: CentOS release 6.5 (Final)</span><br><span class="line">Release: 6.5</span><br><span class="line">Codename: Final</span><br><span class="line">这个命令适用于所有的Linux发行版，包括Redhat、SuSE、Debian…等发行版。</span><br><span class="line">2、cat /etc/redhat-release，这种方法只适合Redhat系的Linux：</span><br><span class="line">[root@localhost ~]# cat /etc/redhat-release</span><br><span class="line">CentOS release 6.7 (Final)</span><br><span class="line">3、cat /etc/issue，此命令也适用于所有的Linux发行版。</span><br><span class="line">[root@localhost ~]# cat /etc/issue</span><br><span class="line">CentOS release 6.7 (Final)</span><br><span class="line">Kernel \r on an \m</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -2199,7 +2016,7 @@ Kickstarted 03:15 15-Nov-2018
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">27</span>
+                    <span class="site-state-item-count">33</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2252,7 +2069,11 @@ Kickstarted 03:15 15-Nov-2018
                     
                       
                     
-                    <span class="site-state-item-count">19</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
@@ -2328,7 +2149,7 @@ Kickstarted 03:15 15-Nov-2018
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -2350,6 +2171,16 @@ Kickstarted 03:15 15-Nov-2018
 
   <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.6.0</div>
 
+
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
 
 
 
